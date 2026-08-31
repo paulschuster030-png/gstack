@@ -357,6 +357,26 @@ section[id]{scroll-margin-top:96px}
 @media(max-width:560px){.float-cta{display:none}}
 @media(prefers-reduced-motion:reduce){.float-cta__pulse{animation:none}}
 
+/* ---------- Cookie-Hinweis ---------- */
+.cookie-banner{position:fixed;left:16px;bottom:16px;z-index:280;width:min(420px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:1.2rem 1.3rem;transform:translateY(140%);transition:transform .5s var(--ease)}
+.cookie-banner.is-visible{transform:translateY(0)}
+.cookie-banner__inner p{margin:0 0 .9rem;font-size:.88rem;color:var(--ink-soft)}
+.cookie-banner__actions{display:flex;justify-content:flex-end}
+@media(max-width:560px){.cookie-banner{left:10px;bottom:120px;width:calc(100vw - 20px);padding:1rem}.cookie-banner__actions{justify-content:stretch}.cookie-banner__actions .btn{flex:1}}
+@media(prefers-reduced-motion:reduce){.cookie-banner{transition:none}}
+
+/* ---------- Warenkorb-Upselling ---------- */
+.cart-upsell{border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem}
+.cart-upsell[hidden]{display:none}
+.cart-upsell h4{margin:0 0 .7rem;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
+.cart-upsell__item{display:flex;align-items:center;justify-content:space-between;gap:.7rem;padding:.5rem 0}
+.cart-upsell__item+.cart-upsell__item{border-top:1px dashed var(--line)}
+.cart-upsell__name{display:block;font-size:.88rem;font-weight:650}
+.cart-upsell__price{display:block;font-size:.82rem;color:var(--ink-mute)}
+.cart-upsell__add{flex:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--brand);background:var(--brand-tint);color:var(--brand-dark);font-size:1.1rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s}
+.cart-upsell__add:hover{background:var(--brand);color:#fff}
+.cart-upsell__add.is-added{animation:addPop .5s var(--ease)}
+
 @media(prefers-reduced-motion:reduce){
   .cursor-glow{display:none}
   :where(.reveal){opacity:1;transform:none;transition:none}
@@ -366,6 +386,13 @@ section[id]{scroll-margin-top:96px}
 
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie-Hinweis" hidden>
+  <div class="cookie-banner__inner">
+    <p>🍪 Diese Website speichert nur technisch notwendige Daten in Ihrem Browser – zum Beispiel Ihren Warenkorb und diese Einstellung selbst. Kein Tracking, keine Marketing-Cookies.</p>
+    <div class="cookie-banner__actions"><button type="button" class="btn btn--gold" id="cookie-accept">Verstanden</button></div>
+  </div>
+</div>
 
 <header class="site-header"><div class="container nav">
   <a href="#start" class="brand">
@@ -386,6 +413,7 @@ section[id]{scroll-margin-top:96px}
     <button type="button" class="cart-panel__close" id="cart-close" aria-label="Warenkorb schließen">✕</button>
   </div>
   <div class="cart-panel__items" id="cart-items"></div>
+  <div class="cart-upsell" id="cart-upsell" hidden></div>
   <div class="cart-panel__foot">
     <div class="cart-panel__total"><span>Gesamt</span><span id="cart-total">0,00 €</span></div>
     <button type="button" class="btn btn--block" id="cart-checkout" disabled>Als Bestellanfrage senden</button>
@@ -830,6 +858,7 @@ section[id]{scroll-margin-top:96px}
     var total = cart.reduce(function (sum, i) { return sum + i.price * i.qty; }, 0);
     if (cartTotalEl) cartTotalEl.textContent = fmtPrice(total);
     if (cartCheckoutBtn) cartCheckoutBtn.disabled = cart.length === 0;
+    renderUpsell();
   }
 
   function addItem(id, name, price) {
@@ -896,6 +925,56 @@ section[id]{scroll-margin-top:96px}
     btn.classList.remove('is-added');
     void btn.offsetWidth;
     btn.classList.add('is-added');
+  }
+
+  var upsellCatalog = Array.prototype.map.call(document.querySelectorAll('.js-add-to-cart'), function (btn) {
+    return { id: btn.dataset.id, name: btn.dataset.name, price: parseFloat(btn.dataset.price) };
+  });
+  var cartUpsellEl = document.getElementById('cart-upsell');
+
+  function renderUpsell() {
+    if (!cartUpsellEl) return;
+    var inCart = {};
+    cart.forEach(function (i) { inCart[i.id] = true; });
+    var suggestions = upsellCatalog.filter(function (p) { return !inCart[p.id]; }).slice(0, 2);
+    if (cart.length === 0 || suggestions.length === 0) {
+      cartUpsellEl.hidden = true;
+      cartUpsellEl.innerHTML = '';
+      return;
+    }
+    cartUpsellEl.hidden = false;
+    cartUpsellEl.innerHTML = '';
+    var heading = document.createElement('h4');
+    heading.textContent = 'Passt oft dazu';
+    cartUpsellEl.appendChild(heading);
+    suggestions.forEach(function (p) {
+      var row = document.createElement('div');
+      row.className = 'cart-upsell__item';
+
+      var name = document.createElement('span');
+      name.className = 'cart-upsell__name';
+      name.textContent = p.name;
+      var price = document.createElement('span');
+      price.className = 'cart-upsell__price';
+      price.textContent = fmtPrice(p.price);
+      var info = document.createElement('span');
+      info.appendChild(name);
+      info.appendChild(price);
+
+      var add = document.createElement('button');
+      add.type = 'button';
+      add.className = 'cart-upsell__add';
+      add.textContent = '＋';
+      add.setAttribute('aria-label', p.name + ' in den Warenkorb legen');
+      add.addEventListener('click', function () {
+        addItem(p.id, p.name, p.price);
+        popAdded(add);
+      });
+
+      row.appendChild(info);
+      row.appendChild(add);
+      cartUpsellEl.appendChild(row);
+    });
   }
 
   document.querySelectorAll('.js-add-to-cart').forEach(function (btn) {
@@ -1364,6 +1443,27 @@ section[id]{scroll-margin-top:96px}
       sec.addEventListener('pointerleave', function () { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(apply); });
     }
     setTimeout(function () { sec.classList.add('is-built'); }, 2600);
+  })();
+
+  /* ---------- Cookie-Hinweis ---------- */
+  (function () {
+    var banner = document.getElementById('cookie-banner');
+    var acceptBtn = document.getElementById('cookie-accept');
+    if (!banner || !acceptBtn) return;
+    var KEY = 'gruenhof_cookie_consent_v1';
+    var already;
+    try { already = localStorage.getItem(KEY); } catch (e) { already = null; }
+    if (!already) {
+      banner.hidden = false;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { banner.classList.add('is-visible'); });
+      });
+    }
+    acceptBtn.addEventListener('click', function () {
+      banner.classList.remove('is-visible');
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* storage unavailable */ }
+      setTimeout(function () { banner.hidden = true; }, 550);
+    });
   })();
 
 })();
