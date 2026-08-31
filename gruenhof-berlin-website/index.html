@@ -57,7 +57,7 @@ section[id]{scroll-margin-top:96px}
 .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#F6F2E9 0%,var(--bg) 72%);isolation:isolate}
 .hero::before{content:"";position:absolute;z-index:0;width:120vmax;height:120vmax;top:-40vmax;right:-30vmax;background:radial-gradient(closest-side,rgba(47,107,79,.16),transparent 70%),radial-gradient(closest-side,rgba(180,131,47,.14),transparent 70%);background-repeat:no-repeat;background-position:30% 30%,70% 60%;background-size:55% 55%,45% 45%;filter:blur(10px);animation:heroDrift 22s ease-in-out infinite alternate}
 @keyframes heroDrift{from{transform:translate3d(0,0,0) rotate(0)}to{transform:translate3d(-6%,4%,0) rotate(8deg)}}
-.hero__inner{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,64px);align-items:center;padding-block:clamp(40px,8vw,96px) clamp(64px,12vw,150px)}
+.hero__inner{position:relative;z-index:2;display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(24px,4vw,52px);align-items:center;padding-block:clamp(20px,3.5vw,44px) clamp(36px,6vw,72px)}
 .hero__title{margin-bottom:.3em}
 .hero__title .line{display:block;animation:riseIn .9s var(--ease) both}
 .hero__title .line:nth-child(2){animation-delay:.12s}
@@ -72,14 +72,6 @@ section[id]{scroll-margin-top:96px}
 .hero__trust{display:flex;flex-wrap:wrap;gap:.8rem 1.6rem;margin-top:1.8rem;color:var(--ink-soft);font-size:.9rem;font-weight:600;animation:fadeUp .8s .72s var(--ease) both}
 .hero__trust span{display:inline-flex;align-items:center;gap:.5em}.hero__trust svg{color:var(--brand);flex:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.hero__media{position:relative;aspect-ratio:4/4.3;animation:fadeUp 1s .3s var(--ease) both;perspective:1200px}
-.hero__card{position:absolute;inset:0;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);background:#dfe7dd;animation:floaty 7s ease-in-out infinite}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.hero__card svg{width:100%;height:100%;object-fit:cover}
-.hero__badge{position:absolute;left:-22px;bottom:40px;z-index:3;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;max-width:230px;animation:floaty 7s ease-in-out infinite;animation-delay:-3.5s}
-.hero__badge .num{font-family:var(--font-display);font-size:1.55rem;color:var(--brand-dark);line-height:1;white-space:nowrap}
-.hero__badge .lbl{font-size:.78rem;color:var(--ink-soft);font-weight:600}
-.hero__badge--top{top:22px;bottom:auto;left:auto;right:-18px;animation-delay:-1.5s}
 .marquee{border-block:1px solid var(--line);background:var(--surface);overflow:hidden}
 .marquee__row{display:flex;gap:2.6rem;align-items:center;padding-block:16px;white-space:nowrap;animation:slide 34s linear infinite}
 .marquee__row span{font-weight:650;color:var(--ink-mute);font-size:.92rem}
@@ -205,8 +197,8 @@ section[id]{scroll-margin-top:96px}
 .mcta{position:sticky;bottom:0;z-index:50;display:none;gap:.55rem;padding:.6rem .7rem;background:rgba(251,250,247,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(27,42,35,.1)}
 .mcta .btn{flex:1;min-height:50px}
 @media(max-width:1024px){.usp-grid{grid-template-columns:repeat(2,1fr)}.service-grid,.plan-grid,.steps,.review-grid{grid-template-columns:repeat(2,1fr)}.stat-row{grid-template-columns:repeat(2,1fr);gap:1.6rem}}
-@media(max-width:860px){.hero__inner{grid-template-columns:1fr;gap:2.4rem;padding-bottom:56px}.hero__media{max-width:440px;margin-inline:auto;width:100%;aspect-ratio:4/3.6}.split{grid-template-columns:1fr}.split--reverse .split__media{order:0}.footer-grid{grid-template-columns:1fr 1fr;gap:1.6rem 1rem}.nav-links{display:none}.nav-toggle{display:inline-flex;align-items:center;justify-content:center}}
-@media(max-width:560px){body{font-size:16px}.usp-grid,.service-grid,.plan-grid,.steps,.review-grid,.stat-row{grid-template-columns:1fr}.product-grid{grid-template-columns:1fr 1fr;gap:.8rem}.product-card__desc{display:none}.hero__cta .btn{flex:1 1 100%}.hero__badge{position:static;margin:0;max-width:none;animation:none;box-shadow:var(--shadow-sm);border:1px solid var(--line)}.hero__badge--top{display:none}.hero__media{aspect-ratio:auto;display:grid;gap:.7rem}.hero__card{position:relative;aspect-ratio:4/3;animation:none}.footer-grid{grid-template-columns:1fr}.mcta{display:flex}}
+@media(max-width:860px){.hero__inner{grid-template-columns:1fr;gap:2.4rem;padding-bottom:56px}.split{grid-template-columns:1fr}.split--reverse .split__media{order:0}.footer-grid{grid-template-columns:1fr 1fr;gap:1.6rem 1rem}.nav-links{display:none}.nav-toggle{display:inline-flex;align-items:center;justify-content:center}}
+@media(max-width:560px){body{font-size:16px}.usp-grid,.service-grid,.plan-grid,.steps,.review-grid,.stat-row{grid-template-columns:1fr}.product-grid{grid-template-columns:1fr 1fr;gap:.8rem}.product-card__desc{display:none}.hero__cta .btn{flex:1 1 100%}.footer-grid{grid-template-columns:1fr}.mcta{display:flex}}
 
 /* 3D-Pop-up-Garten */
 .popup{position:relative;padding-block:clamp(44px,8vw,104px);overflow:hidden;background:var(--bg-warm)}
@@ -327,19 +319,7 @@ section[id]{scroll-margin-top:96px}
 .flip-card__hint::after{content:"↻";font-size:1rem}
 @media(prefers-reduced-motion:reduce){.flip-card__inner{transition:none}}
 
-/* ---------- Hero: 3D-Tiefen-Tilt ---------- */
-.hero__tilt{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .35s var(--ease);will-change:transform}
 
-/* ---------- Trust-Siegel (3D-Rotation) ---------- */
-.trust-seal{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);z-index:4;width:104px;height:104px;perspective:600px}
-.trust-seal__coin{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:sealSpin 9s linear infinite}
-.trust-seal__face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:linear-gradient(160deg,var(--accent),#8f671f);box-shadow:var(--shadow-lg);display:grid;place-items:center;text-align:center;color:#fff;font-family:var(--font-display);line-height:1.15;padding:8px}
-.trust-seal__face b{display:block;font-size:1rem}
-.trust-seal__face span{display:block;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;font-family:var(--font-body);font-weight:700;opacity:.9}
-.trust-seal__face--back{transform:rotateY(180deg);background:linear-gradient(160deg,var(--brand),var(--brand-dark))}
-@keyframes sealSpin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
-@media(max-width:560px){.trust-seal{display:none}}
-@media(prefers-reduced-motion:reduce){.trust-seal__coin{animation:none}}
 
 /* ---------- Warenkorb Pop-Feedback ---------- */
 @keyframes addPop{0%{transform:scale(1)}35%{transform:scale(.88) rotate(-6deg)}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1)}}
@@ -398,6 +378,14 @@ section[id]{scroll-margin-top:96px}
 .hero__note{margin-top:1rem;font-size:.88rem;color:var(--ink-mute)}
 .hero__note a{font-weight:700;color:var(--brand-dark)}
 
+/* ---------- Anfragekarte im Hero ---------- */
+.quote-card{text-align:left;padding:clamp(1.3rem,2.6vw,1.9rem);align-self:start;position:relative;z-index:2;scroll-margin-top:96px}
+.quote-card h2{color:#fff;font-size:clamp(1.35rem,3.2vw,1.8rem);margin-bottom:.25em}
+.quote-card__sub{color:#DCEAE0;font-size:.9rem;margin:0 0 0 0;max-width:none}
+.quote-card .form-grid{margin-top:1.1rem;max-width:none}
+.quote-card .form-actions{justify-content:stretch}
+.quote-card .form-actions .btn{flex:1 1 100%}
+
 /* ---------- Foto → Festpreis ---------- */
 .fotoflow{background:linear-gradient(160deg,#152219,var(--brand-dark));color:#fff}
 .fotoflow h2{color:#fff}
@@ -444,7 +432,7 @@ section[id]{scroll-margin-top:96px}
     <span>Grünhof Berlin<small>Hausmeister &amp; Gartenservice</small></span>
   </a>
   <nav class="nav-links" id="nav-links">
-    <a href="#start">Start</a><a href="#leistungen">Leistungen</a><a href="#ueber-mich">Über mich</a><a href="#shop">Shop</a><a href="#ablauf">Ablauf</a><a href="#kontakt">Kontakt</a>
+    <a href="#start">Start</a><a href="#leistungen">Leistungen</a><a href="#ueber-mich">Über mich</a><a href="#shop">Shop</a><a href="#foto">Ablauf</a><a href="#kontakt">Kontakt</a>
   </nav>
   <a class="header-call" href="#kontakt" data-biz-tel><span>📞</span><span><b data-biz-tel-text>Telefonnummer eintragen</b><small>Mo–Sa 7–18 Uhr</small></span></a>
   <button type="button" class="cart-btn" id="cart-toggle" aria-haspopup="dialog" aria-expanded="false" aria-controls="cart-panel">🛒 Warenkorb <span class="cart-count" id="cart-count" hidden>0</span></button>
@@ -488,24 +476,58 @@ section[id]{scroll-margin-top:96px}
         <p class="lead hero__lead">Ein junger Betrieb aus Berlin, der anpackt: Gartenpflege, Kleinreparaturen, Reinigung und Winterdienst. <strong>Schicken Sie uns einfach ein Foto – Sie bekommen einen festen Preis zurück.</strong></p>
         <p class="hero__rotate">Häufig gefragt: <span class="rot">Rasen mähen</span></p>
         <div class="hero__cta"><a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--lg">📷 Foto schicken – Festpreis erhalten</a><a href="#kontakt" data-biz-tel class="btn btn--ghost btn--lg">Anrufen</a></div>
-        <p class="hero__note">Lieber schreiben? <a href="#kontakt">Kurzformular ausfüllen</a> – drei Felder, halbe Minute.</p>
+        <p class="hero__note">Oder direkt anfragen – das Formular dauert eine halbe Minute.</p>
         <div class="hero__trust"><span>✓ Fester Preis, schriftlich</span><span>✓ Betriebshaftpflicht versichert</span><span>✓ Antwort in 24 h</span><span>✓ Mo–Sa 7–18 Uhr</span></div>
       </div>
-      <div class="hero__media">
-        <div class="hero__tilt">
-        <div class="hero__card">
-          <svg viewBox="0 0 800 880" aria-hidden="true"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF1E8"/><stop offset="1" stop-color="#F6EFE0"/></linearGradient><linearGradient id="lawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FC7A6"/><stop offset="1" stop-color="#6FA97E"/></linearGradient></defs><rect width="800" height="880" fill="url(#sky)"/><circle cx="150" cy="150" r="70" fill="#F0DFB8" opacity=".7"/><path d="M0 470 q60-40 130-8 q70-46 150-6 q70-42 150-4 q80-44 170-2 q60-30 200 4 v120 H0 Z" fill="#4E7C5B"/><rect x="470" y="300" width="270" height="230" fill="#F3EEE4"/><path d="M455 305 605 200 755 305 Z" fill="#7C4B37"/><rect x="500" y="360" width="60" height="60" fill="#8FBAD6"/><rect x="650" y="360" width="60" height="60" fill="#8FBAD6"/><rect x="575" y="440" width="70" height="90" fill="#5C3A2C"/><path d="M0 520 q200 40 400 6 q220-36 400 8 V880 H0 Z" fill="url(#lawn)"/><path d="M330 880 Q380 660 470 560 L560 560 Q470 690 440 880 Z" fill="#D9CDB6"/><rect x="120" y="430" width="20" height="120" fill="#6B4A34"/><circle cx="130" cy="400" r="80" fill="#5C8F63"/><circle cx="90" cy="440" r="55" fill="#6FA372"/><circle cx="175" cy="440" r="55" fill="#4F8158"/><ellipse cx="250" cy="640" rx="90" ry="26" fill="#7A5A3E"/><circle cx="215" cy="628" r="12" fill="#C6567A"/><circle cx="250" cy="620" r="12" fill="#E0A23D"/><circle cx="285" cy="630" r="12" fill="#C6567A"/></svg>
-        </div>
-        </div>
-        <div class="hero__badge"><span class="num">Festpreis</span><span class="lbl">schriftlich, bevor der erste Handschlag getan ist</span></div>
-        <div class="hero__badge hero__badge--top"><span class="num">2026</span><span class="lbl">frisch gestartet in Berlin</span></div>
-        <div class="trust-seal" aria-hidden="true">
-          <div class="trust-seal__coin">
-            <div class="trust-seal__face"><span>Garantiert</span><b>Festpreis</b></div>
-            <div class="trust-seal__face trust-seal__face--back"><span>Geprüft</span><b>Versichert</b></div>
+      <aside class="cta-band quote-card" id="anfrage">
+        <h2>Festpreis anfragen</h2>
+        <p class="quote-card__sub">Drei Felder, halbe Minute. Antwort binnen 24 Stunden – kostenlos und unverbindlich.</p>
+        <form class="form-grid" id="kontakt-form" novalidate>
+          <div class="form-row">
+            <label for="kontakt-name">Name *</label>
+            <input type="text" id="kontakt-name" name="name" autocomplete="name" placeholder="Vor- und Nachname" required>
+            <span class="form-error"></span>
           </div>
+          <div class="form-row">
+            <label for="kontakt-kontakt">E-Mail oder Telefon *</label>
+            <input type="text" id="kontakt-kontakt" name="kontakt" autocomplete="email" placeholder="max@beispiel.de oder 0170 1234567" required>
+            <span class="form-error"></span>
+          </div>
+          <div class="form-row">
+            <label for="kontakt-leistung">Worum geht es? (optional)</label>
+            <select id="kontakt-leistung" name="leistung">
+              <option value="">Bitte wählen</option>
+              <option value="garten">Gartenpflege</option>
+              <option value="hausmeister">Hausmeisterservice / Kleinreparaturen</option>
+              <option value="winterdienst">Winterdienst</option>
+              <option value="objekt">Objektbetreuung</option>
+              <option value="nachbarschaft">Nachbarschafts-Bonus</option>
+              <option value="shop">Shop-Bestellung</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+            <span class="form-error"></span>
+          </div>
+          <div class="form-row">
+            <label for="kontakt-nachricht">Ihre Nachricht *</label>
+            <textarea id="kontakt-nachricht" name="nachricht" rows="4" placeholder="Was steht an? Adresse/Stadtteil hilft uns bei der Einschätzung." required></textarea>
+            <span class="form-error"></span>
+          </div>
+          <label class="form-check">
+            <input type="checkbox" id="kontakt-datenschutz" name="datenschutz" required>
+            <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung dieser Anfrage genutzt und beantwortet werden. *</span>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn btn--gold btn--lg">Anfrage senden</button>
+            <a class="btn btn--wa btn--lg" href="#foto" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?">📷 Foto per WhatsApp</a>
+          </div>
+        </form>
+
+        <div class="kontakt-result" id="kontakt-result" hidden>
+          <p style="margin:0 0 .3rem">Es öffnet sich gleich dein E-Mail-Programm mit dieser vorausgefüllten Nachricht – bitte dort auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopiere den Text und schick ihn direkt an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
+          <textarea id="kontakt-result-text" readonly></textarea>
+          <div class="form-actions"><button type="button" class="btn btn--ghost" id="kontakt-copy">Text kopieren</button></div>
         </div>
-      </div>
+      </aside>
     </div>
   </section>
 
@@ -527,14 +549,8 @@ section[id]{scroll-margin-top:96px}
         <a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--lg">📷 Foto per WhatsApp schicken</a>
         <a href="#kontakt" data-biz-tel class="btn btn--ghost btn--lg" style="color:#fff;border-color:rgba(255,255,255,.45)">Lieber anrufen</a>
       </div>
-      <p class="fotoflow__hint">Kostenlos und unverbindlich · Sie entscheiden danach in Ruhe</p>
-    </div>
-  </section>
-
-  <section class="section manifesto">
-    <div class="container">
-      <p class="big"><span class="accent">Angepackt</span> statt aufgeschoben.</p>
-      <p class="sig">— Paul Schuster, Gründer von Grünhof Berlin</p>
+      <p class="fotoflow__hint">Kostenlos und unverbindlich · Bei klaren Fällen reicht das Foto. Wird es größer, schauen wir vor Ort – kleine Anfahrtspauschale, die wir bei Auftrag verrechnen.</p>
+      <div class="stat-row"><div class="stat"><div class="num">2026</div><div class="lbl">gegründet in Berlin</div></div><div class="stat"><div class="num">20&nbsp;%</div><div class="lbl">absetzbar nach § 35a EStG</div></div><div class="stat"><div class="num">24 h</div><div class="lbl">bis zur Rückmeldung</div></div><div class="stat"><div class="num">100 %</div><div class="lbl">versichert &amp; angemeldet</div></div></div>
     </div>
   </section>
 
@@ -549,64 +565,16 @@ section[id]{scroll-margin-top:96px}
   </div></section>
 
   <!-- 3D-Pop-up-Garten -->
-  <section class="popup" aria-label="So bauen wir Ihren Garten auf">
-    <div class="container popup__head">
-      <span class="eyebrow" style="justify-content:center">Handwerk, das man sieht</span>
-      <h2>Vom ersten Spatenstich bis zur letzten Fuge</h2>
-      <p class="lead" style="margin-inline:auto">Rasen, Hecke, Beete, Wege – wir bringen alles mit und setzen es Stück für Stück zusammen. Werkzeug, Maschinen und die Entsorgung sind immer dabei.</p>
-    </div>
-    <div class="container">
-      <div class="popup__stage">
-        <div class="popup__book" data-popup-book>
-          <div class="popup__wall"></div>
-          <div class="popup__floor"><span class="popup__path"></span></div>
-          <div class="popup__layer popup__layer--hedge"><svg viewBox="0 0 460 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 148 Q8 68 60 54 Q78 14 140 30 Q176 4 222 24 Q272 0 322 28 Q382 8 412 54 Q452 72 442 148 Z" fill="#3C7C58"/><g fill="#2F6B4F" opacity=".35"><circle cx="92" cy="82" r="17"/><circle cx="184" cy="60" r="19"/><circle cx="284" cy="70" r="17"/><circle cx="374" cy="86" r="15"/></g><circle cx="120" cy="112" r="6" fill="#D8A24A"/><circle cx="250" cy="100" r="6" fill="#C25B4E"/><circle cx="342" cy="116" r="6" fill="#E7C36A"/></svg></div>
-          <div class="popup__layer popup__layer--tree"><svg viewBox="0 0 168 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="76" y="118" width="18" height="80" rx="4" fill="#6F5334"/><circle cx="84" cy="78" r="58" fill="#3C7C58"/><circle cx="52" cy="98" r="32" fill="#2F6B4F"/><circle cx="116" cy="96" r="34" fill="#478468"/></svg></div>
-          <div class="popup__layer popup__layer--bed"><svg viewBox="0 0 216 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 138 L40 60 L176 60 L198 138 Z" fill="#8A6A42"/><path d="M40 60 L176 60 L170 46 L46 46 Z" fill="#A07F52"/><g stroke="#2F6B4F" stroke-width="5" stroke-linecap="round"><path d="M72 60 V34"/><path d="M102 60 V24"/><path d="M132 60 V32"/><path d="M160 60 V38"/></g><circle cx="72" cy="30" r="9" fill="#C25B4E"/><circle cx="102" cy="20" r="10" fill="#D8A24A"/><circle cx="132" cy="28" r="9" fill="#7FA8C9"/><circle cx="160" cy="34" r="8" fill="#E7C36A"/></svg></div>
-          <div class="popup__layer popup__layer--bench"><svg viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="20" y="62" width="180" height="15" rx="3" fill="#A07F52"/><rect x="32" y="77" width="12" height="64" fill="#6F5334"/><rect x="176" y="77" width="12" height="64" fill="#6F5334"/><path d="M58 60 L150 42 L150 32 L56 50 Z" fill="#C9CCD2"/><path d="M150 32 L178 27 Q188 31 179 42 L150 42 Z" fill="#6F5334"/><rect x="70" y="68" width="40" height="13" rx="4" fill="#2F6B4F"/><rect x="88" y="81" width="12" height="15" rx="2" fill="#21503B"/><rect x="104" y="71" width="15" height="6" rx="2" fill="#B4832F"/></svg></div>
-          <div class="popup__layer popup__layer--tools"><svg viewBox="0 0 165 176" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="rotate(13 58 150)"><rect x="52" y="18" width="8" height="112" fill="#6F5334"/><path d="M44 14 h24 a10 10 0 0 1 0 20 h-24 a10 10 0 0 1 0-20z" fill="#6F5334"/><path d="M42 128 h32 l-6 34 h-20 z" fill="#B9BDC4"/></g><path d="M96 96 h44 v52 a8 8 0 0 1-8 8 h-28 a8 8 0 0 1-8-8 z" fill="#3C7C58"/><path d="M140 104 l20 -6 -2 11 -18 4 z" fill="#2F6B4F"/><path d="M96 98 q-16 6 -14 30" stroke="#2F6B4F" stroke-width="7" fill="none"/><circle cx="118" cy="90" r="7" fill="#2F6B4F"/></svg></div>
-          <div class="popup__layer popup__layer--sign"><svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="151" y="18" width="14" height="106" fill="#6F5334"/><rect x="40" y="22" width="240" height="60" rx="9" fill="#B4832F" stroke="#8A6420" stroke-width="3"/><text x="160" y="61" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#FBFAF7">Grünhof</text></svg></div>
-          <span class="popup__bug"><svg viewBox="0 0 26 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="currentColor"><path d="M13 11C5 1 1 4 3 11 1 18 6 20 13 12Z"/><path d="M13 11c8-10 12-7 10 0 2 7-3 9-10 1Z"/></g><rect x="12" y="4" width="2" height="14" rx="1" fill="#21503B"/></svg></span>
-          <span class="popup__tag popup__tag--a">Hecke in Form</span>
-          <span class="popup__tag popup__tag--b">Beet neu bepflanzt</span>
-          <span class="popup__tag popup__tag--c">Werkzeug bringen wir mit</span>
-        </div>
-      </div>
-      <p class="popup__hint">Maus bewegen für den 3D-Blick – beim Scrollen klappt der Garten auf.</p>
-    </div>
-  </section>
 
-  <!-- Nachbarschafts-Bonus -->
-  <section class="section section--tint" id="nachbarschaft">
-    <div class="container">
-      <div class="center stack" style="margin-bottom:1rem">
-        <span class="eyebrow">Clever teilen</span>
-        <h2>Der Nachbarschafts-Bonus</h2>
-        <p class="nachbar__claim">Ein Termin. Eine Straße. Ein Preis für alle.</p>
-        <p class="lead" style="margin-inline:auto">Wenn mehrere Haushalte in derselben Straße oder im selben Hof zusammen anfragen, bündeln wir Anfahrt, Planung und Einsatz an einem Tag – und geben den Vorteil weiter.</p>
-      </div>
-      <div class="staffel">
-        <div class="staffel__card"><div class="staffel__pct">5&nbsp;%</div><div class="staffel__who">ab 2 Haushalten</div></div>
-        <div class="staffel__card is-top"><div class="staffel__pct">10&nbsp;%</div><div class="staffel__who">ab 4 Haushalten</div></div>
-        <div class="staffel__card"><div class="staffel__pct">15&nbsp;%</div><div class="staffel__who">ab 8 Haushalten</div></div>
-      </div>
-      <div class="center" style="margin-top:1.4rem"><a href="#kontakt" id="neighbor-cta" class="btn btn--lg">Für die Nachbarschaft anfragen</a></div>
-    </div>
-  </section>
-
-  <section class="section section--tint"><div class="container split">
-    <div class="split__media"><svg viewBox="0 0 640 512" aria-hidden="true"><rect width="640" height="512" fill="#EAF1E7"/><path d="M0 330 q160 40 320 6 q160-34 320 8 V512 H0 Z" fill="#7FB088"/><rect x="90" y="250" width="16" height="90" fill="#6B4A34"/><circle cx="98" cy="230" r="58" fill="#568C60"/><g transform="translate(360 300)"><rect x="0" y="20" width="120" height="46" rx="10" fill="#2F6B4F"/><rect x="16" y="4" width="70" height="26" rx="6" fill="#3E8261"/><circle cx="24" cy="74" r="16" fill="#33322E"/><circle cx="104" cy="74" r="16" fill="#33322E"/></g><circle cx="520" cy="120" r="46" fill="#F0DFB8" opacity=".8"/></svg></div>
-    <div>
-      <span class="eyebrow">Gartenservice</span>
-      <h2>Ein Garten, der sich sehen lassen kann – ohne Ihr Zutun</h2>
-      <p>Ob einmalige Aktion oder regelmäßige Pflege im Abo: Wir mähen, schneiden, jäten, pflanzen und entsorgen den Grünschnitt gleich mit.</p>
-      <ul class="feature-list">
-        <li><span class="tick">✓</span><span>Rasen mähen, vertikutieren, düngen &amp; nachsäen</span></li>
-        <li><span class="tick">✓</span><span>Hecken- und Formschnitt, Baum- und Strauchpflege</span></li>
-        <li><span class="tick">✓</span><span>Beet-Neuanlage, Bepflanzung &amp; Mulchen</span></li>
-        <li><span class="tick">✓</span><span>Laub- und Grünschnitt-Entsorgung inklusive</span></li>
-      </ul>
-      <p style="margin-top:1.6rem"><a href="#leistungen" class="link-arrow">Alle Gartenleistungen ansehen →</a></p>
+  <section class="section section--tint" id="leistungen"><div class="container">
+    <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">Das machen wir</span><h2>Leistungen im Überblick</h2></div>
+    <div class="service-grid">
+      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Regelmäßige Gartenpflege – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🌱</div><h3>Regelmäßige Gartenpflege</h3><p>Nach Plan oder auf Abruf – 14-tägig, monatlich oder saisonal.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🌱</div><h3>Regelmäßige Gartenpflege</h3><p>Sie legen den Rhythmus fest – wöchentlich, alle zwei Wochen oder nur zur Saison. Wir bringen Maschinen, Werkzeug und ein geschultes Auge für Details mit.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="garten">Pflege anfragen</a></div></div></article>
+      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Hecken- und Baumschnitt – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">✂️</div><h3>Hecken- &amp; Baumschnitt</h3><p>Formschnitt, Auslichten, Verjüngung. Bis 3 m, mit Abfuhr.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">✂️</div><h3>Hecken- &amp; Baumschnitt</h3><p>Sichtschutz wieder in Form, Bäume im Zaum – Grünschnitt nehmen wir gleich mit. Auch hohe Hecken, sauber und mit Höhensicherung.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="garten">Schnitttermin anfragen</a></div></div></article>
+      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Entrümpelung und Entsorgung – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">📦</div><h3>Entrümpelung &amp; Entsorgung</h3><p>Keller, Dachboden, Garage, Nachlass – besenrein übergeben.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">📦</div><h3>Entrümpelung &amp; Entsorgung</h3><p>Vom vollen Keller bis zur kompletten Wohnungsauflösung – wir sortieren, tragen und entsorgen fachgerecht.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="sonstiges">Räumung anfragen</a></div></div></article>
+      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Kleinreparaturen und Montage – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🔧</div><h3>Kleinreparaturen &amp; Montage</h3><p>Türen justieren, Regale, Silikonfugen, Lampen, Möbelaufbau.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🔧</div><h3>Kleinreparaturen &amp; Montage</h3><p>Die Liste im Kopf, die nie kleiner wird? Wir arbeiten sie in einem Termin ab – von der klemmenden Tür bis zum montierten Regal.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="hausmeister">Reparatur anfragen</a></div></div></article>
+      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Winterdienst – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">❄️</div><h3>Winterdienst</h3><p>Wir übernehmen Ihre Räum- und Streupflicht – dokumentiert.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">❄️</div><h3>Winterdienst</h3><p>Räum- und Streupflicht rechtssicher erledigt, inklusive Dokumentation für den Ernstfall. Sie müssen an nichts denken außer an den Kaffee drinnen.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="winterdienst">Winterdienst sichern</a></div></div></article>
+      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Objektbetreuung – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🏢</div><h3>Objektbetreuung</h3><p>Für Eigentümer &amp; Hausverwaltungen: Reinigung, Kontrolle, Grünpflege.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🏢</div><h3>Objektbetreuung</h3><p>Ein fester Ansprechpartner für Ihre Immobilie: Reinigung, Kontrollgänge, Grünpflege und kleine Reparaturen – mit monatlichem Bericht.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="objekt">Angebot fürs Objekt</a></div></div></article>
     </div>
   </div></section>
 
@@ -637,33 +605,6 @@ section[id]{scroll-margin-top:96px}
     </div>
   </section>
 
-  <section class="section"><div class="container split split--reverse">
-    <div class="split__media"><svg viewBox="0 0 640 512" aria-hidden="true"><rect width="640" height="512" fill="#F1ECE1"/><rect x="120" y="90" width="400" height="360" fill="#E7E0D2"/><rect x="120" y="90" width="400" height="40" fill="#D8CFBC"/><g fill="#9BBBD2"><rect x="160" y="160" width="70" height="90"/><rect x="285" y="160" width="70" height="90"/><rect x="410" y="160" width="70" height="90"/></g><rect x="285" y="300" width="70" height="150" fill="#6B4A34"/><g transform="translate(360 250)" stroke="#B4832F" stroke-width="7" stroke-linecap="round"><path d="M0 0 L40 200 M60 0 L100 200"/><path d="M8 40 L68 40 M16 90 L76 90 M24 140 L84 140"/></g></svg></div>
-    <div>
-      <span class="eyebrow">Hausmeisterservice</span>
-      <h2>Die kleinen Dinge am Haus – erledigt, bevor sie groß werden</h2>
-      <p>Tropfender Wasserhahn, klemmende Tür, defekte Leuchte, volle Dachrinne: Wir übernehmen die typischen Aufgaben – und die Objektbetreuung für Hausverwaltungen gleich mit.</p>
-      <ul class="feature-list">
-        <li><span class="tick">✓</span><span>Kleinreparaturen, Möbel- &amp; Lampenmontage</span></li>
-        <li><span class="tick">✓</span><span>Treppenhaus-, Keller- und Außenreinigung</span></li>
-        <li><span class="tick">✓</span><span>Kontrollgänge, Ablesungen</span></li>
-        <li><span class="tick">✓</span><span>Entrümpelung von Keller, Dachboden &amp; Wohnung</span></li>
-      </ul>
-    </div>
-  </div></section>
-
-  <section class="section section--tint" id="leistungen"><div class="container">
-    <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">Das machen wir</span><h2>Leistungen im Überblick</h2></div>
-    <div class="service-grid">
-      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Regelmäßige Gartenpflege – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🌱</div><h3>Regelmäßige Gartenpflege</h3><p>Nach Plan oder auf Abruf – 14-tägig, monatlich oder saisonal.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🌱</div><h3>Regelmäßige Gartenpflege</h3><p>Sie legen den Rhythmus fest – wöchentlich, alle zwei Wochen oder nur zur Saison. Wir bringen Maschinen, Werkzeug und ein geschultes Auge für Details mit.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="garten">Pflege anfragen</a></div></div></article>
-      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Hecken- und Baumschnitt – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">✂️</div><h3>Hecken- &amp; Baumschnitt</h3><p>Formschnitt, Auslichten, Verjüngung. Bis 3 m, mit Abfuhr.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">✂️</div><h3>Hecken- &amp; Baumschnitt</h3><p>Sichtschutz wieder in Form, Bäume im Zaum – Grünschnitt nehmen wir gleich mit. Auch hohe Hecken, sauber und mit Höhensicherung.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="garten">Schnitttermin anfragen</a></div></div></article>
-      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Entrümpelung und Entsorgung – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">📦</div><h3>Entrümpelung &amp; Entsorgung</h3><p>Keller, Dachboden, Garage, Nachlass – besenrein übergeben.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">📦</div><h3>Entrümpelung &amp; Entsorgung</h3><p>Vom vollen Keller bis zur kompletten Wohnungsauflösung – wir sortieren, tragen und entsorgen fachgerecht.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="sonstiges">Räumung anfragen</a></div></div></article>
-      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Kleinreparaturen und Montage – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🔧</div><h3>Kleinreparaturen &amp; Montage</h3><p>Türen justieren, Regale, Silikonfugen, Lampen, Möbelaufbau.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🔧</div><h3>Kleinreparaturen &amp; Montage</h3><p>Die Liste im Kopf, die nie kleiner wird? Wir arbeiten sie in einem Termin ab – von der klemmenden Tür bis zum montierten Regal.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="hausmeister">Reparatur anfragen</a></div></div></article>
-      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Winterdienst – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">❄️</div><h3>Winterdienst</h3><p>Wir übernehmen Ihre Räum- und Streupflicht – dokumentiert.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">❄️</div><h3>Winterdienst</h3><p>Räum- und Streupflicht rechtssicher erledigt, inklusive Dokumentation für den Ernstfall. Sie müssen an nichts denken außer an den Kaffee drinnen.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="winterdienst">Winterdienst sichern</a></div></div></article>
-      <article class="service-card flip-card" tabindex="0" role="button" aria-label="Objektbetreuung – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🏢</div><h3>Objektbetreuung</h3><p>Für Eigentümer &amp; Hausverwaltungen: Reinigung, Kontrolle, Grünpflege.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🏢</div><h3>Objektbetreuung</h3><p>Ein fester Ansprechpartner für Ihre Immobilie: Reinigung, Kontrollgänge, Grünpflege und kleine Reparaturen – mit monatlichem Bericht.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="objekt">Angebot fürs Objekt</a></div></div></article>
-    </div>
-  </div></section>
-
   <section class="section"><div class="container">
     <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">Beliebte Pakete</span><h2>Wählen Sie einen Startpunkt</h2><p class="lead">Jedes Paket passen wir bei der Besichtigung vor Ort an – und nennen Ihnen dann einen festen Preis.</p></div>
     <div class="plan-grid">
@@ -674,14 +615,34 @@ section[id]{scroll-margin-top:96px}
     <p class="center" style="margin-top:1.6rem;color:var(--ink-mute);font-size:.9rem">Festpreis nach Besichtigung vor Ort · Abos monatlich kündbar · 20&nbsp;% der Lohnkosten nach §&nbsp;35a EStG steuerlich absetzbar.</p>
   </div></section>
 
-  <section class="section section--brand" id="ablauf"><div class="container">
-    <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">So läuft es ab</span><h2>In drei Schritten zum erledigten Auftrag</h2></div>
-    <div class="steps">
-      <div class="step"><div class="step__n">1</div><h3>Foto oder Anruf</h3><p>Sie schicken ein Foto per WhatsApp oder rufen kurz an. Formular geht natürlich auch.</p></div>
-      <div class="step"><div class="step__n">2</div><h3>Festpreis</h3><p>Bei klaren Fällen reicht das Foto. Wird es größer, schauen wir vor Ort (kleine Anfahrtspauschale, bei Auftrag verrechnet). So oder so bekommen Sie den Preis schriftlich.</p></div>
-      <div class="step"><div class="step__n">3</div><h3>Ausführung</h3><p>Zum Termin wird gearbeitet. Erst wenn Sie zufrieden sind, wird abgerechnet.</p></div>
+  <section class="section section--tint" id="nachbarschaft">
+    <div class="container">
+      <div class="center stack" style="margin-bottom:1rem">
+        <span class="eyebrow">Clever teilen</span>
+        <h2>Der Nachbarschafts-Bonus</h2>
+        <p class="nachbar__claim">Ein Termin. Eine Straße. Ein Preis für alle.</p>
+        <p class="lead" style="margin-inline:auto">Wenn mehrere Haushalte in derselben Straße oder im selben Hof zusammen anfragen, bündeln wir Anfahrt, Planung und Einsatz an einem Tag – und geben den Vorteil weiter.</p>
+      </div>
+      <div class="staffel">
+        <div class="staffel__card"><div class="staffel__pct">5&nbsp;%</div><div class="staffel__who">ab 2 Haushalten</div></div>
+        <div class="staffel__card is-top"><div class="staffel__pct">10&nbsp;%</div><div class="staffel__who">ab 4 Haushalten</div></div>
+        <div class="staffel__card"><div class="staffel__pct">15&nbsp;%</div><div class="staffel__who">ab 8 Haushalten</div></div>
+      </div>
+      <div class="center" style="margin-top:1.4rem"><a href="#kontakt" id="neighbor-cta" class="btn btn--lg">Für die Nachbarschaft anfragen</a></div>
     </div>
-    <div class="stat-row"><div class="stat"><div class="num">2026</div><div class="lbl">gegründet in Berlin</div></div><div class="stat"><div class="num">20&nbsp;%</div><div class="lbl">absetzbar nach § 35a EStG</div></div><div class="stat"><div class="num">24 h</div><div class="lbl">bis zur Rückmeldung</div></div><div class="stat"><div class="num">100 %</div><div class="lbl">versichert &amp; angemeldet</div></div></div>
+  </section>
+
+  <section class="section section--tint"><div class="container">
+    <div class="center stack" style="margin-bottom:2.2rem"><span class="eyebrow">Kundenstimmen</span><h2>Erste Stimmen aus der Nachbarschaft</h2></div>
+    <div class="proof">
+      <span class="proof__stars" aria-hidden="true">🛡️</span>
+      <p><b>Wir sind 2026 gestartet und haben noch keine öffentlichen Bewertungen.</b> Statt fremder Sterne bekommen Sie von uns etwas Handfesteres: den Festpreis schriftlich, bevor der erste Handschlag getan ist – und bezahlt wird erst, wenn Sie zufrieden sind. Die Stimmen unten sind Beispiele dafür, wie Rückmeldungen aussehen werden, keine echten Kundenzitate.</p>
+    </div>
+    <div class="review-grid">
+      <figure class="review"><div class="stars">★★★★★</div><p>„Endlich jemand, der zurückruft und dann auch kommt. Der Garten sieht wieder richtig gepflegt aus – und der Preis war genau wie besprochen.“</p><figcaption class="review__who"><span class="review__ava">MK</span><span><b>M. Krause</b><small>Reihenhaus, Berlin-Karow</small></span></figcaption></figure>
+      <figure class="review"><div class="stars">★★★★★</div><p>„Wir lassen als WEG Treppenhaus, Außenanlage und Winterdienst über Grünhof machen. Dokumentation kommt monatlich.“</p><figcaption class="review__who"><span class="review__ava">ST</span><span><b>S. Timmermann</b><small>WEG-Verwaltung, Pankow</small></span></figcaption></figure>
+      <figure class="review"><div class="stars">★★★★★</div><p>„Kurzfristig Hilfe beim Entrümpeln der Wohnung meiner Mutter bekommen. Sehr respektvoll, schnell, besenrein.“</p><figcaption class="review__who"><span class="review__ava">AB</span><span><b>A. Berger</b><small>Wohnungsauflösung, Lichtenberg</small></span></figcaption></figure>
+    </div>
   </div></section>
 
   <section class="section section--tint" id="ueber-mich"><div class="container about">
@@ -714,6 +675,35 @@ section[id]{scroll-margin-top:96px}
     </div>
   </div></section>
 
+  <section class="popup" aria-label="So bauen wir Ihren Garten auf">
+    <div class="container popup__head">
+      <span class="eyebrow" style="justify-content:center">Handwerk, das man sieht</span>
+      <h2>Vom ersten Spatenstich bis zur letzten Fuge</h2>
+      <p class="lead" style="margin-inline:auto">Rasen, Hecke, Beete, Wege – wir bringen alles mit und setzen es Stück für Stück zusammen. Werkzeug, Maschinen und die Entsorgung sind immer dabei.</p>
+    </div>
+    <div class="container">
+      <div class="popup__stage">
+        <div class="popup__book" data-popup-book>
+          <div class="popup__wall"></div>
+          <div class="popup__floor"><span class="popup__path"></span></div>
+          <div class="popup__layer popup__layer--hedge"><svg viewBox="0 0 460 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 148 Q8 68 60 54 Q78 14 140 30 Q176 4 222 24 Q272 0 322 28 Q382 8 412 54 Q452 72 442 148 Z" fill="#3C7C58"/><g fill="#2F6B4F" opacity=".35"><circle cx="92" cy="82" r="17"/><circle cx="184" cy="60" r="19"/><circle cx="284" cy="70" r="17"/><circle cx="374" cy="86" r="15"/></g><circle cx="120" cy="112" r="6" fill="#D8A24A"/><circle cx="250" cy="100" r="6" fill="#C25B4E"/><circle cx="342" cy="116" r="6" fill="#E7C36A"/></svg></div>
+          <div class="popup__layer popup__layer--tree"><svg viewBox="0 0 168 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="76" y="118" width="18" height="80" rx="4" fill="#6F5334"/><circle cx="84" cy="78" r="58" fill="#3C7C58"/><circle cx="52" cy="98" r="32" fill="#2F6B4F"/><circle cx="116" cy="96" r="34" fill="#478468"/></svg></div>
+          <div class="popup__layer popup__layer--bed"><svg viewBox="0 0 216 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 138 L40 60 L176 60 L198 138 Z" fill="#8A6A42"/><path d="M40 60 L176 60 L170 46 L46 46 Z" fill="#A07F52"/><g stroke="#2F6B4F" stroke-width="5" stroke-linecap="round"><path d="M72 60 V34"/><path d="M102 60 V24"/><path d="M132 60 V32"/><path d="M160 60 V38"/></g><circle cx="72" cy="30" r="9" fill="#C25B4E"/><circle cx="102" cy="20" r="10" fill="#D8A24A"/><circle cx="132" cy="28" r="9" fill="#7FA8C9"/><circle cx="160" cy="34" r="8" fill="#E7C36A"/></svg></div>
+          <div class="popup__layer popup__layer--bench"><svg viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="20" y="62" width="180" height="15" rx="3" fill="#A07F52"/><rect x="32" y="77" width="12" height="64" fill="#6F5334"/><rect x="176" y="77" width="12" height="64" fill="#6F5334"/><path d="M58 60 L150 42 L150 32 L56 50 Z" fill="#C9CCD2"/><path d="M150 32 L178 27 Q188 31 179 42 L150 42 Z" fill="#6F5334"/><rect x="70" y="68" width="40" height="13" rx="4" fill="#2F6B4F"/><rect x="88" y="81" width="12" height="15" rx="2" fill="#21503B"/><rect x="104" y="71" width="15" height="6" rx="2" fill="#B4832F"/></svg></div>
+          <div class="popup__layer popup__layer--tools"><svg viewBox="0 0 165 176" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="rotate(13 58 150)"><rect x="52" y="18" width="8" height="112" fill="#6F5334"/><path d="M44 14 h24 a10 10 0 0 1 0 20 h-24 a10 10 0 0 1 0-20z" fill="#6F5334"/><path d="M42 128 h32 l-6 34 h-20 z" fill="#B9BDC4"/></g><path d="M96 96 h44 v52 a8 8 0 0 1-8 8 h-28 a8 8 0 0 1-8-8 z" fill="#3C7C58"/><path d="M140 104 l20 -6 -2 11 -18 4 z" fill="#2F6B4F"/><path d="M96 98 q-16 6 -14 30" stroke="#2F6B4F" stroke-width="7" fill="none"/><circle cx="118" cy="90" r="7" fill="#2F6B4F"/></svg></div>
+          <div class="popup__layer popup__layer--sign"><svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="151" y="18" width="14" height="106" fill="#6F5334"/><rect x="40" y="22" width="240" height="60" rx="9" fill="#B4832F" stroke="#8A6420" stroke-width="3"/><text x="160" y="61" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#FBFAF7">Grünhof</text></svg></div>
+          <span class="popup__bug"><svg viewBox="0 0 26 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="currentColor"><path d="M13 11C5 1 1 4 3 11 1 18 6 20 13 12Z"/><path d="M13 11c8-10 12-7 10 0 2 7-3 9-10 1Z"/></g><rect x="12" y="4" width="2" height="14" rx="1" fill="#21503B"/></svg></span>
+          <span class="popup__tag popup__tag--a">Hecke in Form</span>
+          <span class="popup__tag popup__tag--b">Beet neu bepflanzt</span>
+          <span class="popup__tag popup__tag--c">Werkzeug bringen wir mit</span>
+        </div>
+      </div>
+      <p class="popup__hint">Maus bewegen für den 3D-Blick – beim Scrollen klappt der Garten auf.</p>
+    </div>
+  </section>
+
+  <!-- Nachbarschafts-Bonus -->
+
   <section class="section" id="shop"><div class="container">
     <div style="display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:2.4rem">
       <div class="stack"><span class="eyebrow">Gartenshop</span><h2 style="margin:0">Werkzeug, mit dem wir selbst arbeiten</h2></div>
@@ -743,19 +733,6 @@ section[id]{scroll-margin-top:96px}
     <div class="service-hint">Sperrig oder muss es angeschlossen werden? <strong>Paul bringt es beim nächsten Gartentermin mit und baut es auf</strong> – für Berlin und Umland. <a href="#kontakt" id="kombi-termin-link" class="link-arrow">Kombi-Termin anfragen</a></div>
   </div></section>
 
-  <section class="section section--tint"><div class="container">
-    <div class="center stack" style="margin-bottom:2.2rem"><span class="eyebrow">Kundenstimmen</span><h2>Erste Stimmen aus der Nachbarschaft</h2></div>
-    <div class="proof">
-      <span class="proof__stars" aria-hidden="true">🛡️</span>
-      <p><b>Wir sind 2026 gestartet und haben noch keine öffentlichen Bewertungen.</b> Statt fremder Sterne bekommen Sie von uns etwas Handfesteres: den Festpreis schriftlich, bevor der erste Handschlag getan ist – und bezahlt wird erst, wenn Sie zufrieden sind. Die Stimmen unten sind Beispiele dafür, wie Rückmeldungen aussehen werden, keine echten Kundenzitate.</p>
-    </div>
-    <div class="review-grid">
-      <figure class="review"><div class="stars">★★★★★</div><p>„Endlich jemand, der zurückruft und dann auch kommt. Der Garten sieht wieder richtig gepflegt aus – und der Preis war genau wie besprochen.“</p><figcaption class="review__who"><span class="review__ava">MK</span><span><b>M. Krause</b><small>Reihenhaus, Berlin-Karow</small></span></figcaption></figure>
-      <figure class="review"><div class="stars">★★★★★</div><p>„Wir lassen als WEG Treppenhaus, Außenanlage und Winterdienst über Grünhof machen. Dokumentation kommt monatlich.“</p><figcaption class="review__who"><span class="review__ava">ST</span><span><b>S. Timmermann</b><small>WEG-Verwaltung, Pankow</small></span></figcaption></figure>
-      <figure class="review"><div class="stars">★★★★★</div><p>„Kurzfristig Hilfe beim Entrümpeln der Wohnung meiner Mutter bekommen. Sehr respektvoll, schnell, besenrein.“</p><figcaption class="review__who"><span class="review__ava">AB</span><span><b>A. Berger</b><small>Wohnungsauflösung, Lichtenberg</small></span></figcaption></figure>
-    </div>
-  </div></section>
-
   <section class="section"><div class="container">
     <div class="center stack" style="margin-bottom:2.6rem"><span class="eyebrow">Gut zu wissen</span><h2>Häufige Fragen</h2></div>
     <p class="center" style="margin:0;font-weight:700;color:var(--ink-soft)">Wir kommen nach:</p>
@@ -770,53 +747,12 @@ section[id]{scroll-margin-top:96px}
   </div></section>
 
   <section class="section" id="kontakt"><div class="container"><div class="cta-band">
-    <span class="eyebrow">Unverbindlich anfragen</span><h2>Erzählen Sie uns, was ansteht</h2>
-    <p>Vor-Ort-Termin, schriftlicher Festpreis, Termin meist innerhalb einer Woche. Für Berlin und Umland.</p>
-
-    <form class="form-grid" id="kontakt-form" novalidate>
-      <div class="form-row">
-        <label for="kontakt-name">Name *</label>
-        <input type="text" id="kontakt-name" name="name" autocomplete="name" placeholder="Vor- und Nachname" required>
-        <span class="form-error"></span>
-      </div>
-      <div class="form-row">
-        <label for="kontakt-kontakt">E-Mail oder Telefon *</label>
-        <input type="text" id="kontakt-kontakt" name="kontakt" autocomplete="email" placeholder="max@beispiel.de oder 0170 1234567" required>
-        <span class="form-error"></span>
-      </div>
-      <div class="form-row">
-        <label for="kontakt-leistung">Worum geht es? (optional)</label>
-        <select id="kontakt-leistung" name="leistung">
-          <option value="">Bitte wählen</option>
-          <option value="garten">Gartenpflege</option>
-          <option value="hausmeister">Hausmeisterservice / Kleinreparaturen</option>
-          <option value="winterdienst">Winterdienst</option>
-          <option value="objekt">Objektbetreuung</option>
-          <option value="nachbarschaft">Nachbarschafts-Bonus</option>
-          <option value="shop">Shop-Bestellung</option>
-          <option value="sonstiges">Sonstiges</option>
-        </select>
-        <span class="form-error"></span>
-      </div>
-      <div class="form-row">
-        <label for="kontakt-nachricht">Ihre Nachricht *</label>
-        <textarea id="kontakt-nachricht" name="nachricht" rows="4" placeholder="Was steht an? Adresse/Stadtteil hilft uns bei der Einschätzung." required></textarea>
-        <span class="form-error"></span>
-      </div>
-      <label class="form-check">
-        <input type="checkbox" id="kontakt-datenschutz" name="datenschutz" required>
-        <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung dieser Anfrage genutzt und beantwortet werden. *</span>
-      </label>
-      <div class="form-actions">
-        <button type="submit" class="btn btn--gold btn--lg">Anfrage senden</button>
-        <a class="btn btn--wa btn--lg" href="#foto" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?">📷 Foto per WhatsApp</a>
-      </div>
-    </form>
-
-    <div class="kontakt-result" id="kontakt-result" hidden>
-      <p style="margin:0 0 .3rem">Es öffnet sich gleich dein E-Mail-Programm mit dieser vorausgefüllten Nachricht – bitte dort auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopiere den Text und schick ihn direkt an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
-      <textarea id="kontakt-result-text" readonly></textarea>
-      <div class="form-actions"><button type="button" class="btn btn--ghost" id="kontakt-copy">Text kopieren</button></div>
+    <span class="eyebrow">Noch Fragen?</span><h2>Dann schreiben Sie uns kurz</h2>
+    <p>Foto per WhatsApp, kurzer Anruf oder das Formular oben – alle drei landen bei derselben Person. Antwort binnen 24 Stunden, Mo–Sa 7–18 Uhr.</p>
+    <div class="form-actions" style="margin-top:1.6rem">
+      <a class="btn btn--wa btn--lg" href="#anfrage" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?">📷 Foto per WhatsApp</a>
+      <a class="btn btn--ghost btn--lg" href="#anfrage" data-biz-tel style="color:#fff;border-color:rgba(255,255,255,.45)">Anrufen</a>
+      <a class="btn btn--gold btn--lg" href="#anfrage">Zum Anfrageformular</a>
     </div>
   </div></div></section>
 </main>
@@ -1480,38 +1416,7 @@ section[id]{scroll-margin-top:96px}
       });
     });
 
-    /* Hero-Parallax beim Scrollen */
-    (function () {
-      var media = document.querySelector('.hero__media');
-      var hero = document.querySelector('.hero');
-      if (!media || !hero || reduceMotion) return;
-      var ticking = false;
-      var update = function () {
-        ticking = false;
-        var rect = hero.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-        var offset = Math.max(-40, Math.min(40, rect.top * -0.06));
-        media.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
-      };
-      document.addEventListener('scroll', function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-      }, { passive: true });
-    })();
 
-    /* Hero-Tiefen-Tilt (3D) */
-    if (finePointer && !reduceMotion) {
-      var heroMediaEl = document.querySelector('.hero__media');
-      var heroTilt = document.querySelector('.hero__tilt');
-      if (heroMediaEl && heroTilt) {
-        heroMediaEl.addEventListener('pointermove', function (e) {
-          var rect = heroMediaEl.getBoundingClientRect();
-          var px = (e.clientX - rect.left) / rect.width - 0.5;
-          var py = (e.clientY - rect.top) / rect.height - 0.5;
-          heroTilt.style.transform = 'rotateX(' + (-py * 10).toFixed(2) + 'deg) rotateY(' + (px * 14).toFixed(2) + 'deg)';
-        });
-        heroMediaEl.addEventListener('pointerleave', function () { heroTilt.style.transform = ''; });
-      }
-    }
 
     /* Schwebender Kauf-CTA */
     (function () {
