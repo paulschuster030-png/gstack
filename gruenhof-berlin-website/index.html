@@ -1168,13 +1168,49 @@ main.is-pdp > :not(#pdp){display:none}
   var upsellCatalog = Array.prototype.map.call(document.querySelectorAll('.js-add-to-cart'), function (btn) {
     return { id: btn.dataset.id, name: btn.dataset.name, price: parseFloat(btn.dataset.price) };
   });
+
+  // Was wirklich zusammengehört. Ein Vorschlag überzeugt nur, wenn er zur Arbeit
+  // passt, die der Kunde gerade vorhat – „auch im Angebot“ überzeugt niemanden.
+  var PASST_DAZU = {
+    spaten: ['handschuhe', 'schubkarre'],
+    microdrip: ['pflanzkuebel', 'handschuhe'],
+    pflanzkuebel: ['microdrip', 'handschuhe'],
+    streugranulat: ['handschuhe', 'schubkarre'],
+    handschuhe: ['spaten', 'schubkarre'],
+    schubkarre: ['spaten', 'handschuhe']
+  };
+  window.__passtDazu = PASST_DAZU;
+  function produktInfo(id) {
+    return upsellCatalog.filter(function (p) { return p.id === id; })[0] || null;
+  }
+  // Vorschläge zu allem, was im Korb liegt; was schon drin ist, fällt raus.
+  // Reicht die Liste nicht, füllen die übrigen Artikel auf.
+  function vorschlaege(ausgangsIds, anzahl) {
+    var drin = {};
+    cart.forEach(function (i) { drin[i.id] = true; });
+    ausgangsIds.forEach(function (id) { drin[id] = drin[id] || false; });
+    var raus = [], gesehen = {};
+    ausgangsIds.forEach(function (id) {
+      (PASST_DAZU[id] || []).forEach(function (kandidat) {
+        if (drin[kandidat] || gesehen[kandidat]) return;
+        var p = produktInfo(kandidat);
+        if (!p) return;
+        gesehen[kandidat] = true; raus.push(p);
+      });
+    });
+    upsellCatalog.forEach(function (p) {
+      if (drin[p.id] || gesehen[p.id] || ausgangsIds.indexOf(p.id) > -1) return;
+      gesehen[p.id] = true; raus.push(p);
+    });
+    return raus.slice(0, anzahl);
+  }
   var cartUpsellEl = document.getElementById('cart-upsell');
 
   function renderUpsell() {
     if (!cartUpsellEl) return;
     var inCart = {};
     cart.forEach(function (i) { inCart[i.id] = true; });
-    var suggestions = upsellCatalog.filter(function (p) { return !inCart[p.id]; }).slice(0, 2);
+    var suggestions = vorschlaege(cart.map(function (i) { return i.id; }), 2);
     if (cart.length === 0 || suggestions.length === 0) {
       cartUpsellEl.hidden = true;
       cartUpsellEl.innerHTML = '';
@@ -1964,8 +2000,13 @@ main.is-pdp > :not(#pdp){display:none}
       body.appendChild(rechts);
       wrap.appendChild(body);
 
+      var passend = (window.__passtDazu && window.__passtDazu[id]) || [];
       var andere = [].slice.call(document.querySelectorAll('.product-card[data-produkt]'))
-        .filter(function (k) { return k.dataset.produkt !== id; }).slice(0, 3);
+        .filter(function (k) { return k.dataset.produkt !== id; })
+        .sort(function (a, b) {
+          var ia = passend.indexOf(a.dataset.produkt), ib = passend.indexOf(b.dataset.produkt);
+          return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+        }).slice(0, 3);
       if (andere.length) {
         var rel = el('div', 'pdp__related');
         rel.appendChild(el('h2', null, 'Passt dazu'));
