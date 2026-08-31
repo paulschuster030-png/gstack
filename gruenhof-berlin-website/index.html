@@ -343,7 +343,10 @@ section[id]{scroll-margin-top:96px}
 .cookie-banner p{margin:0;font-size:.84rem;line-height:1.45;color:var(--ink-soft);flex:1}
 .cookie-banner__actions{display:flex;gap:.5rem;flex:none}
 .cookie-banner__actions .btn{min-height:40px;padding:.5em 1.1em;font-size:.9rem}
-@media(max-width:700px){.cookie-banner{left:10px;bottom:120px;width:calc(100vw - 20px);flex-direction:column;align-items:stretch;gap:.7rem;padding:.9rem 1rem}.cookie-banner__actions .btn{flex:1}}
+/* Auf dem Handy bleibt zwischen den Hero-Knöpfen und der Sticky-Leiste nur ein
+   schmaler Streifen. Das Banner muss da hineinpassen, ohne einen Knopf zu
+   verdecken – deshalb kleiner gesetzt und knapper gepolstert. */
+@media(max-width:700px){.cookie-banner{left:10px;bottom:86px;width:calc(100vw - 20px);flex-direction:column;align-items:stretch;gap:.55rem;padding:.7rem .85rem}.cookie-banner p{font-size:.78rem;line-height:1.4}.cookie-banner__actions .btn{flex:1;min-height:38px;font-size:.86rem}}
 @media(prefers-reduced-motion:reduce){.cookie-banner{transition:none}}
 
 /* ---------- Warenkorb-Upselling ---------- */
@@ -1827,16 +1830,41 @@ main.is-pdp > :not(#pdp){display:none}
         }
       } catch (e) { /* Speicher nicht verfügbar */ }
       speichernErlaubt = (wert === 'ja');
+      entschieden = true;
       document.dispatchEvent(new CustomEvent('gruenhof:consent', { detail: { ok: speichernErlaubt } }));
       banner.classList.remove('is-visible');
       setTimeout(function () { banner.hidden = true; }, 550);
     }
 
-    if (!consentStatus()) {
+    // Ein fest stehendes Banner liegt zwangsläufig auf irgendeinem Inhalt –
+    // beim Vorher/Nachher-Regler sogar auf einem Bedienelement. Deshalb
+    // zeigen wir es nur am Seitenanfang, wo nichts darunter liegt, und
+    // ziehen es beim Weiterscrollen zurück. Wer nach oben zurückkehrt,
+    // bekommt es wieder zu sehen.
+    var entschieden = !!consentStatus();
+    // Auf dem Handy sitzt das Anfrageformular direkt unter dem Hero, deshalb
+    // muss sich das Banner dort schon nach wenigen Pixeln zurückziehen.
+    var OBEN_BIS = window.innerWidth <= 700 ? 140 : 560;
+    var offen = false;
+    var wartet = false;
+
+    function sichtbarkeitPruefen() {
+      wartet = false;
+      if (entschieden) return;
+      var soll = window.scrollY < OBEN_BIS;
+      if (soll === offen) return;
+      offen = soll;
+      banner.classList.toggle('is-visible', soll);
+    }
+
+    if (!entschieden) {
       banner.hidden = false;
       requestAnimationFrame(function () {
-        requestAnimationFrame(function () { banner.classList.add('is-visible'); });
+        requestAnimationFrame(sichtbarkeitPruefen);
       });
+      document.addEventListener('scroll', function () {
+        if (!wartet) { wartet = true; requestAnimationFrame(sichtbarkeitPruefen); }
+      }, { passive: true });
     }
     jaBtn.addEventListener('click', function () { entscheiden('ja'); });
     neinBtn.addEventListener('click', function () { entscheiden('nein'); });
