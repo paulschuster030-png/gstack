@@ -338,11 +338,12 @@ section[id]{scroll-margin-top:96px}
 @media(prefers-reduced-motion:reduce){.float-cta__pulse{animation:none}}
 
 /* ---------- Cookie-Hinweis ---------- */
-.cookie-banner{position:fixed;left:16px;bottom:16px;z-index:280;width:min(420px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:1.2rem 1.3rem;transform:translateY(140%);transition:transform .5s var(--ease)}
+.cookie-banner{position:fixed;left:16px;bottom:16px;z-index:280;width:min(640px,calc(100vw - 32px));display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:.85rem 1.05rem;transform:translateY(170%);transition:transform .5s var(--ease)}
 .cookie-banner.is-visible{transform:translateY(0)}
-.cookie-banner__inner p{margin:0 0 .9rem;font-size:.88rem;color:var(--ink-soft)}
-.cookie-banner__actions{display:flex;justify-content:flex-end}
-@media(max-width:560px){.cookie-banner{left:10px;bottom:120px;width:calc(100vw - 20px);padding:1rem}.cookie-banner__actions{justify-content:stretch}.cookie-banner__actions .btn{flex:1}}
+.cookie-banner p{margin:0;font-size:.84rem;line-height:1.45;color:var(--ink-soft);flex:1}
+.cookie-banner__actions{display:flex;gap:.5rem;flex:none}
+.cookie-banner__actions .btn{min-height:40px;padding:.5em 1.1em;font-size:.9rem}
+@media(max-width:700px){.cookie-banner{left:10px;bottom:120px;width:calc(100vw - 20px);flex-direction:column;align-items:stretch;gap:.7rem;padding:.9rem 1rem}.cookie-banner__actions .btn{flex:1}}
 @media(prefers-reduced-motion:reduce){.cookie-banner{transition:none}}
 
 /* ---------- Warenkorb-Upselling ---------- */
@@ -472,9 +473,10 @@ main.is-pdp > :not(#pdp){display:none}
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie-Hinweis" hidden>
-  <div class="cookie-banner__inner">
-    <p>🍪 Diese Website speichert nur technisch notwendige Daten in Ihrem Browser – zum Beispiel Ihren Warenkorb und diese Einstellung selbst. Kein Tracking, keine Marketing-Cookies.</p>
-    <div class="cookie-banner__actions"><button type="button" class="btn btn--gold" id="cookie-accept">Verstanden</button></div>
+  <p>🍪 Wir speichern nur Ihren Warenkorb und diese Entscheidung – kein Tracking, keine Werbung. Bei <strong>Ablehnen</strong> gilt der Warenkorb nur für diesen Besuch.</p>
+  <div class="cookie-banner__actions">
+    <button type="button" class="btn btn--ghost" id="cookie-reject">Ablehnen</button>
+    <button type="button" class="btn btn--gold" id="cookie-accept">Einverstanden</button>
   </div>
 </div>
 
@@ -847,6 +849,21 @@ main.is-pdp > :not(#pdp){display:none}
     zeiten: 'Mo–Sa 7–18 Uhr'
   };
 
+  /* ---------- Einwilligung ----------
+     'ja'  = Warenkorb darf dauerhaft im Browser liegen
+     'nein'= nichts wird dauerhaft gespeichert, der Warenkorb gilt
+             nur für diesen Besuch. Die Ablehnung selbst merken wir
+             deshalb auch nur für die Sitzung. */
+  var CONSENT_KEY = 'gruenhof_cookie_consent_v1';
+  function consentStatus() {
+    try {
+      var dauerhaft = localStorage.getItem(CONSENT_KEY);
+      if (dauerhaft) return dauerhaft;
+      return sessionStorage.getItem(CONSENT_KEY) || '';
+    } catch (e) { return ''; }
+  }
+  var speichernErlaubt = consentStatus() === 'ja';
+
   function applyBusinessData() {
     document.querySelectorAll('[data-biz-tel]').forEach(function (el) {
       el.setAttribute('href', 'tel:' + BUSINESS.telefonWahl);
@@ -901,16 +918,24 @@ main.is-pdp > :not(#pdp){display:none}
   var CART_KEY = 'gruenhof_cart_v1';
 
   function loadCart() {
+    if (!speichernErlaubt) return [];
     try {
       var raw = localStorage.getItem(CART_KEY);
       return raw ? JSON.parse(raw) : [];
     } catch (e) { return []; }
   }
   function saveCart(items) {
+    if (!speichernErlaubt) return;
     try { localStorage.setItem(CART_KEY, JSON.stringify(items)); } catch (e) { /* storage unavailable */ }
   }
 
   var cart = loadCart();
+
+  // Wer erst etwas in den Warenkorb legt und dann zustimmt, soll den
+  // Warenkorb nicht verlieren.
+  document.addEventListener('gruenhof:consent', function (e) {
+    if (e.detail && e.detail.ok) saveCart(cart);
+  });
 
   var cartToggle = document.getElementById('cart-toggle');
   var cartPanel = document.getElementById('cart-panel');
@@ -1784,22 +1809,37 @@ main.is-pdp > :not(#pdp){display:none}
   /* ---------- Cookie-Hinweis ---------- */
   (function () {
     var banner = document.getElementById('cookie-banner');
-    var acceptBtn = document.getElementById('cookie-accept');
-    if (!banner || !acceptBtn) return;
-    var KEY = 'gruenhof_cookie_consent_v1';
-    var already;
-    try { already = localStorage.getItem(KEY); } catch (e) { already = null; }
-    if (!already) {
+    var jaBtn = document.getElementById('cookie-accept');
+    var neinBtn = document.getElementById('cookie-reject');
+    if (!banner || !jaBtn || !neinBtn) return;
+
+    function entscheiden(wert) {
+      try {
+        if (wert === 'ja') {
+          localStorage.setItem(CONSENT_KEY, 'ja');
+        } else {
+          // Ablehnen heißt: nichts bleibt liegen. Ein eventuell schon
+          // gespeicherter Warenkorb wird entfernt, die Ablehnung selbst
+          // gilt nur für diese Sitzung.
+          localStorage.removeItem(CONSENT_KEY);
+          localStorage.removeItem(CART_KEY);
+          sessionStorage.setItem(CONSENT_KEY, 'nein');
+        }
+      } catch (e) { /* Speicher nicht verfügbar */ }
+      speichernErlaubt = (wert === 'ja');
+      document.dispatchEvent(new CustomEvent('gruenhof:consent', { detail: { ok: speichernErlaubt } }));
+      banner.classList.remove('is-visible');
+      setTimeout(function () { banner.hidden = true; }, 550);
+    }
+
+    if (!consentStatus()) {
       banner.hidden = false;
       requestAnimationFrame(function () {
         requestAnimationFrame(function () { banner.classList.add('is-visible'); });
       });
     }
-    acceptBtn.addEventListener('click', function () {
-      banner.classList.remove('is-visible');
-      try { localStorage.setItem(KEY, '1'); } catch (e) { /* storage unavailable */ }
-      setTimeout(function () { banner.hidden = true; }, 550);
-    });
+    jaBtn.addEventListener('click', function () { entscheiden('ja'); });
+    neinBtn.addEventListener('click', function () { entscheiden('nein'); });
   })();
 
 })();
