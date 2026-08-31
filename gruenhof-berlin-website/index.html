@@ -555,7 +555,8 @@ main.is-pdp > :not(#pdp){display:none}
   <form class="cart-order" id="cart-order" hidden novalidate>
     <h4>Ihre Daten für die Bestellung</h4>
     <label>Name *<input type="text" id="best-name" autocomplete="name" placeholder="Vor- und Nachname"><span class="fehler"></span></label>
-    <label>E-Mail oder Telefon *<input type="text" id="best-kontakt" autocomplete="email" placeholder="max@beispiel.de oder 0170 1234567"><span class="fehler"></span></label>
+    <label>E-Mail *<input type="text" id="best-kontakt" autocomplete="email" inputmode="email" placeholder="max@beispiel.de"><span class="fehler"></span></label>
+    <label>Telefon (optional)<input type="text" id="best-telefon" autocomplete="tel" inputmode="tel" placeholder="Für kurze Rückfragen"></label>
     <label>Wie soll es zu Ihnen kommen?
       <select id="best-weg">
         <option value="abholung">Abholung nach Absprache in Berlin</option>
@@ -575,14 +576,14 @@ main.is-pdp > :not(#pdp){display:none}
     <button type="button" class="cart-order__back" id="cart-order-back">← Zurück zum Warenkorb</button>
   </form>
   <div class="cart-order-result" id="cart-order-result" hidden>
-    <p style="margin:0"><strong>Fast geschafft – jetzt noch abschicken.</strong> Ihr E-Mail-Programm ist mit der fertigen Bestellung geöffnet: dort auf <strong>Senden</strong> klicken. Die abgeschickte E-Mail ist zugleich Ihre Bestätigung. Öffnet sich nichts, kopieren Sie den Text und schicken ihn an <a id="best-mail-link" data-biz-mail data-biz-mail-text>E-Mail eintragen</a>.</p>
+    <p style="margin:0"><strong>Fast geschafft – jetzt noch abschicken.</strong> Ihr E-Mail-Programm ist mit der fertigen Bestellung geöffnet: dort auf <strong>Senden</strong> klicken. Danach schicken wir Ihnen eine Bestätigung per E-Mail. Öffnet sich nichts, kopieren Sie den Text und schicken ihn an <a id="best-mail-link" data-biz-mail data-biz-mail-text>E-Mail eintragen</a>.</p>
     <textarea id="best-result-text" readonly></textarea>
     <button type="button" class="btn btn--ghost btn--block" id="best-copy">Text kopieren</button>
   </div>
   <div class="cart-panel__foot">
     <div class="cart-panel__total"><span>Gesamt</span><span id="cart-total">0,00 €</span></div>
     <button type="button" class="btn btn--block" id="cart-checkout" disabled>Jetzt kaufen</button>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Ihre Bestätigung ist die abgeschickte E-Mail – die haben Sie sofort. Wir melden uns innerhalb von 24 Stunden.</p>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Sobald Ihre Bestellung abgeschickt ist, schicken wir Ihnen eine Bestätigung per E-Mail – in der Regel innerhalb von 24 Stunden.</p>
   </div>
 </aside>
 
@@ -642,7 +643,7 @@ main.is-pdp > :not(#pdp){display:none}
         </form>
 
         <div class="kontakt-result" id="kontakt-result" hidden>
-          <p style="margin:0 0 .3rem"><strong>Fast geschafft – jetzt noch abschicken.</strong> Ihr E-Mail-Programm ist mit der fertigen Anfrage geöffnet: dort auf <strong>Senden</strong> klicken. Die abgeschickte E-Mail ist zugleich Ihre Bestätigung. Öffnet sich nichts, kopieren Sie den Text und schicken ihn an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
+          <p style="margin:0 0 .3rem"><strong>Fast geschafft – jetzt noch abschicken.</strong> Ihr E-Mail-Programm ist mit der fertigen Anfrage geöffnet: dort auf <strong>Senden</strong> klicken. Danach melden wir uns innerhalb von 24 Stunden bei Ihnen. Öffnet sich nichts, kopieren Sie den Text und schicken ihn an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
           <textarea id="kontakt-result-text" readonly></textarea>
           <div class="form-actions"><button type="button" class="btn btn--ghost" id="kontakt-copy">Text kopieren</button></div>
         </div>
@@ -1273,6 +1274,7 @@ main.is-pdp > :not(#pdp){display:none}
       e.preventDefault();
       var name = document.getElementById('best-name');
       var kontakt = document.getElementById('best-kontakt');
+      var telefon = document.getElementById('best-telefon');
       var notiz = document.getElementById('best-notiz');
       var ok = document.getElementById('best-datenschutz');
       var strasse = document.getElementById('best-strasse');
@@ -1288,12 +1290,12 @@ main.is-pdp > :not(#pdp){display:none}
         name.closest('label').querySelector('.fehler').textContent = 'Bitte geben Sie Ihren Namen an.';
         gueltig = false;
       }
+      // Für die Bestellung ist die E-Mail Pflicht: darüber geht die
+      // Bestätigung zurück an den Kunden.
       var wert = kontakt.value.trim();
-      var istMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wert);
-      var istTelefon = /^[+\d][\d\s/().-]{5,}$/.test(wert);
-      if (!istMail && !istTelefon) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wert)) {
         kontakt.closest('label').classList.add('is-fehler');
-        kontakt.closest('label').querySelector('.fehler').textContent = 'Bitte eine E-Mail-Adresse oder Telefonnummer angeben.';
+        kontakt.closest('label').querySelector('.fehler').textContent = 'Bitte eine gültige E-Mail-Adresse angeben – dorthin geht die Bestätigung.';
         gueltig = false;
       }
       if (adresseNoetig()) {
@@ -1317,7 +1319,8 @@ main.is-pdp > :not(#pdp){display:none}
       var betreff = 'Bestellung aus dem Gartenshop';
       var text = [
         'Name: ' + name.value.trim(),
-        (istMail ? 'E-Mail: ' : 'Telefon: ') + wert,
+        'E-Mail: ' + wert,
+        telefon.value.trim() ? 'Telefon: ' + telefon.value.trim() : null,
         adresseNoetig()
           ? 'Adresse: ' + strasse.value.trim() + ', ' + plz.value.trim() + ' ' + ort.value.trim()
           : 'Abholung nach Absprache in Berlin',
