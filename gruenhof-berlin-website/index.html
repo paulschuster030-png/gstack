@@ -22,7 +22,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.12;mar
 h1{font-size:clamp(2.35rem,8.5vw,3.9rem)}h2{font-size:clamp(1.75rem,5.5vw,2.7rem)}h3{font-size:clamp(1.15rem,3.4vw,1.5rem)}
 p{margin:0 0 1rem}
 .container{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
-.section{padding-block:clamp(52px,8.5vw,112px)}
+.section{padding-block:clamp(44px,6vw,84px)}
 section[id]{scroll-margin-top:96px}
 .section--tint{background:var(--bg-warm)}
 .section--brand{background:var(--brand-dark);color:#EAF2EC}
@@ -189,8 +189,9 @@ section[id]{scroll-margin-top:96px}
 .tf-demo__handle{position:absolute;top:0;bottom:0;left:calc(var(--p,0) * 100%);width:3px;background:rgba(255,255,255,.92);box-shadow:0 0 20px rgba(0,0,0,.35);transform:translateX(-1.5px);cursor:ew-resize;touch-action:none}
 .tf-demo__handle span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:#fff;box-shadow:var(--shadow-md);display:grid;place-items:center;color:var(--brand-dark)}
 .tf-demo__handle:focus-visible span{outline:3px solid #fff;outline-offset:3px}
-.tf-demo__tags{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;font-family:var(--font-display);font-size:clamp(.9rem,3vw,1.4rem);color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.5);pointer-events:none}
-.tf-demo__intro{position:absolute;left:0;right:0;top:8%;text-align:center;color:#fff;padding-inline:1rem;text-shadow:0 2px 20px rgba(0,0,0,.5);pointer-events:none}
+.tf-demo__tags{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;font-family:var(--font-display);font-size:clamp(.86rem,2.6vw,1.2rem);color:#fff;pointer-events:none}
+.tf-demo__tags span{background:rgba(12,20,15,.58);padding:.22em .8em;border-radius:var(--radius-pill)}
+.tf-demo__intro{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:min(92%,780px);text-align:center;color:#fff;padding:1rem 1.4rem;border-radius:var(--radius-lg);background:linear-gradient(180deg,rgba(12,20,15,.62),rgba(12,20,15,.3));text-shadow:0 2px 12px rgba(0,0,0,.55);pointer-events:none}
 .tf-demo__intro .eyebrow{color:var(--accent-soft);justify-content:center}.tf-demo__intro .eyebrow::before{background:var(--accent-soft)}
 .tf-demo__intro h2{color:#fff;margin:.4rem 0 .2rem}
 @media(max-width:720px){.tf-demo__scene{aspect-ratio:auto;height:66svh}}
@@ -412,6 +413,17 @@ section[id]{scroll-margin-top:96px}
 .proof p b{color:var(--ink)}
 
 
+
+/* ---------- Garantie-Band ---------- */
+.garantie{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-lg);padding:clamp(1.3rem,3vw,1.9rem);box-shadow:var(--shadow-md);max-width:960px;margin:2.4rem auto 0}
+.garantie h3{text-align:center;margin:0 0 1.3rem;font-size:clamp(1.15rem,2.8vw,1.4rem)}
+.garantie__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+@media(max-width:860px){.garantie__grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.garantie__grid{grid-template-columns:1fr}}
+.garantie__item{display:flex;gap:.7rem;align-items:flex-start;font-size:.9rem;color:var(--ink-soft)}
+.garantie__item .tick{flex:none;width:26px;height:26px;border-radius:50%;background:var(--brand-tint);color:var(--brand-dark);display:grid;place-items:center;font-weight:800;font-size:.82rem}
+.garantie__item b{color:var(--ink);display:block;margin-bottom:.15rem}
+
 /* ---------- Produktseite ---------- */
 main.is-pdp > :not(#pdp){display:none}
 .pdp{padding-block:clamp(20px,4vw,44px) clamp(44px,7vw,88px)}
@@ -514,7 +526,7 @@ main.is-pdp > :not(#pdp){display:none}
         <span class="eyebrow">Für Berlin &amp; Umland</span>
         <h1 class="hero__title"><span class="line">Feierabend für Sie.</span><span class="line">Den Rest <span class="accent">mach ich.</span></span></h1>
         <p class="lead hero__lead">Ein junger Betrieb aus Berlin, der anpackt: Gartenpflege, Kleinreparaturen, Reinigung und Winterdienst. <strong>Schicken Sie uns einfach ein Foto – Sie bekommen einen festen Preis zurück.</strong></p>
-        <p class="hero__rotate">Häufig gefragt: <span class="rot">Rasen mähen</span></p>
+        <p class="hero__rotate">Häufig gefragt: <span class="rot">Rasen mähen · Hecke schneiden · Kleinreparaturen · Winterdienst</span></p>
         <div class="hero__cta"><a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--lg">📷 Foto schicken – Festpreis erhalten</a><a href="#kontakt" data-biz-tel class="btn btn--ghost btn--lg">Anrufen</a></div>
         <p class="hero__note">Oder direkt anfragen – das Formular dauert eine halbe Minute.</p>
         <div class="hero__trust"><span>✓ Fester Preis, schriftlich</span><span>✓ Betriebshaftpflicht versichert</span><span>✓ Antwort in 24 h</span><span>✓ Mo–Sa 7–18 Uhr</span></div>
@@ -621,12 +633,14 @@ main.is-pdp > :not(#pdp){display:none}
   <section class="tf-demo">
     <div class="tf-demo__scene" style="--p:.55">
       <svg class="tf-img" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="1200" height="700" fill="#8A9083"/>
-        <rect x="0" y="416" width="1200" height="284" fill="#69704A"/>
-        <ellipse cx="240" cy="560" rx="130" ry="34" fill="#7E6E46"/><ellipse cx="770" cy="622" rx="160" ry="40" fill="#7E6E46"/>
-        <g stroke="#5C6B3C" stroke-width="4" fill="none" stroke-linecap="round"><path d="M120 622 q-8 -70 4 -122 M133 622 q6 -82 -2 -132 M430 602 q-10 -82 2 -142 M910 592 q-8 -72 0 -122"/></g>
-        <g fill="#6B5136"><rect x="58" y="356" width="14" height="122" transform="rotate(-6 65 417)"/><rect x="120" y="352" width="14" height="122" transform="rotate(4 127 413)"/></g>
-        <path d="M770 468 q-72 -20 -92 -92 q30 30 60 20 q-40 -50 -20 -112 q20 62 60 60 q-10 -72 40 -102 q0 62 40 82 q40 -20 72 20 q-30 10 -30 40 q40 20 20 72 q-62 -10 -92 20 q-40 20 -98 0Z" fill="#5D5843"/>
+        <defs><linearGradient id="s0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DA290"/><stop offset="1" stop-color="#BAB79E"/></linearGradient></defs>
+        <rect width="1200" height="700" fill="url(#s0)"/>
+        <rect x="0" y="398" width="1200" height="302" fill="#6E7347"/>
+        <ellipse cx="250" cy="560" rx="152" ry="38" fill="#7E6E46"/><ellipse cx="810" cy="640" rx="196" ry="44" fill="#7A6942"/><ellipse cx="560" cy="498" rx="92" ry="22" fill="#7E6E46" opacity=".65"/>
+        <path d="M50 400 q22-92 92-72 q12-70 82-58 q42-56 98-16 q56-26 98 26 q66-16 86 56 q54 10 46 64 z" fill="#54603A"/>
+        <path d="M700 400 q16-72 76-60 q28-58 86-30 q52-30 86 22 q58-8 64 68 z" fill="#4E5A36"/>
+        <g stroke="#5C6B3C" stroke-width="5" fill="none" stroke-linecap="round"><path d="M120 640 q-10-90 6-150"/><path d="M140 646 q8-100 -4-160"/><path d="M158 636 q-6-80 8-130"/><path d="M420 620 q-12-100 4-170"/><path d="M442 628 q10-110 -6-166"/><path d="M905 610 q-10-90 2-146"/><path d="M927 618 q8-96 -4-150"/><path d="M948 604 q-8-70 6-116"/><path d="M640 660 q-10-80 4-130"/><path d="M662 666 q8-86 -4-136"/><path d="M1080 630 q-8-84 4-134"/></g>
+        <g fill="#6B5136" opacity=".8"><ellipse cx="330" cy="602" rx="19" ry="9" transform="rotate(-20 330 602)"/><ellipse cx="520" cy="662" rx="21" ry="10" transform="rotate(14 520 662)"/><ellipse cx="1035" cy="582" rx="18" ry="8" transform="rotate(-8 1035 582)"/><ellipse cx="742" cy="540" rx="17" ry="8" transform="rotate(28 742 540)"/></g>
       </svg>
       <svg class="tf-img tf-after" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E7BE"/><stop offset="1" stop-color="#E3EDDF"/></linearGradient><linearGradient id="l1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A2C9A0"/><stop offset="1" stop-color="#6DA878"/></linearGradient></defs>
@@ -652,7 +666,17 @@ main.is-pdp > :not(#pdp){display:none}
       <div class="plan is-featured"><span class="tag">Am beliebtesten</span><h3>Garten-Abo</h3><p class="price">Preis auf Anfrage<small>monatlich, 14-tägiger Rhythmus</small></p><ul><li><span class="tick">✓</span>Regelmäßiges Mähen &amp; Pflege</li><li><span class="tick">✓</span>Saisonale Düngung &amp; Nachsaat</li><li><span class="tick">✓</span>2× jährlich Heckenschnitt</li><li><span class="tick">✓</span>Fester Ansprechpartner</li><li><span class="tick">✓</span>Monatlich kündbar</li></ul><a href="#kontakt" class="btn btn--block js-preset-leistung" data-leistung="garten">Beratung anfragen</a></div>
       <div class="plan"><span class="tag">Objekt</span><h3>Objektbetreuung</h3><p class="price">Preis auf Anfrage<small>Angebot je Objekt</small></p><ul><li><span class="tick">✓</span>Turnusreinigung Treppenhaus</li><li><span class="tick">✓</span>Grünpflege &amp; Winterdienst</li><li><span class="tick">✓</span>Kontrollgänge &amp; Kleininstandhaltung</li><li><span class="tick">✓</span>Monatliche Dokumentation</li><li><span class="tick">✓</span>Monatlich kündbar</li></ul><a href="#kontakt" class="btn btn--ghost btn--block js-preset-leistung" data-leistung="objekt">Angebot anfordern</a></div>
     </div>
-    <p class="center" style="margin-top:1.6rem;color:var(--ink-mute);font-size:.9rem">Festpreis nach Besichtigung vor Ort · Abos monatlich kündbar · 20&nbsp;% der Lohnkosten nach §&nbsp;35a EStG steuerlich absetzbar.</p>
+    <p class="center" style="margin-top:1.4rem;color:var(--ink-mute);font-size:.9rem">Abos monatlich kündbar · 20&nbsp;% der Lohnkosten nach §&nbsp;35a EStG steuerlich absetzbar.</p>
+    <div class="garantie">
+      <h3>Warum hier keine festen Preise stehen</h3>
+      <p style="text-align:center;max-width:60ch;margin:0 auto 1.4rem;color:var(--ink-soft);font-size:.95rem">Jeder Garten ist anders. Eine Preisliste wäre geraten – und am Ende teurer für Sie oder für uns. Schicken Sie stattdessen ein Foto: Sie bekommen innerhalb von 24 Stunden eine echte Zahl, keine Spanne.</p>
+      <div class="garantie__grid">
+        <div class="garantie__item"><span class="tick">✓</span><span><b>Festpreis vorab</b>Schriftlich, bevor der erste Handschlag getan ist.</span></div>
+        <div class="garantie__item"><span class="tick">✓</span><span><b>Zahlung erst danach</b>Abgerechnet wird, wenn Sie mit der Arbeit zufrieden sind.</span></div>
+        <div class="garantie__item"><span class="tick">✓</span><span><b>Kein Abo-Risiko</b>Laufende Verträge sind monatlich kündbar.</span></div>
+        <div class="garantie__item"><span class="tick">✓</span><span><b>Versichert</b>Betriebshaftpflicht, angemeldeter Betrieb.</span></div>
+      </div>
+    </div>
   </div></section>
 
   <section class="section section--tint" id="nachbarschaft">
@@ -770,6 +794,9 @@ main.is-pdp > :not(#pdp){display:none}
       <details class="faq-item" open><summary>In welchem Gebiet sind Sie tätig?</summary><p>In ganz Berlin sowie im direkten Umland (Bernau, Hennigsdorf, Teltow, Königs Wusterhausen). Bei größeren Aufträgen auch darüber hinaus.</p></details>
       <details class="faq-item"><summary>Was kostet der Vor-Ort-Termin?</summary><p>Eine kleine Anfahrtspauschale – bei Auftrag verrechnen wir sie voll, dann kostet der Termin effektiv nichts.</p></details>
       <details class="faq-item"><summary>Kann ich die Leistungen von der Steuer absetzen?</summary><p>In der Regel ja: 20 % der Lohnkosten sind nach § 35a EStG absetzbar. Sie erhalten eine Rechnung mit ausgewiesenem Lohnanteil.</p></details>
+      <details class="faq-item"><summary>Wie schnell können Sie kommen?</summary><p>Nach dem Festpreis meist innerhalb einer Woche. Im Frühjahr und vor dem ersten Frost kann es länger dauern – dann nennen wir Ihnen einen verbindlichen Termin, statt Sie zu vertrösten.</p></details>
+      <details class="faq-item"><summary>Muss ich zu Hause sein, während gearbeitet wird?</summary><p>Nein. Wenn Zugang und Wasseranschluss geklärt sind, erledigen wir das auch, während Sie arbeiten. Danach bekommen Sie eine kurze Rückmeldung, bei größeren Aufträgen mit Fotos.</p></details>
+      <details class="faq-item"><summary>Was, wenn mir das Ergebnis nicht gefällt?</summary><p>Dann sagen Sie es, bevor abgerechnet wird – wir bessern nach. Abgerechnet wird erst, wenn Sie zufrieden sind. Genau dafür halten wir den Preis vorher schriftlich fest.</p></details>
     </div>
   </div></section>
 
