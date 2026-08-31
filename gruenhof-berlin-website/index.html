@@ -389,6 +389,41 @@ section[id]{scroll-margin-top:96px}
 .cart-payment__option.is-active small{color:var(--brand-dark);font-weight:700}
 .cart-payment__option.is-disabled{opacity:.55}
 
+/* ---------- WhatsApp / Direktkontakt ---------- */
+.btn--wa{--btn-bg:#25D366;--btn-fg:#08331D;box-shadow:0 6px 18px rgba(37,211,102,.32)}
+.btn--wa:hover{background:#1FBE5B}
+.header-call{display:none;align-items:center;gap:.55em;text-decoration:none;color:var(--ink);white-space:nowrap}
+.header-call b{display:block;font-size:.95rem;font-weight:750;color:var(--brand-dark);line-height:1.15}
+.header-call small{display:block;font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
+@media(min-width:1025px){.header-call{display:inline-flex}}
+.hero__note{margin-top:1rem;font-size:.88rem;color:var(--ink-mute)}
+.hero__note a{font-weight:700;color:var(--brand-dark)}
+
+/* ---------- Foto → Festpreis ---------- */
+.fotoflow{background:linear-gradient(160deg,#152219,var(--brand-dark));color:#fff}
+.fotoflow h2{color:#fff}
+.fotoflow .eyebrow{color:var(--accent-soft)}.fotoflow .eyebrow::before{background:var(--accent-soft)}
+.fotoflow .lead{color:#CFE0D4}
+.fotoflow__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.4rem}
+@media(max-width:860px){.fotoflow__grid{grid-template-columns:1fr}}
+.fotoflow__step{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-lg);padding:1.5rem 1.4rem}
+.fotoflow__step .n{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-bottom:1rem}
+.fotoflow__step h3{color:#fff;font-size:1.08rem;margin-bottom:.3em}
+.fotoflow__step p{color:#CFE0D4;font-size:.92rem;margin:0}
+.fotoflow__actions{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:2.2rem}
+.fotoflow__hint{text-align:center;color:#9FB6A6;font-size:.85rem;margin-top:1.1rem}
+
+/* ---------- Einsatzgebiet ---------- */
+.gebiet__list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem;justify-content:center}
+.gebiet__chip{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-pill);padding:.45em .95em;font-size:.88rem;font-weight:600;color:var(--ink-soft);box-shadow:var(--shadow-sm)}
+.gebiet__chip.is-core{border-color:var(--brand);color:var(--brand-dark);background:var(--brand-tint)}
+
+/* ---------- Bewertungs-Platzhalter ---------- */
+.proof{display:flex;align-items:center;justify-content:center;gap:1rem 1.4rem;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);max-width:720px;margin:0 auto 2.6rem;text-align:left}
+.proof__stars{color:var(--accent);font-size:1.25rem;letter-spacing:2px;flex:none}
+.proof p{font-size:.9rem;color:var(--ink-soft);margin:0}
+.proof p b{color:var(--ink)}
+
 @media(prefers-reduced-motion:reduce){
   .cursor-glow{display:none}
   :where(.reveal){opacity:1;transform:none;transition:none}
@@ -414,6 +449,7 @@ section[id]{scroll-margin-top:96px}
   <nav class="nav-links" id="nav-links">
     <a href="#start">Start</a><a href="#leistungen">Leistungen</a><a href="#ueber-mich">Über mich</a><a href="#shop">Shop</a><a href="#ablauf">Ablauf</a><a href="#kontakt">Kontakt</a>
   </nav>
+  <a class="header-call" href="#kontakt" data-biz-tel><span>📞</span><span><b data-biz-tel-text>Telefonnummer eintragen</b><small>Mo–Sa 7–18 Uhr</small></span></a>
   <button type="button" class="cart-btn" id="cart-toggle" aria-haspopup="dialog" aria-expanded="false" aria-controls="cart-panel">🛒 Warenkorb <span class="cart-count" id="cart-count" hidden>0</span></button>
   <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
 </div></header>
@@ -452,10 +488,11 @@ section[id]{scroll-margin-top:96px}
       <div>
         <span class="eyebrow">Für Berlin &amp; Umland</span>
         <h1 class="hero__title"><span class="line">Feierabend für Sie.</span><span class="line">Den Rest <span class="accent">mach ich.</span></span></h1>
-        <p class="lead hero__lead">Ein junger Betrieb aus Berlin, der anpackt: Gartenpflege, Kleinreparaturen, Reinigung und Winterdienst – zuverlässig und zum Festpreis. Das passende Werkzeug gibt's im Shop gleich dazu.</p>
+        <p class="lead hero__lead">Ein junger Betrieb aus Berlin, der anpackt: Gartenpflege, Kleinreparaturen, Reinigung und Winterdienst. <strong>Schicken Sie uns einfach ein Foto – Sie bekommen einen festen Preis zurück.</strong></p>
         <p class="hero__rotate">Häufig gefragt: <span class="rot">Rasen mähen</span></p>
-        <div class="hero__cta"><a href="#kontakt" class="btn btn--lg">Angebot anfragen</a><a href="#shop" class="btn btn--ghost btn--lg">Zum Gartenshop</a></div>
-        <div class="hero__trust"><span>✓ Fester Preis, schriftlich</span><span>✓ Betriebshaftpflicht versichert</span><span>✓ Rückmeldung in 24 h</span></div>
+        <div class="hero__cta"><a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--lg">📷 Foto schicken – Festpreis erhalten</a><a href="#kontakt" data-biz-tel class="btn btn--ghost btn--lg">Anrufen</a></div>
+        <p class="hero__note">Lieber schreiben? <a href="#kontakt">Kurzformular ausfüllen</a> – drei Felder, halbe Minute.</p>
+        <div class="hero__trust"><span>✓ Fester Preis, schriftlich</span><span>✓ Betriebshaftpflicht versichert</span><span>✓ Antwort in 24 h</span><span>✓ Mo–Sa 7–18 Uhr</span></div>
       </div>
       <div class="hero__media">
         <div class="hero__tilt">
@@ -476,6 +513,26 @@ section[id]{scroll-margin-top:96px}
   </section>
 
   <div class="marquee"><div class="marquee__row"><span>🌿 Gartenpflege</span><span>🍂 Herbstputz</span><span>🔧 Kleinreparaturen</span><span>❄️ Winterdienst</span><span>🏢 Objektbetreuung</span><span>🚪 Treppenhausreinigung</span><span>🪴 Beetgestaltung</span><span>🚛 Entrümpelung</span></div></div>
+
+  <section class="section fotoflow" id="foto">
+    <div class="container center stack">
+      <span class="eyebrow" style="justify-content:center">Schneller als jedes Formular</span>
+      <h2>Foto schicken. Festpreis bekommen.</h2>
+      <p class="lead" style="margin-inline:auto">Sie müssen nicht erst einen Termin ausmachen, um zu erfahren, was etwas kostet. Fotografieren Sie die Hecke, den Hof oder die klemmende Tür – wir schauen es uns an und nennen Ihnen einen festen Preis.</p>
+    </div>
+    <div class="container">
+      <div class="fotoflow__grid">
+        <div class="fotoflow__step"><div class="n">1</div><h3>Foto machen</h3><p>Handy raus, ein bis drei Bilder von dem, was gemacht werden soll. Ein Satz dazu reicht völlig.</p></div>
+        <div class="fotoflow__step"><div class="n">2</div><h3>An uns schicken</h3><p>Per WhatsApp in ein paar Sekunden. Keine Anmeldung, kein Konto, kein Formular.</p></div>
+        <div class="fotoflow__step"><div class="n">3</div><h3>Festpreis erhalten</h3><p>Wir melden uns innerhalb von 24 Stunden mit einer Einschätzung und einem festen Preis.</p></div>
+      </div>
+      <div class="fotoflow__actions">
+        <a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--lg">📷 Foto per WhatsApp schicken</a>
+        <a href="#kontakt" data-biz-tel class="btn btn--ghost btn--lg" style="color:#fff;border-color:rgba(255,255,255,.45)">Lieber anrufen</a>
+      </div>
+      <p class="fotoflow__hint">Kostenlos und unverbindlich · Sie entscheiden danach in Ruhe</p>
+    </div>
+  </section>
 
   <section class="section manifesto">
     <div class="container">
@@ -623,8 +680,8 @@ section[id]{scroll-margin-top:96px}
   <section class="section section--brand" id="ablauf"><div class="container">
     <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">So läuft es ab</span><h2>In drei Schritten zum erledigten Auftrag</h2></div>
     <div class="steps">
-      <div class="step"><div class="step__n">1</div><h3>Anfrage</h3><p>Sie schildern kurz, was ansteht – per Formular, E-Mail oder Telefon.</p></div>
-      <div class="step"><div class="step__n">2</div><h3>Besichtigung &amp; Festpreis</h3><p>Wir schauen vor Ort (kleine Anfahrtspauschale, bei Auftrag verrechnet) und Sie bekommen einen schriftlichen Festpreis.</p></div>
+      <div class="step"><div class="step__n">1</div><h3>Foto oder Anruf</h3><p>Sie schicken ein Foto per WhatsApp oder rufen kurz an. Formular geht natürlich auch.</p></div>
+      <div class="step"><div class="step__n">2</div><h3>Festpreis</h3><p>Bei klaren Fällen reicht das Foto. Wird es größer, schauen wir vor Ort (kleine Anfahrtspauschale, bei Auftrag verrechnet). So oder so bekommen Sie den Preis schriftlich.</p></div>
       <div class="step"><div class="step__n">3</div><h3>Ausführung</h3><p>Zum Termin wird gearbeitet. Erst wenn Sie zufrieden sind, wird abgerechnet.</p></div>
     </div>
     <div class="stat-row"><div class="stat"><div class="num">2026</div><div class="lbl">gegründet in Berlin</div></div><div class="stat"><div class="num">20&nbsp;%</div><div class="lbl">absetzbar nach § 35a EStG</div></div><div class="stat"><div class="num">24 h</div><div class="lbl">bis zur Rückmeldung</div></div><div class="stat"><div class="num">100 %</div><div class="lbl">versichert &amp; angemeldet</div></div></div>
@@ -690,7 +747,11 @@ section[id]{scroll-margin-top:96px}
   </div></section>
 
   <section class="section section--tint"><div class="container">
-    <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">Kundenstimmen</span><h2>Erste Stimmen aus der Nachbarschaft</h2><p class="lead"><em>Platzhalter-Beispiele</em> – werden durch echte Bewertungen ersetzt, sobald die ersten Aufträge abgeschlossen sind.</p></div>
+    <div class="center stack" style="margin-bottom:2.2rem"><span class="eyebrow">Kundenstimmen</span><h2>Erste Stimmen aus der Nachbarschaft</h2></div>
+    <div class="proof">
+      <span class="proof__stars" aria-hidden="true">🛡️</span>
+      <p><b>Wir sind 2026 gestartet und haben noch keine öffentlichen Bewertungen.</b> Statt fremder Sterne bekommen Sie von uns etwas Handfesteres: den Festpreis schriftlich, bevor der erste Handschlag getan ist – und bezahlt wird erst, wenn Sie zufrieden sind. Die Stimmen unten sind Beispiele dafür, wie Rückmeldungen aussehen werden, keine echten Kundenzitate.</p>
+    </div>
     <div class="review-grid">
       <figure class="review"><div class="stars">★★★★★</div><p>„Endlich jemand, der zurückruft und dann auch kommt. Der Garten sieht wieder richtig gepflegt aus – und der Preis war genau wie besprochen.“</p><figcaption class="review__who"><span class="review__ava">MK</span><span><b>M. Krause</b><small>Reihenhaus, Berlin-Karow</small></span></figcaption></figure>
       <figure class="review"><div class="stars">★★★★★</div><p>„Wir lassen als WEG Treppenhaus, Außenanlage und Winterdienst über Grünhof machen. Dokumentation kommt monatlich.“</p><figcaption class="review__who"><span class="review__ava">ST</span><span><b>S. Timmermann</b><small>WEG-Verwaltung, Pankow</small></span></figcaption></figure>
@@ -700,6 +761,10 @@ section[id]{scroll-margin-top:96px}
 
   <section class="section"><div class="container">
     <div class="center stack" style="margin-bottom:2.6rem"><span class="eyebrow">Gut zu wissen</span><h2>Häufige Fragen</h2></div>
+    <p class="center" style="margin:0;font-weight:700;color:var(--ink-soft)">Wir kommen nach:</p>
+    <div class="gebiet__list" style="margin-bottom:2.6rem">
+      <span class="gebiet__chip is-core">Mitte</span><span class="gebiet__chip is-core">Pankow</span><span class="gebiet__chip is-core">Friedrichshain-Kreuzberg</span><span class="gebiet__chip is-core">Charlottenburg-Wilmersdorf</span><span class="gebiet__chip is-core">Lichtenberg</span><span class="gebiet__chip is-core">Reinickendorf</span><span class="gebiet__chip is-core">Treptow-Köpenick</span><span class="gebiet__chip is-core">Marzahn-Hellersdorf</span><span class="gebiet__chip is-core">Steglitz-Zehlendorf</span><span class="gebiet__chip is-core">Tempelhof-Schöneberg</span><span class="gebiet__chip is-core">Neukölln</span><span class="gebiet__chip is-core">Spandau</span><span class="gebiet__chip">Bernau</span><span class="gebiet__chip">Hennigsdorf</span><span class="gebiet__chip">Teltow</span><span class="gebiet__chip">Königs Wusterhausen</span>
+    </div>
     <div class="faq">
       <details class="faq-item" open><summary>In welchem Gebiet sind Sie tätig?</summary><p>In ganz Berlin sowie im direkten Umland (Bernau, Hennigsdorf, Teltow, Königs Wusterhausen). Bei größeren Aufträgen auch darüber hinaus.</p></details>
       <details class="faq-item"><summary>Was kostet der Vor-Ort-Termin?</summary><p>Eine kleine Anfahrtspauschale – bei Auftrag verrechnen wir sie voll, dann kostet der Termin effektiv nichts.</p></details>
@@ -718,17 +783,13 @@ section[id]{scroll-margin-top:96px}
         <span class="form-error"></span>
       </div>
       <div class="form-row">
-        <label for="kontakt-email">E-Mail *</label>
-        <input type="email" id="kontakt-email" name="email" autocomplete="email" placeholder="du@beispiel.de" required>
+        <label for="kontakt-kontakt">E-Mail oder Telefon *</label>
+        <input type="text" id="kontakt-kontakt" name="kontakt" autocomplete="email" placeholder="max@beispiel.de oder 0170 1234567" required>
         <span class="form-error"></span>
       </div>
       <div class="form-row">
-        <label for="kontakt-telefon">Telefon (optional)</label>
-        <input type="tel" id="kontakt-telefon" name="telefon" autocomplete="tel" placeholder="Für Rückfragen">
-      </div>
-      <div class="form-row">
-        <label for="kontakt-leistung">Worum geht es? *</label>
-        <select id="kontakt-leistung" name="leistung" required>
+        <label for="kontakt-leistung">Worum geht es? (optional)</label>
+        <select id="kontakt-leistung" name="leistung">
           <option value="">Bitte wählen</option>
           <option value="garten">Gartenpflege</option>
           <option value="hausmeister">Hausmeisterservice / Kleinreparaturen</option>
@@ -747,16 +808,16 @@ section[id]{scroll-margin-top:96px}
       </div>
       <label class="form-check">
         <input type="checkbox" id="kontakt-datenschutz" name="datenschutz" required>
-        <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung dieser Anfrage genutzt und per E-Mail beantwortet werden. *</span>
+        <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung dieser Anfrage genutzt und beantwortet werden. *</span>
       </label>
       <div class="form-actions">
         <button type="submit" class="btn btn--gold btn--lg">Anfrage senden</button>
-        <a class="btn btn--ghost btn--lg" href="tel:+4930000000">Anrufen</a>
+        <a class="btn btn--wa btn--lg" href="#foto" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?">📷 Foto per WhatsApp</a>
       </div>
     </form>
 
     <div class="kontakt-result" id="kontakt-result" hidden>
-      <p style="margin:0 0 .3rem">Es öffnet sich gleich dein E-Mail-Programm mit dieser vorausgefüllten Nachricht – bitte dort auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopiere den Text und schick ihn direkt an <a id="kontakt-mail-link" href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
+      <p style="margin:0 0 .3rem">Es öffnet sich gleich dein E-Mail-Programm mit dieser vorausgefüllten Nachricht – bitte dort auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopiere den Text und schick ihn direkt an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
       <textarea id="kontakt-result-text" readonly></textarea>
       <div class="form-actions"><button type="button" class="btn btn--ghost" id="kontakt-copy">Text kopieren</button></div>
     </div>
@@ -768,18 +829,62 @@ section[id]{scroll-margin-top:96px}
     <div><div class="footer-brand"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M12 30 32 12l20 18v22a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2Z" fill="#8FBF9E"/></svg> Grünhof Berlin</div><p>Ihr Partner für Haus &amp; Garten in Berlin und Umland. Zuverlässig, versichert, mit Festpreis-Garantie.</p></div>
     <div><h4>Leistungen</h4><ul><li><a href="#leistungen">Gartenpflege</a></li><li><a href="#leistungen">Hausmeisterservice</a></li><li><a href="#leistungen">Winterdienst</a></li><li><a href="#leistungen">Objektbetreuung</a></li></ul></div>
     <div><h4>Shop</h4><ul><li><a href="#shop">Gartenwerkzeug</a></li><li><a href="#shop">Rasen &amp; Pflege</a></li><li><a href="#shop">Winterdienst</a></li></ul></div>
-    <div><h4>Kontakt</h4><ul><li><a href="tel:+4930000000">+49 30 000000</a></li><li><a href="mailto:hallo@gruenhof-berlin.de">hallo@gruenhof-berlin.de</a></li><li>Musterstraße 12, 10115 Berlin</li></ul></div>
+    <div><h4>Kontakt</h4><ul><li><a href="#kontakt" data-biz-tel data-biz-tel-text>Telefonnummer eintragen</a></li><li><a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich habe eine Frage.">WhatsApp: Foto senden, Festpreis erhalten</a></li><li><a href="#kontakt" data-biz-mail data-biz-mail-text>E-Mail eintragen</a></li><li>Mo–Sa 7–18 Uhr</li><li data-biz-adresse>Adresse eintragen</li></ul></div>
   </div>
   <div class="footer-bottom"><span>© 2026 Grünhof Berlin · Inhaber Paul Schuster</span><span>Impressum · Datenschutz · AGB · Widerruf</span></div>
 </div></footer>
 
-<div class="mcta"><a href="#kontakt" class="btn btn--block">Angebot anfragen</a><a href="tel:+4930000000" class="btn btn--ghost btn--block">Anrufen</a></div>
+<div class="mcta"><a href="#kontakt" data-biz-tel class="btn btn--ghost btn--block">📞 Anrufen</a><a href="#foto" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--block">📷 Foto senden</a></div>
 
-<a href="#kontakt" class="float-cta" id="float-cta"><span class="float-cta__pulse" aria-hidden="true"></span>💬 Festpreis anfragen</a>
+<a href="#foto" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="float-cta" id="float-cta"><span class="float-cta__pulse" aria-hidden="true"></span>📷 Foto schicken – Festpreis</a>
 
 <script>
 (function () {
   "use strict";
+
+  /* ==========================================================
+     KONTAKTDATEN – hier eintragen, sonst nirgends.
+     Diese Werte füllen automatisch: Header, Hero-Buttons, alle
+     WhatsApp-Links, das Formular, die Fußzeile und die mobile
+     Leiste. Solange hier Platzhalter stehen, laufen die
+     Anruf- und WhatsApp-Buttons ins Leere.
+     ========================================================== */
+  var BUSINESS = {
+    telefonAnzeige: '+49 30 000000',    // so steht die Nummer auf der Seite
+    telefonWahl: '+4930000000',         // das wird beim Antippen gewählt
+    whatsapp: '4930000000',             // nur Ziffern, mit Ländervorwahl, ohne +
+    email: 'hallo@gruenhof-berlin.de',
+    adresse: 'Musterstraße 12, 10115 Berlin',
+    zeiten: 'Mo–Sa 7–18 Uhr'
+  };
+
+  function applyBusinessData() {
+    document.querySelectorAll('[data-biz-tel]').forEach(function (el) {
+      el.setAttribute('href', 'tel:' + BUSINESS.telefonWahl);
+    });
+    document.querySelectorAll('[data-biz-tel-text]').forEach(function (el) {
+      el.textContent = BUSINESS.telefonAnzeige;
+    });
+    document.querySelectorAll('[data-biz-wa]').forEach(function (el) {
+      var text = el.getAttribute('data-wa-text') || 'Hallo Grünhof Berlin, ich habe eine Frage.';
+      el.setAttribute('href', 'https://wa.me/' + BUSINESS.whatsapp + '?text=' + encodeURIComponent(text));
+      el.setAttribute('target', '_blank');
+      el.setAttribute('rel', 'noopener');
+    });
+    document.querySelectorAll('[data-biz-mail]').forEach(function (el) {
+      el.setAttribute('href', 'mailto:' + BUSINESS.email);
+    });
+    document.querySelectorAll('[data-biz-mail-text]').forEach(function (el) {
+      el.textContent = BUSINESS.email;
+    });
+    document.querySelectorAll('[data-biz-adresse]').forEach(function (el) {
+      el.textContent = BUSINESS.adresse;
+    });
+    document.querySelectorAll('[data-biz-zeiten]').forEach(function (el) {
+      el.textContent = BUSINESS.zeiten;
+    });
+  }
+  applyBusinessData();
 
   /* ---------- Mobiles Menü ---------- */
   var navToggle = document.getElementById('nav-toggle');
@@ -1146,7 +1251,7 @@ section[id]{scroll-margin-top:96px}
     var copyBtn = document.getElementById('kontakt-copy');
     var mailLink = document.getElementById('kontakt-mail-link');
 
-    var BUSINESS_EMAIL = 'hallo@gruenhof-berlin.de';
+    var BUSINESS_EMAIL = BUSINESS.email;
 
     function showError(row, message) {
       if (!row) return;
@@ -1162,23 +1267,24 @@ section[id]{scroll-margin-top:96px}
       e.preventDefault();
       var valid = true;
       var name = document.getElementById('kontakt-name');
-      var email = document.getElementById('kontakt-email');
-      var telefon = document.getElementById('kontakt-telefon');
+      var kontakt = document.getElementById('kontakt-kontakt');
       var leistung = document.getElementById('kontakt-leistung');
       var nachricht = document.getElementById('kontakt-nachricht');
       var datenschutz = document.getElementById('kontakt-datenschutz');
 
-      [name, email, leistung, nachricht].forEach(function (f) { clearError(f.closest('.form-row')); });
+      [name, kontakt, nachricht].forEach(function (f) { clearError(f.closest('.form-row')); });
       clearError(datenschutz.closest('.form-check'));
 
-      if (!name.value.trim()) { showError(name.closest('.form-row'), 'Bitte gib deinen Namen an.'); valid = false; }
+      if (!name.value.trim()) { showError(name.closest('.form-row'), 'Bitte geben Sie Ihren Namen an.'); valid = false; }
 
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(email.value.trim())) { showError(email.closest('.form-row'), 'Bitte gib eine gültige E-Mail-Adresse an.'); valid = false; }
+      // Ein Feld für beides: Wer lieber angerufen wird, soll keine
+      // E-Mail-Adresse erfinden müssen.
+      var kontaktWert = kontakt.value.trim();
+      var istMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(kontaktWert);
+      var istTelefon = /^[+\d][\d\s/().-]{5,}$/.test(kontaktWert);
+      if (!istMail && !istTelefon) { showError(kontakt.closest('.form-row'), 'Bitte eine E-Mail-Adresse oder Telefonnummer angeben.'); valid = false; }
 
-      if (!leistung.value) { showError(leistung.closest('.form-row'), 'Bitte wähle ein Anliegen aus.'); valid = false; }
-
-      if (nachricht.value.trim().length < 10) { showError(nachricht.closest('.form-row'), 'Bitte beschreibe kurz, worum es geht (mind. 10 Zeichen).'); valid = false; }
+      if (nachricht.value.trim().length < 10) { showError(nachricht.closest('.form-row'), 'Bitte beschreiben Sie kurz, worum es geht (mind. 10 Zeichen).'); valid = false; }
 
       if (!datenschutz.checked) {
         datenschutz.closest('.form-check').classList.add('has-error');
@@ -1191,18 +1297,18 @@ section[id]{scroll-margin-top:96px}
         return;
       }
 
-      var phone = telefon.value.trim();
-      var leistungLabel = leistung.options[leistung.selectedIndex].text;
+      var leistungLabel = leistung.value ? leistung.options[leistung.selectedIndex].text : 'Nicht angegeben';
       var bodyLines = [
         'Name: ' + name.value.trim(),
-        'E-Mail: ' + email.value.trim(),
-        phone ? 'Telefon: ' + phone : null,
+        (istMail ? 'E-Mail: ' : 'Telefon: ') + kontaktWert,
         'Anliegen: ' + leistungLabel,
         '',
         nachricht.value.trim()
-      ].filter(function (l) { return l !== null; });
-      var subjectPrefix = leistung.value === 'shop' ? 'Bestellung über Website: ' : 'Anfrage über Website: ';
-      var subject = subjectPrefix + leistungLabel;
+      ];
+      var subject;
+      if (leistung.value === 'shop') subject = 'Bestellung über Website: ' + leistungLabel;
+      else if (leistung.value) subject = 'Anfrage über Website: ' + leistungLabel;
+      else subject = 'Anfrage über die Website';
       var body = bodyLines.join('\n');
       var mailto = 'mailto:' + BUSINESS_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 
