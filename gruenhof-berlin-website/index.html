@@ -1607,7 +1607,16 @@ main.is-pdp > :not(#pdp){display:none}
     scene.addEventListener('pointerdown', function (e) {
       if (e.target === handle || handle.contains(e.target)) return;
       setP(pFromEvent(e.clientX));
+      dragging = true;
+      try { scene.setPointerCapture(e.pointerId); } catch (err) { /* ältere Browser */ }
+      e.preventDefault();
     });
+    scene.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      setP(pFromEvent(e.clientX));
+    });
+    scene.addEventListener('pointerup', function () { dragging = false; });
+    scene.addEventListener('pointercancel', function () { dragging = false; });
     handle.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowLeft') { setP(currentP() - 0.05); e.preventDefault(); }
       if (e.key === 'ArrowRight') { setP(currentP() + 0.05); e.preventDefault(); }
