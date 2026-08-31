@@ -159,6 +159,7 @@ section[id]{scroll-margin-top:96px}
 .site-footer ul{list-style:none;padding:0;margin:0;display:grid;gap:.35rem;font-size:.92rem}
 .footer-brand{font-family:var(--font-display);font-size:1.28rem;color:#fff;display:flex;align-items:center;gap:.5rem;margin-bottom:.8rem}
 .footer-brand .mark{width:28px;height:28px}
+.footer-legal{display:inline-flex;flex-wrap:wrap;gap:.3em;align-items:center}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:2.6rem;padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.84rem;color:#97A39B}
 .manifesto{background:linear-gradient(160deg,#152219,#0d1410);color:#fff;text-align:center;overflow:hidden;position:relative}
 .manifesto .big{font-family:var(--font-display);font-size:clamp(1.7rem,5.2vw,3.1rem);line-height:1.25;max-width:22ch;margin:0 auto;text-wrap:balance}
@@ -506,6 +507,32 @@ section[id]{scroll-margin-top:96px}
 
 /* ---------- Produktseite ---------- */
 main.is-pdp > :not(#pdp){display:none}
+main.is-unterseite > :not(.unterseite){display:none}
+
+/* ---------- Rechtstexte als eigene Unterseiten ----------
+   Gleiche Technik wie die Produktseiten: eigene Adresse, aber versteckt –
+   die Startseite wird dadurch keinen Pixel länger. */
+.legal{padding-block:clamp(20px,4vw,44px) clamp(44px,7vw,88px)}
+.legal__wrap{max-width:760px;margin-inline:auto;padding-inline:var(--gutter)}
+.legal article[hidden]{display:none}
+.legal h1{font-size:clamp(1.9rem,5vw,2.6rem);margin-bottom:.6em}
+.legal h2{font-size:clamp(1.15rem,3vw,1.4rem);margin:2.2rem 0 .6rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.legal h2:first-of-type{border-top:0;padding-top:0}
+.legal h3{font-size:1.02rem;margin:1.4rem 0 .4rem}
+.legal p,.legal li{font-size:.97rem;line-height:1.7}
+.legal ul,.legal ol{padding-left:1.2rem;display:grid;gap:.4rem;margin:0 0 1rem}
+.legal dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.2rem;margin:0 0 1.2rem;font-size:.97rem}
+.legal dt{font-weight:700}
+.legal dd{margin:0}
+@media(max-width:560px){.legal dl{grid-template-columns:1fr;gap:.1rem 0}.legal dd{margin-bottom:.7rem}}
+.legal__hinweis{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:2rem}
+.legal__hinweis p{margin:0;font-size:.92rem}
+.legal__hinweis strong{display:block;margin-bottom:.3rem}
+.luecke{background:var(--accent-soft);border-bottom:2px dashed var(--accent);color:var(--brand-dark);padding:.05em .35em;border-radius:4px;font-weight:650;font-size:.94em}
+.legal__zurueck{display:inline-flex;align-items:center;gap:.4em;min-height:24px;font-weight:650;text-decoration:none;color:var(--brand-dark);margin-bottom:1.4rem}
+.legal__formular{background:var(--bg-warm);border:1px solid var(--line-strong);border-radius:var(--radius);padding:1.2rem 1.4rem;margin:1.2rem 0}
+.legal__formular p{margin:0 0 .7rem}
+.legal__formular p:last-child{margin:0}
 .pdp{padding-block:clamp(20px,4vw,44px) clamp(44px,7vw,88px)}
 .pdp__crumbs{font-size:.86rem;color:var(--ink-mute);margin-bottom:1.5rem}
 .pdp__crumbs a{color:var(--brand-dark);font-weight:650;text-decoration:none}
@@ -923,7 +950,199 @@ main.is-pdp > :not(#pdp){display:none}
     </div>
   </div></div></section>
 
-  <section class="pdp" id="pdp" hidden></section>
+  <section class="pdp unterseite" id="pdp" hidden></section>
+<section class="legal unterseite" id="legal" hidden><div class="legal__wrap"><article data-legal="impressum" hidden><a class="legal__zurueck" href="#start">← Zurück zur Startseite</a><h1>Impressum</h1><div class="legal__hinweis"><p><strong>Entwurf – bitte vor dem Start vervollständigen und prüfen lassen.</strong>Alle <span class="luecke">gelb markierten Stellen</span> müssen durch Ihre echten Angaben ersetzt werden. Dieser Text ist eine Vorlage, keine Rechtsberatung – lassen Sie ihn vor der Veröffentlichung von einer Anwältin oder einem Anwalt gegenlesen.</p></div>
+<h2>Angaben gemäß § 5 DDG</h2>
+<dl>
+<dt>Anbieter</dt><dd>Grünhof Berlin · Hausmeister- &amp; Gartenservice</dd>
+<dt>Inhaber</dt><dd>Paul Schuster</dd>
+<dt>Anschrift</dt><dd><span class="luecke">Straße und Hausnummer</span><br><span class="luecke">PLZ</span> Berlin</dd>
+<dt>Telefon</dt><dd><span data-biz-tel-text>Telefonnummer eintragen</span></dd>
+<dt>E-Mail</dt><dd><a data-biz-mail data-biz-mail-text>E-Mail eintragen</a></dd>
+</dl>
+<p>Die Anschrift muss eine ladungsfähige Adresse sein – ein Postfach genügt nicht. Wenn Sie von zu Hause aus arbeiten, ist das Ihre Wohnanschrift.</p>
+
+<h2>Umsatzsteuer</h2>
+<p>Tragen Sie hier <strong>eine</strong> der beiden Varianten ein und löschen Sie die andere:</p>
+<ul>
+<li><strong>Mit Umsatzsteuer:</strong> Umsatzsteuer-Identifikationsnummer gemäß § 27&nbsp;a UStG: <span class="luecke">USt-IdNr.</span></li>
+<li><strong>Als Kleinunternehmer:</strong> Gemäß § 19 UStG erheben wir keine Umsatzsteuer und weisen diese daher nicht aus.</li>
+</ul>
+<p>Falls Sie keine USt-IdNr. haben, aber umsatzsteuerpflichtig sind, geben Sie stattdessen Ihre Steuernummer an: <span class="luecke">Steuernummer</span></p>
+
+<h2>Gewerbe und Aufsicht</h2>
+<dl>
+<dt>Gewerbeanmeldung</dt><dd>Angemeldet beim <span class="luecke">zuständiges Bezirksamt / Gewerbeamt</span></dd>
+<dt>Tätigkeit</dt><dd>Hausmeisterservice, Garten- und Landschaftspflege, Kleinreparaturen, Entrümpelung, Winterdienst</dd>
+</dl>
+<p>Für zulassungsfreie Handwerke wie Gebäudereinigung und Garten­pflege ist in der Regel eine Eintragung bei der Handwerkskammer Berlin nötig. Falls das auf Sie zutrifft, ergänzen Sie: Handwerkskammer Berlin, Blücherstraße 68, 10961 Berlin.</p>
+
+<h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+<p>Paul Schuster, Anschrift wie oben.</p>
+
+<h2>Berufshaftpflichtversicherung</h2>
+<dl>
+<dt>Versicherer</dt><dd><span class="luecke">Name der Versicherung</span></dd>
+<dt>Geltungsraum</dt><dd><span class="luecke">z. B. Deutschland</span></dd>
+</dl>
+<p>Diese Angabe ist freiwillig, passt aber zu dem Versprechen „versichert“ auf der Startseite.</p>
+
+<h2>Verbraucherstreitbeilegung</h2>
+<p>Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).</p>
+<p><em>Hinweis zum Prüfen:</em> Die europäische Plattform zur Online-Streitbeilegung wurde eingestellt. Ein Link darauf gehört nicht mehr ins Impressum. Lassen Sie den aktuellen Stand bestätigen, bevor Sie online gehen.</p>
+
+<h2>Bildnachweis</h2>
+<p>Alle Abbildungen stammen von Grünhof Berlin oder sind eigens für diese Seite gezeichnet. Falls Sie später fremde Fotos einsetzen, gehören die Nachweise hierher.</p>
+</article><article data-legal="datenschutz" hidden><a class="legal__zurueck" href="#start">← Zurück zur Startseite</a><h1>Datenschutzerklärung</h1><div class="legal__hinweis"><p><strong>Entwurf – bitte vor dem Start vervollständigen und prüfen lassen.</strong>Alle <span class="luecke">gelb markierten Stellen</span> müssen durch Ihre echten Angaben ersetzt werden. Dieser Text ist eine Vorlage, keine Rechtsberatung – lassen Sie ihn vor der Veröffentlichung von einer Anwältin oder einem Anwalt gegenlesen.</p></div>
+<h2>1. Verantwortlicher</h2>
+<p>Verantwortlich für die Verarbeitung Ihrer Daten auf dieser Website ist:</p>
+<dl>
+<dt>Grünhof Berlin</dt><dd>Inhaber Paul Schuster<br><span class="luecke">Straße und Hausnummer</span>, <span class="luecke">PLZ</span> Berlin</dd>
+<dt>E-Mail</dt><dd><a data-biz-mail data-biz-mail-text>E-Mail eintragen</a></dd>
+<dt>Telefon</dt><dd><span data-biz-tel-text>Telefonnummer eintragen</span></dd>
+</dl>
+<p>Einen Datenschutzbeauftragten müssen wir nicht benennen; die gesetzliche Schwelle erreichen wir nicht.</p>
+
+<h2>2. Wenn Sie nur die Seite ansehen</h2>
+<p>Beim Aufruf der Seite übermittelt Ihr Browser technisch notwendige Daten an unseren Hoster: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, übertragene Datenmenge, Browsertyp und Betriebssystem. Diese Daten sind nötig, damit die Seite überhaupt ausgeliefert werden kann, und dienen der Sicherheit des Servers.</p>
+<p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO – unser berechtigtes Interesse an einem stabilen, sicheren Betrieb.</p>
+<dl>
+<dt>Hoster</dt><dd><span class="luecke">Name und Anschrift Ihres Anbieters</span></dd>
+<dt>Auftragsverarbeitung</dt><dd>Mit dem Hoster besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO. <span class="luecke">bestätigen oder abschließen</span></dd>
+<dt>Speicherdauer</dt><dd><span class="luecke">üblich: 7 bis 30 Tage</span></dd>
+</dl>
+
+<h2>3. Anfrageformular</h2>
+<p>Wenn Sie das Formular ausfüllen, verarbeiten wir Ihren Namen, Ihre E-Mail-Adresse oder Telefonnummer, die gewählte Leistung und Ihre Nachricht – ausschließlich, um Ihre Anfrage zu beantworten und ein Angebot zu machen.</p>
+<p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen auf Ihre Anfrage hin). Zusätzlich holen wir Ihre Einwilligung über das Kästchen im Formular ein, Art. 6 Abs. 1 lit. a DSGVO. Diese Einwilligung können Sie jederzeit formlos widerrufen; die bis dahin erfolgte Verarbeitung bleibt rechtmäßig.</p>
+<p><strong>Wichtig zur Funktionsweise:</strong> Das Formular sendet nichts an einen Server. Es öffnet Ihr eigenes E-Mail-Programm mit einem fertigen Text. Erst wenn Sie dort auf „Senden“ klicken, verlässt die Nachricht Ihr Gerät – über Ihren eigenen E-Mail-Anbieter.</p>
+
+<h2>4. Bestellung im Gartenshop</h2>
+<p>Für eine Bestellung verarbeiten wir zusätzlich Ihre Lieferanschrift, die bestellten Artikel und die gewählte Zustellart. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).</p>
+<p>Auch die Bestellung läuft über Ihr E-Mail-Programm, nicht über einen Server von uns. Zahlungsdaten erheben wir auf dieser Seite nicht.</p>
+<p>Rechnungs- und Bestelldaten bewahren wir nach § 147 AO und § 257 HGB sechs bzw. zehn Jahre auf. Anfragen ohne Auftrag löschen wir spätestens nach <span class="luecke">z. B. 12 Monaten</span>.</p>
+
+<h2>5. WhatsApp</h2>
+<p>Auf mehreren Knöpfen bieten wir den Kontakt über WhatsApp an. Wenn Sie darauf tippen, öffnet sich WhatsApp auf Ihrem Gerät – erst dann entsteht eine Verbindung zu WhatsApp. Allein durch den Besuch dieser Seite werden keine Daten an WhatsApp übertragen.</p>
+<p>Anbieter ist WhatsApp Ireland Limited, Merrion Road, Dublin 4, Irland. Beim Schreiben über WhatsApp werden Ihre Telefonnummer, Ihre Nachricht und Metadaten von WhatsApp verarbeitet, auch auf Servern in den USA. Auf diese Verarbeitung haben wir keinen Einfluss. Es gilt die Datenschutzerklärung von WhatsApp.</p>
+<p>Rechtsgrundlage für unser Angebot dieses Wegs ist Art. 6 Abs. 1 lit. f DSGVO (schnelle Erreichbarkeit für Ihre Anfrage). Wenn Sie das vermeiden möchten, nutzen Sie Telefon, E-Mail oder das Formular – alle drei landen bei derselben Person.</p>
+
+<h2>6. Speicherung in Ihrem Browser</h2>
+<p>Wir setzen keine Werbe- oder Analyse-Cookies. Wir tracken Sie nicht.</p>
+<p>Wenn Sie im Cookie-Hinweis auf <strong>Einverstanden</strong> klicken, speichert die Seite zwei Dinge lokal in Ihrem Browser: Ihre Entscheidung und den Inhalt Ihres Warenkorbs. Diese Daten bleiben auf Ihrem Gerät und erreichen uns nie.</p>
+<p>Klicken Sie auf <strong>Ablehnen</strong>, wird dauerhaft nichts gespeichert; der Warenkorb gilt dann nur für den aktuellen Besuch. Rechtsgrundlage ist Ihre Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Sie können die Speicherung jederzeit über die Einstellungen Ihres Browsers löschen.</p>
+
+<h2>7. Empfänger Ihrer Daten</h2>
+<p>Wir geben Ihre Daten nicht zu Werbezwecken weiter. Empfänger sind nur, soweit für die Leistung nötig: unser Hoster, unser Steuerbüro im Rahmen der Buchführung und – bei Versand – das beauftragte Versandunternehmen.</p>
+
+<h2>8. Ihre Rechte</h2>
+<p>Sie haben jederzeit das Recht auf</p>
+<ul>
+<li>Auskunft über die zu Ihnen gespeicherten Daten (Art. 15 DSGVO),</li>
+<li>Berichtigung unrichtiger Daten (Art. 16 DSGVO),</li>
+<li>Löschung (Art. 17 DSGVO),</li>
+<li>Einschränkung der Verarbeitung (Art. 18 DSGVO),</li>
+<li>Datenübertragbarkeit (Art. 20 DSGVO),</li>
+<li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO),</li>
+<li>Widerruf erteilter Einwilligungen mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO).</li>
+</ul>
+<p>Eine formlose Nachricht an unsere E-Mail-Adresse genügt.</p>
+
+<h2>9. Beschwerderecht</h2>
+<p>Sie können sich bei einer Aufsichtsbehörde beschweren. Für Berlin zuständig ist die Berliner Beauftragte für Datenschutz und Informationsfreiheit, Alt-Moabit 59–61, 10555 Berlin.</p>
+
+<h2>10. Keine automatisierte Entscheidungsfindung</h2>
+<p>Wir setzen keine automatisierte Entscheidungsfindung und kein Profiling nach Art. 22 DSGVO ein.</p>
+
+<h2>11. Stand</h2>
+<p>Stand dieser Erklärung: <span class="luecke">Datum eintragen</span>. Wir passen sie an, wenn sich die Verarbeitung ändert.</p>
+</article><article data-legal="agb" hidden><a class="legal__zurueck" href="#start">← Zurück zur Startseite</a><h1>Allgemeine Geschäftsbedingungen</h1><div class="legal__hinweis"><p><strong>Entwurf – bitte vor dem Start vervollständigen und prüfen lassen.</strong>Alle <span class="luecke">gelb markierten Stellen</span> müssen durch Ihre echten Angaben ersetzt werden. Dieser Text ist eine Vorlage, keine Rechtsberatung – lassen Sie ihn vor der Veröffentlichung von einer Anwältin oder einem Anwalt gegenlesen.</p></div>
+<h2>§ 1 Geltungsbereich</h2>
+<p>Diese Bedingungen gelten für alle Verträge zwischen Grünhof Berlin, Inhaber Paul Schuster (nachfolgend „wir“), und unseren Kundinnen und Kunden über Dienstleistungen rund um Haus, Hof und Garten sowie über den Verkauf von Waren aus unserem Gartenshop.</p>
+<p>Abweichende Bedingungen des Kunden gelten nur, wenn wir ihnen schriftlich zustimmen.</p>
+
+<h2>§ 2 Wie ein Vertrag zustande kommt</h2>
+<p>Die Darstellung von Leistungen und Waren auf dieser Website ist kein bindendes Angebot, sondern eine Einladung an Sie, uns eine Anfrage oder Bestellung zu schicken.</p>
+<p>Mit dem Absenden des Formulars oder der Bestellung geben Sie ein Angebot ab. Der Vertrag kommt zustande, wenn wir ihn per E-Mail bestätigen oder mit der Leistung beginnen. Bis dahin ist nichts verbindlich – auch der Versand ist es nicht.</p>
+
+<h2>§ 3 Preise, Festpreis und Besichtigung</h2>
+<p>Für Dienstleistungen nennen wir nach Foto oder Besichtigung einen Festpreis. Dieser Preis gilt für den beschriebenen Umfang. Stellt sich vor Ort ein deutlich größerer Umfang heraus, sprechen wir Sie an, bevor wir weiterarbeiten – ohne Ihre Zustimmung entstehen keine Mehrkosten.</p>
+<p>Ist für die Einschätzung ein Vor-Ort-Termin nötig, berechnen wir eine Anfahrtspauschale von <span class="luecke">Betrag</span>, die wir bei Auftragserteilung vollständig verrechnen.</p>
+<p>Alle Preise verstehen sich <span class="luecke">inklusive / zuzüglich</span> der gesetzlichen Umsatzsteuer.</p>
+
+<h2>§ 4 Zahlung</h2>
+<p>Die Vergütung wird nach Abnahme der Leistung fällig, zahlbar innerhalb von <span class="luecke">z. B. 14</span> Tagen nach Rechnungsdatum ohne Abzug.</p>
+<p>20 % der Lohnkosten für haushaltsnahe Dienstleistungen und Handwerkerleistungen können Sie nach § 35a EStG steuerlich geltend machen. Dafür weisen wir die Lohnkosten auf der Rechnung gesondert aus. Voraussetzung ist eine unbare Zahlung – bitte überweisen Sie, zahlen Sie nicht bar.</p>
+
+<h2>§ 5 Durchführung und Mitwirkung</h2>
+<p>Termine stimmen wir vorher ab. Können wir einen Termin nicht halten, melden wir uns rechtzeitig und bieten einen neuen an.</p>
+<p>Sie sorgen dafür, dass wir zur vereinbarten Zeit auf das Grundstück kommen und – wo nötig – Strom und Wasser nutzen können. Müssen wir unverrichteter Dinge wieder abfahren, weil der Zugang fehlt, können wir die Anfahrt berechnen.</p>
+<p>Sie müssen während der Arbeit nicht anwesend sein, wenn wir den Zugang anders geregelt haben.</p>
+
+<h2>§ 6 Laufzeit und Kündigung von Abos</h2>
+<p>Regelmäßige Leistungen (Garten-Abo, Objektbetreuung) laufen auf unbestimmte Zeit und sind <strong>monatlich zum Monatsende kündbar</strong> – von beiden Seiten, formlos in Textform, ohne Angabe von Gründen. Es gibt keine Mindestlaufzeit und keine automatische Verlängerung um längere Zeiträume.</p>
+<p>Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt.</p>
+
+<h2>§ 7 Mängel</h2>
+<p>Sind Sie mit dem Ergebnis nicht zufrieden, sagen Sie uns das. Wir bessern nach. Erst wenn eine Nachbesserung fehlschlägt, kommen Minderung oder Rücktritt in Betracht.</p>
+<p>Für Waren aus dem Gartenshop gilt die gesetzliche Mängelhaftung von zwei Jahren ab Erhalt.</p>
+
+<h2>§ 8 Haftung</h2>
+<p>Für Schäden aus der Verletzung von Leben, Körper oder Gesundheit sowie bei Vorsatz und grober Fahrlässigkeit haften wir unbeschränkt nach den gesetzlichen Vorschriften.</p>
+<p>Bei einfacher Fahrlässigkeit haften wir nur bei Verletzung einer wesentlichen Vertragspflicht – also einer Pflicht, deren Erfüllung den Vertrag überhaupt erst möglich macht und auf die Sie vertrauen dürfen – und begrenzt auf den vertragstypisch vorhersehbaren Schaden.</p>
+<p>Wir unterhalten eine Betriebshaftpflichtversicherung. Angaben dazu finden Sie im Impressum.</p>
+
+<h2>§ 9 Waren aus dem Gartenshop</h2>
+<p>Die Zustellart wählen Sie bei der Bestellung: Abholung nach Absprache in Berlin, Mitnahme zum nächsten Termin oder Versand. Bei Versand nennen wir die Kosten in der Auftragsbestätigung, bevor etwas verbindlich wird.</p>
+<p>Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum.</p>
+
+<h2>§ 10 Schlussbestimmungen</h2>
+<p>Es gilt deutsches Recht. Ist der Kunde Verbraucher, bleiben zwingende Verbraucherschutzvorschriften seines Aufenthaltsstaats unberührt.</p>
+<p>Sollte eine Bestimmung unwirksam sein, bleibt der übrige Vertrag wirksam.</p>
+<p>Stand: <span class="luecke">Datum eintragen</span></p>
+</article><article data-legal="widerruf" hidden><a class="legal__zurueck" href="#start">← Zurück zur Startseite</a><h1>Widerrufsbelehrung</h1><div class="legal__hinweis"><p><strong>Entwurf – bitte vor dem Start vervollständigen und prüfen lassen.</strong>Alle <span class="luecke">gelb markierten Stellen</span> müssen durch Ihre echten Angaben ersetzt werden. Dieser Text ist eine Vorlage, keine Rechtsberatung – lassen Sie ihn vor der Veröffentlichung von einer Anwältin oder einem Anwalt gegenlesen.</p></div>
+<p>Diese Belehrung gilt für Verbraucherinnen und Verbraucher – also wenn Sie den Vertrag zu privaten Zwecken schließen und er im Fernabsatz oder außerhalb unserer Geschäftsräume zustande kommt.</p>
+
+<h2>Widerrufsrecht</h2>
+<p>Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
+<p>Die Widerrufsfrist beträgt vierzehn Tage</p>
+<ul>
+<li><strong>bei Dienstleistungen</strong> ab dem Tag des Vertragsabschlusses;</li>
+<li><strong>bei Waren aus dem Gartenshop</strong> ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter die Ware in Besitz genommen haben.</li>
+</ul>
+<p>Um Ihr Widerrufsrecht auszuüben, müssen Sie uns</p>
+<dl>
+<dt>Grünhof Berlin</dt><dd>Inhaber Paul Schuster<br><span class="luecke">Straße und Hausnummer</span>, <span class="luecke">PLZ</span> Berlin</dd>
+<dt>E-Mail</dt><dd><a data-biz-mail data-biz-mail-text>E-Mail eintragen</a></dd>
+<dt>Telefon</dt><dd><span data-biz-tel-text>Telefonnummer eintragen</span></dd>
+</dl>
+<p>mittels einer eindeutigen Erklärung – zum Beispiel per Brief oder E-Mail – über Ihren Entschluss informieren. Sie können dafür das Muster unten verwenden, müssen es aber nicht.</p>
+<p>Zur Wahrung der Frist genügt es, dass Sie die Mitteilung vor Ablauf der Frist absenden.</p>
+
+<h2>Folgen des Widerrufs</h2>
+<p>Wenn Sie widerrufen, zahlen wir Ihnen alle Zahlungen zurück, die wir von Ihnen erhalten haben, einschließlich der Lieferkosten – ausgenommen zusätzliche Kosten, die daraus entstehen, dass Sie eine andere Art der Lieferung als die von uns angebotene günstigste Standardlieferung gewählt haben.</p>
+<p>Die Rückzahlung erfolgt unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag, an dem Ihr Widerruf bei uns eingegangen ist. Wir verwenden dasselbe Zahlungsmittel wie bei der ursprünglichen Zahlung; Entgelte entstehen Ihnen dadurch nicht.</p>
+<p>Bei Waren können wir die Rückzahlung verweigern, bis wir die Ware zurückerhalten haben oder Sie den Nachweis der Rücksendung erbracht haben. Sie tragen die unmittelbaren Kosten der Rücksendung und haften für einen Wertverlust nur, wenn dieser auf einen Umgang zurückzuführen ist, der zur Prüfung der Beschaffenheit nicht notwendig war.</p>
+
+<h2>Vorzeitiges Erlöschen bei Dienstleistungen</h2>
+<p>Wenn Sie ausdrücklich verlangen, dass wir vor Ablauf der Widerrufsfrist mit der Arbeit beginnen, schulden Sie uns bei einem Widerruf einen angemessenen Betrag für die bereits erbrachte Leistung. Ist die Dienstleistung auf Ihren ausdrücklichen Wunsch hin vollständig erbracht, erlischt Ihr Widerrufsrecht.</p>
+
+<h2>Ausnahmen</h2>
+<p>Ein Widerrufsrecht besteht nicht bei Waren, die nach Ihren Vorgaben angefertigt oder eindeutig auf Ihre persönlichen Bedürfnisse zugeschnitten sind, sowie bei schnell verderblichen Waren.</p>
+
+<h2>Muster-Widerrufsformular</h2>
+<div class="legal__formular">
+<p><em>Wenn Sie den Vertrag widerrufen wollen, füllen Sie dieses Formular aus und senden Sie es zurück.</em></p>
+<p>An Grünhof Berlin, Inhaber Paul Schuster, <span class="luecke">Anschrift</span>, <span class="luecke">E-Mail</span>:</p>
+<p>Hiermit widerrufe(n) ich/wir den von mir/uns abgeschlossenen Vertrag über den Kauf der folgenden Waren / die Erbringung der folgenden Dienstleistung:</p>
+<p>_______________________________________________</p>
+<p>Bestellt am / erhalten am: _______________________</p>
+<p>Name: __________________________________________</p>
+<p>Anschrift: ______________________________________</p>
+<p>Datum und Unterschrift (nur auf Papier): __________</p>
+</div>
+</article></div></section>
+
 </main>
 
 <footer class="site-footer"><div class="container">
@@ -933,7 +1152,7 @@ main.is-pdp > :not(#pdp){display:none}
     <div><h3>Shop</h3><ul><li><a href="#shop">Gartenwerkzeug</a></li><li><a href="#shop">Rasen &amp; Pflege</a></li><li><a href="#shop">Winterdienst</a></li></ul></div>
     <div><h3>Kontakt</h3><ul><li><a href="#kontakt" data-biz-tel data-biz-tel-text>Telefonnummer eintragen</a></li><li><a href="#kontakt" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich habe eine Frage.">WhatsApp: Foto senden, Festpreis erhalten</a></li><li><a href="#kontakt" data-biz-mail data-biz-mail-text>E-Mail eintragen</a></li><li>Mo–Sa 7–18 Uhr</li><li data-biz-adresse>Adresse eintragen</li></ul></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 Grünhof Berlin · Inhaber Paul Schuster</span><span>Impressum · Datenschutz · AGB · Widerruf</span></div>
+  <div class="footer-bottom"><span>© 2026 Grünhof Berlin · Inhaber Paul Schuster</span><span class="footer-legal"><a href="#impressum">Impressum</a> · <a href="#datenschutz">Datenschutz</a> · <a href="#agb">AGB</a> · <a href="#widerruf">Widerruf</a></span></div>
 </div></footer>
 
 <div class="mcta"><a href="#kontakt" data-biz-tel class="btn btn--ghost btn--block">📞 Anrufen</a><a href="#foto" data-biz-wa data-wa-text="Hallo Grünhof Berlin, ich schicke Ihnen gleich ein Foto. Was würde das kosten?" class="btn btn--wa btn--block">📷 Foto senden</a></div>
@@ -2156,18 +2375,51 @@ main.is-pdp > :not(#pdp){display:none}
       return name;
     }
 
+    // Rechtstexte liegen fertig im Markup und teilen sich die Unterseiten-Technik
+    // mit den Produktseiten: eigene Adresse, aber aus der Startseite ausgeblendet.
+    var legalEl = document.getElementById('legal');
+    var LEGAL_TITEL = {
+      impressum: 'Impressum',
+      datenschutz: 'Datenschutzerklärung',
+      agb: 'Allgemeine Geschäftsbedingungen',
+      widerruf: 'Widerrufsbelehrung'
+    };
+    function zeigeRechtstext(slug) {
+      if (!legalEl || !LEGAL_TITEL[slug]) return null;
+      var treffer = null;
+      legalEl.querySelectorAll('article[data-legal]').forEach(function (a) {
+        var passt = a.dataset.legal === slug;
+        a.hidden = !passt;
+        if (passt) treffer = a;
+      });
+      return treffer ? LEGAL_TITEL[slug] : null;
+    }
+
     function route() {
       var m = /^#produkt\/([a-z0-9_-]+)$/i.exec(location.hash || '');
       var name = m ? render(m[1]) : null;
       if (name) {
-        mainEl.classList.add('is-pdp');
+        mainEl.classList.add('is-pdp', 'is-unterseite');
         pdp.hidden = false;
+        if (legalEl) legalEl.hidden = true;
         document.title = name + ' – Grünhof Berlin';
         window.scrollTo({ top: 0, behavior: 'instant' });
         return;
       }
-      mainEl.classList.remove('is-pdp');
+      var rechtsName = zeigeRechtstext((location.hash || '').replace(/^#/, ''));
+      if (rechtsName) {
+        mainEl.classList.remove('is-pdp');
+        mainEl.classList.add('is-unterseite');
+        pdp.hidden = true;
+        legalEl.hidden = false;
+        document.title = rechtsName + ' – Grünhof Berlin';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        applyBusinessData();
+        return;
+      }
+      mainEl.classList.remove('is-pdp', 'is-unterseite');
       pdp.hidden = true;
+      if (legalEl) legalEl.hidden = true;
       document.title = grundTitel;
       // Sprungziel nachholen: beim Ausblenden konnte der Browser es nicht anspringen
       if (location.hash.length > 1) {
