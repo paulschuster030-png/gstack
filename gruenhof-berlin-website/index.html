@@ -389,6 +389,8 @@ section[id]{scroll-margin-top:96px}
 .cart-order__adresse{display:grid;gap:.7rem}
 .cart-order__adresse[hidden]{display:none}
 .cart-order__row{display:grid;grid-template-columns:.42fr .58fr;gap:.6rem}
+.cart-order__hinweis{margin:0;font-size:.78rem;color:var(--ink-soft);background:var(--brand-tint);border-radius:10px;padding:.6rem .8rem}
+.cart-order__hinweis[hidden]{display:none}
 .cart-order__check{display:flex;gap:.6rem;align-items:flex-start;font-size:.8rem;font-weight:400;color:var(--ink-soft);cursor:pointer}
 .cart-order__check input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:var(--brand)}
 .cart-order__check.is-fehler{color:var(--danger)}
@@ -561,9 +563,11 @@ main.is-pdp > :not(#pdp){display:none}
       <select id="best-weg">
         <option value="abholung">Abholung nach Absprache in Berlin</option>
         <option value="bringen">Zum nächsten Termin mitbringen</option>
+        <option value="versand">Versenden</option>
       </select>
     </label>
     <div class="cart-order__adresse" id="best-adresse" hidden>
+      <p class="cart-order__hinweis" id="best-versandhinweis" hidden>Die Versandkosten nennen wir Ihnen in der Bestätigung, bevor etwas verbindlich wird.</p>
       <label>Straße und Hausnummer *<input type="text" id="best-strasse" autocomplete="street-address" placeholder="Musterweg 1"><span class="fehler"></span></label>
       <div class="cart-order__row">
         <label>PLZ *<input type="text" id="best-plz" autocomplete="postal-code" inputmode="numeric" placeholder="10115"><span class="fehler"></span></label>
@@ -833,7 +837,7 @@ main.is-pdp > :not(#pdp){display:none}
       <article class="product-card" data-produkt="handschuhe"><div class="product-card__media"><svg viewBox="0 0 400 300" aria-hidden="true"><rect width="400" height="300" fill="#F3EFE7"/><rect width="400" height="300" fill="#7A5A3E" opacity=".14"/><circle cx="322" cy="60" r="70" fill="#7A5A3E" opacity=".12"/></svg><div class="product-card__badges"><span class="badge badge--best">Basics</span></div></div><div class="product-card__body"><span class="product-card__cat">Arbeitsschutz</span><a class="product-card__name" href="#produkt/handschuhe">Arbeitshandschuhe</a><p class="product-card__desc">Griffig, atmungsaktiv, mit verstärkten Fingerkuppen.</p><div class="product-card__foot"><span class="price-tag">14,90 €</span><button type="button" class="icon-btn js-add-to-cart" data-id="handschuhe" data-name="Arbeitshandschuhe" data-price="14.90" aria-label="Arbeitshandschuhe in den Warenkorb legen">＋</button></div></div></article>
       <article class="product-card" data-produkt="schubkarre"><div class="product-card__media"><svg viewBox="0 0 400 300" aria-hidden="true"><rect width="400" height="300" fill="#F3EFE7"/><rect width="400" height="300" fill="#4F8158" opacity=".14"/><circle cx="322" cy="60" r="70" fill="#4F8158" opacity=".12"/></svg><div class="product-card__badges"><span class="badge badge--best">Basics</span></div></div><div class="product-card__body"><span class="product-card__cat">Transport</span><a class="product-card__name" href="#produkt/schubkarre">Bau-Schubkarre 100 l</a><p class="product-card__desc">Verschweißter Rahmen, Luftreifen, kippsicher beladen.</p><div class="product-card__foot"><span class="price-tag">89,00 €</span><button type="button" class="icon-btn js-add-to-cart" data-id="schubkarre" data-name="Bau-Schubkarre 100 l" data-price="89.00" aria-label="Bau-Schubkarre in den Warenkorb legen">＋</button></div></div></article>
     </div>
-    <p class="center" style="margin-top:2rem;color:var(--ink-mute);font-size:.9rem">Abholung nach Absprache in Berlin · Mitnahme zum nächsten Termin möglich</p>
+    <p class="center" style="margin-top:2rem;color:var(--ink-mute);font-size:.9rem">Abholung nach Absprache in Berlin · Mitnahme zum nächsten Termin · Versand auf Wunsch</p>
 
     <div class="bundle">
       <h3>Oft zusammen gekauft</h3>
@@ -1261,10 +1265,15 @@ main.is-pdp > :not(#pdp){display:none}
   // muss sie nicht angeben.
   var wegFeld = document.getElementById('best-weg');
   var adressBlock = document.getElementById('best-adresse');
-  function adresseNoetig() { return wegFeld && wegFeld.value === 'bringen'; }
-  if (wegFeld && adressBlock) {
-    wegFeld.addEventListener('change', function () { adressBlock.hidden = !adresseNoetig(); });
+  var versandHinweis = document.getElementById('best-versandhinweis');
+  function adresseNoetig() {
+    return !!wegFeld && (wegFeld.value === 'bringen' || wegFeld.value === 'versand');
   }
+  function wegAnzeigen() {
+    if (adressBlock) adressBlock.hidden = !adresseNoetig();
+    if (versandHinweis) versandHinweis.hidden = !(wegFeld && wegFeld.value === 'versand');
+  }
+  if (wegFeld) wegFeld.addEventListener('change', wegAnzeigen);
 
   var orderBack = document.getElementById('cart-order-back');
   if (orderBack) orderBack.addEventListener('click', function () { orderModus(false); });
@@ -1321,9 +1330,10 @@ main.is-pdp > :not(#pdp){display:none}
         'Name: ' + name.value.trim(),
         'E-Mail: ' + wert,
         telefon.value.trim() ? 'Telefon: ' + telefon.value.trim() : null,
+        'Zustellung: ' + (wegFeld ? wegFeld.options[wegFeld.selectedIndex].text : 'Abholung'),
         adresseNoetig()
           ? 'Adresse: ' + strasse.value.trim() + ', ' + plz.value.trim() + ' ' + ort.value.trim()
-          : 'Abholung nach Absprache in Berlin',
+          : null,
         notiz.value.trim() ? 'Anmerkung: ' + notiz.value.trim() : null,
         '',
         bestellUebersicht()
@@ -1886,7 +1896,7 @@ main.is-pdp > :not(#pdp){display:none}
       var preis = el('div', 'pdp__price');
       preis.innerHTML = karte.querySelector('.price-tag').innerHTML;
       buy.appendChild(preis);
-      buy.appendChild(el('p', 'pdp__vat', 'Preis inklusive Mehrwertsteuer. Abholung nach Absprache in Berlin.'));
+      buy.appendChild(el('p', 'pdp__vat', 'Preis inklusive Mehrwertsteuer. Abholung, Mitnahme zum Termin oder Versand – Sie wählen im Warenkorb.'));
 
       var actions = el('div', 'pdp__actions');
       var add = el('button', 'btn btn--lg js-add-to-cart', 'In den Warenkorb');
@@ -1905,6 +1915,7 @@ main.is-pdp > :not(#pdp){display:none}
       buy.appendChild(liste([
         'Abholung nach Absprache in Berlin',
         'Mitnahme zum nächsten Gartentermin möglich',
+        'Versand auf Wunsch – Kosten nennen wir vorab',
         'Sperriges bringt Paul mit und baut es auf',
         'Fragen vorher? Einfach kurz anrufen'
       ], 'pdp__trust'));
