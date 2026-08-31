@@ -265,7 +265,9 @@ section[id]{scroll-margin-top:96px}
 .cart-item{display:grid;grid-template-columns:1fr auto auto;gap:.5rem 1rem;align-items:center;border-bottom:1px solid var(--line);padding-bottom:.8rem;font-size:.9rem}
 .cart-item__name{grid-column:1/-1;font-weight:650}
 .cart-item__qty{display:flex;align-items:center;gap:.5rem}
-.cart-item__qty button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);cursor:pointer;font-size:1rem;line-height:1;display:grid;place-items:center}
+.cart-item__qty button{width:34px;height:34px;border-radius:10px;border:1px solid var(--brand);background:var(--brand-tint);color:var(--brand-dark);cursor:pointer;font-size:1.2rem;font-weight:700;line-height:1;display:grid;place-items:center;transition:background .15s,color .15s}
+.cart-item__qty button:hover{background:var(--brand);color:#fff}
+.cart-item__qty > span{min-width:1.7em;text-align:center;font-weight:700;font-size:1rem}
 .cart-item__remove{background:none;border:0;color:var(--ink-mute);cursor:pointer;font-size:1rem}
 .cart-panel__foot{border-top:1px solid var(--line);padding-top:1rem;margin-top:1rem;display:grid;gap:.8rem}
 .cart-panel__total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem}
@@ -368,6 +370,27 @@ section[id]{scroll-margin-top:96px}
 .cart-upsell__add{flex:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--brand);background:var(--brand-tint);color:var(--brand-dark);font-size:1.1rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s}
 .cart-upsell__add:hover{background:var(--brand);color:#fff}
 .cart-upsell__add.is-added{animation:addPop .5s var(--ease)}
+
+/* ---------- Bestellung im Warenkorb ---------- */
+.cart-panel.is-ordering .cart-upsell,
+.cart-panel.is-ordering .cart-payment,
+.cart-panel.is-ordering #cart-checkout{display:none}
+.cart-panel.is-ordering .cart-panel__items{max-height:22vh}
+.cart-order{display:grid;gap:.7rem;border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem}
+.cart-order[hidden],.cart-order-result[hidden]{display:none}
+.cart-order h4{margin:0;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
+.cart-order label{display:grid;gap:.3rem;font-size:.82rem;font-weight:650;color:var(--ink)}
+.cart-order input[type=text]{font:inherit;width:100%;min-width:0;padding:.6em .8em;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink)}
+.cart-order input[type=text]:focus{outline:2px solid var(--brand);outline-offset:1px}
+.cart-order .fehler{font-size:.76rem;color:var(--danger);display:none;font-weight:600}
+.cart-order .is-fehler input[type=text]{border-color:var(--danger)}
+.cart-order .is-fehler .fehler{display:block}
+.cart-order__check{display:flex;gap:.6rem;align-items:flex-start;font-size:.8rem;font-weight:400;color:var(--ink-soft);cursor:pointer}
+.cart-order__check input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:var(--brand)}
+.cart-order__check.is-fehler{color:var(--danger)}
+.cart-order__back{background:none;border:0;color:var(--brand-dark);font:inherit;font-size:.85rem;font-weight:650;cursor:pointer;padding:.3rem 0;text-align:left;justify-self:start}
+.cart-order-result{border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem;font-size:.84rem;color:var(--ink-soft);display:grid;gap:.6rem}
+.cart-order-result textarea{width:100%;min-height:100px;font:inherit;font-size:.78rem;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);padding:.6em}
 
 /* ---------- Warenkorb-Zahlungsart ---------- */
 .cart-payment{border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem}
@@ -524,6 +547,20 @@ main.is-pdp > :not(#pdp){display:none}
       <span>💳 Kreditkarte / PayPal</span>
       <small>Bald verfügbar</small>
     </label>
+  </div>
+  <form class="cart-order" id="cart-order" hidden novalidate>
+    <h4>Ihre Daten für die Bestellung</h4>
+    <label>Name *<input type="text" id="best-name" autocomplete="name" placeholder="Vor- und Nachname"><span class="fehler"></span></label>
+    <label>E-Mail oder Telefon *<input type="text" id="best-kontakt" autocomplete="email" placeholder="max@beispiel.de oder 0170 1234567"><span class="fehler"></span></label>
+    <label>Anmerkung (optional)<input type="text" id="best-notiz" placeholder="Abholtermin, Rückfrage …"></label>
+    <label class="cart-order__check"><input type="checkbox" id="best-datenschutz"><span>Meine Angaben dürfen zur Bearbeitung dieser Bestellung genutzt werden. *</span></label>
+    <button type="submit" class="btn btn--block">Bestellung abschicken</button>
+    <button type="button" class="cart-order__back" id="cart-order-back">← Zurück zum Warenkorb</button>
+  </form>
+  <div class="cart-order-result" id="cart-order-result" hidden>
+    <p style="margin:0">Ihr E-Mail-Programm öffnet sich mit der fertigen Bestellung – dort bitte auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopieren Sie den Text und schicken ihn an <a id="best-mail-link" data-biz-mail data-biz-mail-text>E-Mail eintragen</a>.</p>
+    <textarea id="best-result-text" readonly></textarea>
+    <button type="button" class="btn btn--ghost btn--block" id="best-copy">Text kopieren</button>
   </div>
   <div class="cart-panel__foot">
     <div class="cart-panel__total"><span>Gesamt</span><span id="cart-total">0,00 €</span></div>
@@ -1018,6 +1055,7 @@ main.is-pdp > :not(#pdp){display:none}
     if (cartTotalEl) cartTotalEl.textContent = fmtPrice(total);
     if (cartCheckoutBtn) cartCheckoutBtn.disabled = cart.length === 0;
     if (cartPaymentEl) cartPaymentEl.hidden = cart.length === 0;
+    if (cart.length === 0) orderModus(false);
     renderUpsell();
   }
 
@@ -1172,20 +1210,103 @@ main.is-pdp > :not(#pdp){display:none}
   }
   if (kontaktLeistung) kontaktLeistung.addEventListener('change', updateFormFraming);
 
+  /* ---------- Bestellung im Warenkorb ----------
+     Shop-Bestellungen laufen bewusst NICHT über das Anfrageformular:
+     eine Bestellung ist etwas anderes als eine Anfrage nach einem
+     Gartentermin, und der Warenkorbinhalt hat dort nichts zu suchen. */
+  var orderForm = document.getElementById('cart-order');
+  var orderResult = document.getElementById('cart-order-result');
+  var orderResultText = document.getElementById('best-result-text');
+
+  function orderModus(an) {
+    if (!cartPanel) return;
+    cartPanel.classList.toggle('is-ordering', an);
+    if (orderForm) orderForm.hidden = !an;
+    if (!an && orderResult) orderResult.hidden = true;
+  }
+
+  function bestellUebersicht() {
+    var zeilen = cart.map(function (i) { return '- ' + i.qty + '× ' + i.name + ' (' + fmtPrice(i.price * i.qty) + ')'; });
+    var summe = cart.reduce(function (sum, i) { return sum + i.price * i.qty; }, 0);
+    return zeilen.join('\n') + '\nGesamt: ' + fmtPrice(summe);
+  }
+
   if (cartCheckoutBtn) {
     cartCheckoutBtn.addEventListener('click', function () {
       if (cart.length === 0) return;
-      var lines = cart.map(function (i) { return '- ' + i.qty + '× ' + i.name + ' (' + fmtPrice(i.price * i.qty) + ')'; });
-      var total = cart.reduce(function (sum, i) { return sum + i.price * i.qty; }, 0);
-      var summary = 'Bestellung aus dem Gartenshop:\n' + lines.join('\n') + '\nGesamt: ' + fmtPrice(total);
-      if (kontaktNachricht) kontaktNachricht.value = summary;
-      if (kontaktLeistung) kontaktLeistung.value = 'shop';
-      updateFormFraming();
-      closeCart();
-      var target = document.getElementById('kontakt');
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-      var nameField = document.getElementById('kontakt-name');
-      if (nameField) setTimeout(function () { nameField.focus(); }, 500);
+      orderModus(true);
+      var nameFeld = document.getElementById('best-name');
+      if (nameFeld) setTimeout(function () { nameFeld.focus(); }, 60);
+    });
+  }
+  var orderBack = document.getElementById('cart-order-back');
+  if (orderBack) orderBack.addEventListener('click', function () { orderModus(false); });
+
+  if (orderForm) {
+    orderForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('best-name');
+      var kontakt = document.getElementById('best-kontakt');
+      var notiz = document.getElementById('best-notiz');
+      var ok = document.getElementById('best-datenschutz');
+      var gueltig = true;
+
+      [name, kontakt].forEach(function (f) { f.closest('label').classList.remove('is-fehler'); });
+      ok.closest('label').classList.remove('is-fehler');
+
+      if (!name.value.trim()) {
+        name.closest('label').classList.add('is-fehler');
+        name.closest('label').querySelector('.fehler').textContent = 'Bitte geben Sie Ihren Namen an.';
+        gueltig = false;
+      }
+      var wert = kontakt.value.trim();
+      var istMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wert);
+      var istTelefon = /^[+\d][\d\s/().-]{5,}$/.test(wert);
+      if (!istMail && !istTelefon) {
+        kontakt.closest('label').classList.add('is-fehler');
+        kontakt.closest('label').querySelector('.fehler').textContent = 'Bitte eine E-Mail-Adresse oder Telefonnummer angeben.';
+        gueltig = false;
+      }
+      if (!ok.checked) { ok.closest('label').classList.add('is-fehler'); gueltig = false; }
+      if (!gueltig) {
+        var ersterFehler = orderForm.querySelector('.is-fehler input');
+        if (ersterFehler) ersterFehler.focus();
+        return;
+      }
+
+      var betreff = 'Bestellung aus dem Gartenshop';
+      var text = [
+        'Name: ' + name.value.trim(),
+        (istMail ? 'E-Mail: ' : 'Telefon: ') + wert,
+        notiz.value.trim() ? 'Anmerkung: ' + notiz.value.trim() : null,
+        '',
+        bestellUebersicht()
+      ].filter(function (z) { return z !== null; }).join('\n');
+
+      if (orderResult) {
+        orderResult.hidden = false;
+        if (orderResultText) orderResultText.value = 'An: ' + BUSINESS.email + '\nBetreff: ' + betreff + '\n\n' + text;
+        orderResult.scrollIntoView({ block: 'nearest' });
+      }
+      window.location.href = 'mailto:' + BUSINESS.email + '?subject=' + encodeURIComponent(betreff) + '&body=' + encodeURIComponent(text);
+    });
+  }
+
+  var orderCopy = document.getElementById('best-copy');
+  if (orderCopy && orderResultText) {
+    orderCopy.addEventListener('click', function () {
+      orderResultText.select();
+      var fertig = function () {
+        orderCopy.textContent = 'Kopiert ✓';
+        setTimeout(function () { orderCopy.textContent = 'Text kopieren'; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(orderResultText.value).then(fertig).catch(function () {
+          try { document.execCommand('copy'); fertig(); } catch (err) { /* Zwischenablage nicht verfügbar */ }
+        });
+      } else {
+        try { document.execCommand('copy'); fertig(); } catch (err) { /* Zwischenablage nicht verfügbar */ }
+      }
     });
   }
 
