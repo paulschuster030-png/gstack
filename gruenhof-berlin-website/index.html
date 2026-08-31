@@ -416,8 +416,8 @@ section[id]{scroll-margin-top:96px}
   <div class="cart-upsell" id="cart-upsell" hidden></div>
   <div class="cart-panel__foot">
     <div class="cart-panel__total"><span>Gesamt</span><span id="cart-total">0,00 €</span></div>
-    <button type="button" class="btn btn--block" id="cart-checkout" disabled>Als Bestellanfrage senden</button>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Kein Online-Kauf: Wir bestätigen Verfügbarkeit &amp; Preis, bevor etwas verbindlich wird.</p>
+    <button type="button" class="btn btn--block" id="cart-checkout" disabled>Weiter zur Bestellung</button>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Ihre Bestellung wird direkt per E-Mail an uns gesendet – ganz ohne Online-Zahlung.</p>
   </div>
 </aside>
 
@@ -590,9 +590,9 @@ section[id]{scroll-margin-top:96px}
     <div class="plan-grid">
       <div class="plan"><span class="tag">Einmalig</span><h3>Garten-Frischekur</h3><p class="price">Preis auf Anfrage<small>einmaliger Einsatz</small></p><ul><li><span class="tick">✓</span>Rasen mähen &amp; Kanten stechen</li><li><span class="tick">✓</span>Unkraut jäten in Beeten &amp; Fugen</li><li><span class="tick">✓</span>Hecke in Form schneiden (bis 10 m)</li><li><span class="tick">✓</span>Grünschnitt-Abfuhr inklusive</li></ul><a href="#kontakt" class="btn btn--ghost btn--block js-preset-leistung" data-leistung="garten">Anfragen</a></div>
       <div class="plan is-featured"><span class="tag">Am beliebtesten</span><h3>Garten-Abo</h3><p class="price">Preis auf Anfrage<small>monatlich, 14-tägiger Rhythmus</small></p><ul><li><span class="tick">✓</span>Regelmäßiges Mähen &amp; Pflege</li><li><span class="tick">✓</span>Saisonale Düngung &amp; Nachsaat</li><li><span class="tick">✓</span>2× jährlich Heckenschnitt</li><li><span class="tick">✓</span>Fester Ansprechpartner</li><li><span class="tick">✓</span>Monatlich kündbar</li></ul><a href="#kontakt" class="btn btn--block js-preset-leistung" data-leistung="garten">Beratung anfragen</a></div>
-      <div class="plan"><span class="tag">Objekt</span><h3>Objektbetreuung</h3><p class="price">Preis auf Anfrage<small>Angebot je Objekt</small></p><ul><li><span class="tick">✓</span>Turnusreinigung Treppenhaus</li><li><span class="tick">✓</span>Grünpflege &amp; Winterdienst</li><li><span class="tick">✓</span>Kontrollgänge &amp; Kleininstandhaltung</li><li><span class="tick">✓</span>Monatliche Dokumentation</li></ul><a href="#kontakt" class="btn btn--ghost btn--block js-preset-leistung" data-leistung="objekt">Angebot anfordern</a></div>
+      <div class="plan"><span class="tag">Objekt</span><h3>Objektbetreuung</h3><p class="price">Preis auf Anfrage<small>Angebot je Objekt</small></p><ul><li><span class="tick">✓</span>Turnusreinigung Treppenhaus</li><li><span class="tick">✓</span>Grünpflege &amp; Winterdienst</li><li><span class="tick">✓</span>Kontrollgänge &amp; Kleininstandhaltung</li><li><span class="tick">✓</span>Monatliche Dokumentation</li><li><span class="tick">✓</span>Monatlich kündbar</li></ul><a href="#kontakt" class="btn btn--ghost btn--block js-preset-leistung" data-leistung="objekt">Angebot anfordern</a></div>
     </div>
-    <p class="center" style="margin-top:1.6rem;color:var(--ink-mute);font-size:.9rem">Festpreis nach Besichtigung vor Ort · 20&nbsp;% der Lohnkosten nach §&nbsp;35a EStG steuerlich absetzbar.</p>
+    <p class="center" style="margin-top:1.6rem;color:var(--ink-mute);font-size:.9rem">Festpreis nach Besichtigung vor Ort · Abos monatlich kündbar · 20&nbsp;% der Lohnkosten nach §&nbsp;35a EStG steuerlich absetzbar.</p>
   </div></section>
 
   <section class="section section--brand" id="ablauf"><div class="container">
@@ -1002,15 +1002,23 @@ section[id]{scroll-margin-top:96px}
 
   var kontaktLeistung = document.getElementById('kontakt-leistung');
   var kontaktNachricht = document.getElementById('kontakt-nachricht');
+  var kontaktSubmitBtn = document.querySelector('#kontakt-form button[type="submit"]');
+
+  function updateFormFraming() {
+    if (!kontaktSubmitBtn || !kontaktLeistung) return;
+    kontaktSubmitBtn.textContent = kontaktLeistung.value === 'shop' ? 'Bestellung senden' : 'Anfrage senden';
+  }
+  if (kontaktLeistung) kontaktLeistung.addEventListener('change', updateFormFraming);
 
   if (cartCheckoutBtn) {
     cartCheckoutBtn.addEventListener('click', function () {
       if (cart.length === 0) return;
       var lines = cart.map(function (i) { return '- ' + i.qty + '× ' + i.name + ' (' + fmtPrice(i.price * i.qty) + ')'; });
       var total = cart.reduce(function (sum, i) { return sum + i.price * i.qty; }, 0);
-      var summary = 'Bestellwunsch aus dem Gartenshop:\n' + lines.join('\n') + '\nGesamt: ' + fmtPrice(total);
+      var summary = 'Bestellung aus dem Gartenshop:\n' + lines.join('\n') + '\nGesamt: ' + fmtPrice(total);
       if (kontaktNachricht) kontaktNachricht.value = summary;
       if (kontaktLeistung) kontaktLeistung.value = 'shop';
+      updateFormFraming();
       closeCart();
       var target = document.getElementById('kontakt');
       if (target) target.scrollIntoView({ behavior: 'smooth' });
@@ -1029,6 +1037,7 @@ section[id]{scroll-margin-top:96px}
       if (kontaktNachricht && !kontaktNachricht.value.trim()) {
         kontaktNachricht.value = 'Wir sind mehrere Haushalte in einer Straße/einem Hof und möchten gemeinsam den Nachbarschafts-Bonus nutzen. Anzahl Haushalte: ';
       }
+      updateFormFraming();
     });
   }
 
@@ -1036,12 +1045,14 @@ section[id]{scroll-margin-top:96px}
   if (serviceHintLink) {
     serviceHintLink.addEventListener('click', function () {
       if (kontaktLeistung) kontaktLeistung.value = 'shop';
+      updateFormFraming();
     });
   }
 
   document.querySelectorAll('.js-preset-leistung').forEach(function (link) {
     link.addEventListener('click', function () {
       if (kontaktLeistung) kontaktLeistung.value = link.dataset.leistung;
+      updateFormFraming();
     });
   });
 
@@ -1160,7 +1171,8 @@ section[id]{scroll-margin-top:96px}
         '',
         nachricht.value.trim()
       ].filter(function (l) { return l !== null; });
-      var subject = 'Anfrage über Website: ' + leistungLabel;
+      var subjectPrefix = leistung.value === 'shop' ? 'Bestellung über Website: ' : 'Anfrage über Website: ';
+      var subject = subjectPrefix + leistungLabel;
       var body = bodyLines.join('\n');
       var mailto = 'mailto:' + BUSINESS_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 
