@@ -361,6 +361,28 @@ section[id]{scroll-margin-top:96px}
 @media(max-width:700px){.cookie-banner{left:10px;bottom:86px;width:calc(100vw - 20px);flex-direction:column;align-items:stretch;gap:.55rem;padding:.7rem .85rem}.cookie-banner p{font-size:.78rem;line-height:1.4}.cookie-banner__actions .btn{flex:1;min-height:38px;font-size:.86rem}}
 @media(prefers-reduced-motion:reduce){.cookie-banner{transition:none}}
 
+/* ---------- Bestätigung nach dem Hinzufügen ----------
+   Der Warenkorb springt beim Klick auf ＋ nicht mehr auf. Stattdessen sagt
+   dieser Streifen, was drin liegt, und schlägt genau eine passende Ergänzung
+   vor – der Moment direkt nach dem Hinzufügen ist der einzige, in dem ein
+   Vorschlag nicht stört, sondern hilft.
+   Platzierung: über der Handy-Leiste (69px) bzw. über dem Anfrage-Knopf am
+   Desktop, damit nichts verdeckt wird. */
+.add-toast{position:fixed;right:28px;bottom:100px;z-index:170;width:min(340px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:.9rem 1rem;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease)}
+.add-toast.is-visible{opacity:1;transform:none;pointer-events:auto}
+.add-toast[hidden]{display:none}
+.add-toast__head{display:flex;gap:.5rem;align-items:flex-start;margin:0;font-size:.92rem;line-height:1.45}
+.add-toast__check{flex:none;width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;font-size:.72rem;display:grid;place-items:center;margin-top:.15rem}
+.add-toast__reco{border-top:1px dashed var(--line);margin-top:.75rem;padding-top:.7rem}
+.add-toast__label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:.45rem}
+.add-toast__row{display:flex;align-items:center;justify-content:space-between;gap:.7rem}
+.add-toast__name{display:block;font-size:.88rem;font-weight:650}
+.add-toast__price{display:block;font-size:.82rem;color:var(--ink-mute)}
+.add-toast__actions{display:flex;gap:.5rem;margin-top:.8rem}
+.add-toast__actions .btn{flex:1;padding:.6em .9em;font-size:.86rem;min-height:42px}
+@media(max-width:560px){.add-toast{left:10px;right:10px;width:auto;bottom:79px}}
+@media(prefers-reduced-motion:reduce){.add-toast{transition:none}}
+
 /* ---------- Warenkorb-Upselling ---------- */
 .cart-upsell{border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem}
 .cart-upsell[hidden]{display:none}
@@ -528,6 +550,8 @@ main.is-pdp > :not(#pdp){display:none}
 </style>
 
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+<div class="add-toast" id="add-toast" role="status" aria-live="polite" hidden></div>
 
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie-Hinweis" hidden>
   <p>🍪 Wir speichern nur Ihren Warenkorb und diese Entscheidung – kein Tracking, keine Werbung. Bei <strong>Ablehnen</strong> gilt der Warenkorb nur für diesen Besuch.</p>
@@ -1105,7 +1129,6 @@ main.is-pdp > :not(#pdp){display:none}
     else { cart.push({ id: id, name: name, price: price, qty: 1 }); }
     saveCart(cart);
     renderCart();
-    openCart();
   }
   function changeQty(id, delta) {
     var item = cart.filter(function (i) { return i.id === id; })[0];
@@ -1122,6 +1145,7 @@ main.is-pdp > :not(#pdp){display:none}
   }
 
   function openCart() {
+    if (typeof toastAus === 'function') toastAus();
     if (cartPanel) cartPanel.classList.add('is-open');
     if (cartOverlay) cartOverlay.classList.add('is-open');
     if (cartToggle) cartToggle.setAttribute('aria-expanded', 'true');
@@ -1251,6 +1275,97 @@ main.is-pdp > :not(#pdp){display:none}
     });
   }
 
+  var toastEl = document.getElementById('add-toast');
+  var toastTimer = 0;
+
+  function toastAus() {
+    if (!toastEl) return;
+    clearTimeout(toastTimer);
+    toastEl.classList.remove('is-visible');
+    toastTimer = setTimeout(function () { toastEl.hidden = true; }, 300);
+  }
+  function toastUhrStellen() {
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(toastAus, 9000);
+  }
+
+  function zeigeBestaetigung(name, quellId) {
+    if (!toastEl || (cartPanel && cartPanel.classList.contains('is-open'))) return;
+    var stueck = cart.reduce(function (sum, i) { return sum + i.qty; }, 0);
+    toastEl.innerHTML = '';
+
+    var kopf = document.createElement('p');
+    kopf.className = 'add-toast__head';
+    var haken = document.createElement('span');
+    haken.className = 'add-toast__check';
+    haken.textContent = '✓';
+    haken.setAttribute('aria-hidden', 'true');
+    var text = document.createElement('span');
+    text.appendChild(document.createTextNode(name + ' liegt im Warenkorb.'));
+    kopf.appendChild(haken); kopf.appendChild(text);
+    toastEl.appendChild(kopf);
+
+    var tipp = vorschlaege([quellId], 1)[0];
+    if (tipp) {
+      var reco = document.createElement('div');
+      reco.className = 'add-toast__reco';
+      var label = document.createElement('span');
+      label.className = 'add-toast__label';
+      label.textContent = 'Passt dazu';
+      var row = document.createElement('div');
+      row.className = 'add-toast__row';
+      var info = document.createElement('span');
+      var tName = document.createElement('span');
+      tName.className = 'add-toast__name';
+      tName.textContent = tipp.name;
+      var tPreis = document.createElement('span');
+      tPreis.className = 'add-toast__price';
+      tPreis.textContent = fmtPrice(tipp.price);
+      info.appendChild(tName); info.appendChild(tPreis);
+      var plus = document.createElement('button');
+      plus.type = 'button';
+      plus.className = 'cart-upsell__add';
+      plus.textContent = '＋';
+      plus.setAttribute('aria-label', tipp.name + ' dazulegen');
+      plus.addEventListener('click', function () {
+        addItem(tipp.id, tipp.name, tipp.price);
+        popAdded(plus);
+        zeigeBestaetigung(tipp.name, tipp.id);
+      });
+      row.appendChild(info); row.appendChild(plus);
+      reco.appendChild(label); reco.appendChild(row);
+      toastEl.appendChild(reco);
+    }
+
+    var aktionen = document.createElement('div');
+    aktionen.className = 'add-toast__actions';
+    var weiter = document.createElement('button');
+    weiter.type = 'button';
+    weiter.className = 'btn btn--ghost';
+    weiter.textContent = 'Weiter stöbern';
+    weiter.addEventListener('click', toastAus);
+    var ansehen = document.createElement('button');
+    ansehen.type = 'button';
+    ansehen.className = 'btn';
+    ansehen.textContent = 'Warenkorb (' + stueck + ')';
+    ansehen.addEventListener('click', function () { toastAus(); openCart(); });
+    aktionen.appendChild(weiter); aktionen.appendChild(ansehen);
+    toastEl.appendChild(aktionen);
+
+    toastEl.hidden = false;
+    // Ein Frame warten, sonst überspringt der Browser die Einblendung.
+    requestAnimationFrame(function () { toastEl.classList.add('is-visible'); });
+    toastUhrStellen();
+  }
+
+  if (toastEl) {
+    // Wer gerade hinschaut oder tippt, dem soll der Vorschlag nicht wegrutschen.
+    toastEl.addEventListener('mouseenter', function () { clearTimeout(toastTimer); });
+    toastEl.addEventListener('mouseleave', toastUhrStellen);
+    toastEl.addEventListener('focusin', function () { clearTimeout(toastTimer); });
+    toastEl.addEventListener('focusout', toastUhrStellen);
+  }
+
   // Delegiert, damit auch die Buttons auf den Produktseiten greifen,
   // die erst beim Aufruf erzeugt werden.
   document.addEventListener('click', function (e) {
@@ -1259,6 +1374,7 @@ main.is-pdp > :not(#pdp){display:none}
     addItem(btn.dataset.id, btn.dataset.name, parseFloat(btn.dataset.price));
     popAdded(btn);
     flyToCart(btn);
+    zeigeBestaetigung(btn.dataset.name, btn.dataset.id);
   });
 
   var bundleBtn = document.getElementById('bundle-add-all');
