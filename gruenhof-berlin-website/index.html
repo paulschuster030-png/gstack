@@ -375,7 +375,21 @@ section[id]{scroll-margin-top:96px}
 .cart-panel.is-ordering .cart-upsell,
 .cart-panel.is-ordering .cart-payment,
 .cart-panel.is-ordering #cart-checkout{display:none}
-.cart-panel.is-ordering .cart-panel__items{max-height:22vh}
+/* Beim Bestellen wird das Panel selbst zur Scrollfläche. Die Artikelliste darf
+   dabei NICHT mehr schrumpfen (flex:1 hat sie auf 0 Pixel gequetscht, sobald das
+   Formular aufging) – der Kunde muss sehen, was er kauft, während er tippt.
+   Die Summe rutscht direkt unter die Artikel, damit der Preis vor dem Formular
+   steht und nicht hinter dem Absende-Knopf. */
+.cart-panel.is-ordering{overflow-y:auto}
+.cart-panel.is-ordering .cart-panel__items{flex:0 0 auto;max-height:22vh}
+.cart-panel.is-ordering .cart-order,
+.cart-panel.is-ordering .cart-order-result,
+.cart-panel.is-ordering .cart-panel__foot{flex:none}
+.cart-panel.is-ordering .cart-panel__head{order:1}
+.cart-panel.is-ordering .cart-panel__items{order:2}
+.cart-panel.is-ordering .cart-panel__foot{order:3}
+.cart-panel.is-ordering .cart-order{order:4}
+.cart-panel.is-ordering .cart-order-result{order:5}
 .cart-order{display:grid;gap:.7rem;border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem}
 .cart-order[hidden],.cart-order-result[hidden]{display:none}
 .cart-order h4{margin:0;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
