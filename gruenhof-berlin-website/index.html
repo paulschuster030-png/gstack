@@ -255,21 +255,23 @@ section[id]{scroll-margin-top:96px}
 /* ---------- Warenkorb ---------- */
 .cart-overlay{position:fixed;inset:0;background:rgba(27,42,35,.4);z-index:190;opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
 .cart-overlay.is-open{opacity:1;pointer-events:auto}
-.cart-panel{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--surface);box-shadow:var(--shadow-lg);z-index:200;transform:translateX(100%);transition:transform .35s var(--ease);display:flex;flex-direction:column;padding:1.4rem}
+.cart-panel{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--surface);box-shadow:var(--shadow-lg);z-index:200;transform:translateX(100%);transition:transform .35s var(--ease);display:flex;flex-direction:column;padding:1.4rem 1.4rem 0;overflow-y:auto}
 .cart-panel.is-open{transform:translateX(0)}
 .cart-panel__head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .cart-panel__head h3{margin:0}
 .cart-panel__close{background:none;border:0;font-size:1.5rem;line-height:1;cursor:pointer;color:var(--ink);padding:.2rem .4rem}
-.cart-panel__items{flex:1;overflow-y:auto;display:grid;gap:.9rem;align-content:start}
+.cart-panel__items{flex:1 0 auto;display:grid;gap:.9rem;align-content:start}
 .cart-panel__empty{color:var(--ink-mute);text-align:center;padding:2.4rem 0}
-.cart-item{display:grid;grid-template-columns:1fr auto auto;gap:.5rem 1rem;align-items:center;border-bottom:1px solid var(--line);padding-bottom:.8rem;font-size:.9rem}
+.cart-item{display:grid;grid-template-columns:1fr auto 1.6rem;gap:.45rem .9rem;align-items:center;border-bottom:1px solid var(--line);padding-bottom:.8rem;font-size:.9rem}
 .cart-item__name{grid-column:1/-1;font-weight:650}
 .cart-item__qty{display:flex;align-items:center;gap:.5rem}
 .cart-item__qty button{width:34px;height:34px;border-radius:10px;border:1px solid var(--brand);background:var(--brand-tint);color:var(--brand-dark);cursor:pointer;font-size:1.2rem;font-weight:700;line-height:1;display:grid;place-items:center;transition:background .15s,color .15s}
 .cart-item__qty button:hover{background:var(--brand);color:#fff}
 .cart-item__qty > span{min-width:1.7em;text-align:center;font-weight:700;font-size:1rem}
-.cart-item__remove{background:none;border:0;color:var(--ink-mute);cursor:pointer;font-size:1rem}
-.cart-panel__foot{border-top:1px solid var(--line);padding-top:1rem;margin-top:1rem;display:grid;gap:.8rem}
+.cart-item__preis{text-align:right;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cart-item__remove{background:none;border:0;color:var(--ink-mute);cursor:pointer;font-size:1rem;justify-self:end;padding:0;line-height:1;width:1.6rem;height:1.6rem}
+.cart-item__remove:hover{color:var(--danger)}
+.cart-panel__foot{border-top:1px solid var(--line);padding:1rem 0 1.4rem;margin-top:1rem;display:grid;gap:.8rem;position:sticky;bottom:0;background:var(--surface)}
 .cart-panel__total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem}
 
 /* ---------- Kontaktformular ---------- */
@@ -380,11 +382,12 @@ section[id]{scroll-margin-top:96px}
    Formular aufging) – der Kunde muss sehen, was er kauft, während er tippt.
    Die Summe rutscht direkt unter die Artikel, damit der Preis vor dem Formular
    steht und nicht hinter dem Absende-Knopf. */
-.cart-panel.is-ordering{overflow-y:auto}
-.cart-panel.is-ordering .cart-panel__items{flex:0 0 auto;max-height:22vh}
+.cart-panel.is-ordering{padding-bottom:1.4rem}
+.cart-panel.is-ordering .cart-panel__items,
 .cart-panel.is-ordering .cart-order,
 .cart-panel.is-ordering .cart-order-result,
 .cart-panel.is-ordering .cart-panel__foot{flex:none}
+.cart-panel.is-ordering .cart-panel__foot{position:static;padding-bottom:0}
 .cart-panel.is-ordering .cart-panel__head{order:1}
 .cart-panel.is-ordering .cart-panel__items{order:2}
 .cart-panel.is-ordering .cart-panel__foot{order:3}
@@ -1073,6 +1076,7 @@ main.is-pdp > :not(#pdp){display:none}
         qtyWrap.appendChild(dec); qtyWrap.appendChild(qty); qtyWrap.appendChild(inc);
 
         var price = document.createElement('span');
+        price.className = 'cart-item__preis';
         price.textContent = fmtPrice(item.price * item.qty);
 
         var remove = document.createElement('button');
