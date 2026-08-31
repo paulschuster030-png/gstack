@@ -385,6 +385,10 @@ section[id]{scroll-margin-top:96px}
 .cart-order .fehler{font-size:.76rem;color:var(--danger);display:none;font-weight:600}
 .cart-order .is-fehler input[type=text]{border-color:var(--danger)}
 .cart-order .is-fehler .fehler{display:block}
+.cart-order select{font:inherit;width:100%;min-width:0;padding:.6em .8em;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink)}
+.cart-order__adresse{display:grid;gap:.7rem}
+.cart-order__adresse[hidden]{display:none}
+.cart-order__row{display:grid;grid-template-columns:.42fr .58fr;gap:.6rem}
 .cart-order__check{display:flex;gap:.6rem;align-items:flex-start;font-size:.8rem;font-weight:400;color:var(--ink-soft);cursor:pointer}
 .cart-order__check input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:var(--brand)}
 .cart-order__check.is-fehler{color:var(--danger)}
@@ -530,7 +534,7 @@ main.is-pdp > :not(#pdp){display:none}
 <div class="cart-overlay" id="cart-overlay"></div>
 <aside class="cart-panel" id="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-panel-title">
   <div class="cart-panel__head">
-    <h3 id="cart-panel-title">Dein Warenkorb</h3>
+    <h3 id="cart-panel-title">Ihr Warenkorb</h3>
     <button type="button" class="cart-panel__close" id="cart-close" aria-label="Warenkorb schließen">✕</button>
   </div>
   <div class="cart-panel__items" id="cart-items"></div>
@@ -552,20 +556,33 @@ main.is-pdp > :not(#pdp){display:none}
     <h4>Ihre Daten für die Bestellung</h4>
     <label>Name *<input type="text" id="best-name" autocomplete="name" placeholder="Vor- und Nachname"><span class="fehler"></span></label>
     <label>E-Mail oder Telefon *<input type="text" id="best-kontakt" autocomplete="email" placeholder="max@beispiel.de oder 0170 1234567"><span class="fehler"></span></label>
-    <label>Anmerkung (optional)<input type="text" id="best-notiz" placeholder="Abholtermin, Rückfrage …"></label>
+    <label>Wie soll es zu Ihnen kommen?
+      <select id="best-weg">
+        <option value="abholung">Abholung nach Absprache in Berlin</option>
+        <option value="bringen">Zum nächsten Termin mitbringen</option>
+      </select>
+    </label>
+    <div class="cart-order__adresse" id="best-adresse" hidden>
+      <label>Straße und Hausnummer *<input type="text" id="best-strasse" autocomplete="street-address" placeholder="Musterweg 1"><span class="fehler"></span></label>
+      <div class="cart-order__row">
+        <label>PLZ *<input type="text" id="best-plz" autocomplete="postal-code" inputmode="numeric" placeholder="10115"><span class="fehler"></span></label>
+        <label>Ort *<input type="text" id="best-ort" autocomplete="address-level2" placeholder="Berlin"><span class="fehler"></span></label>
+      </div>
+    </div>
+    <label>Anmerkung (optional)<input type="text" id="best-notiz" placeholder="Wunschtermin, Rückfrage …"></label>
     <label class="cart-order__check"><input type="checkbox" id="best-datenschutz"><span>Meine Angaben dürfen zur Bearbeitung dieser Bestellung genutzt werden. *</span></label>
     <button type="submit" class="btn btn--block">Bestellung abschicken</button>
     <button type="button" class="cart-order__back" id="cart-order-back">← Zurück zum Warenkorb</button>
   </form>
   <div class="cart-order-result" id="cart-order-result" hidden>
-    <p style="margin:0">Ihr E-Mail-Programm öffnet sich mit der fertigen Bestellung – dort bitte auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopieren Sie den Text und schicken ihn an <a id="best-mail-link" data-biz-mail data-biz-mail-text>E-Mail eintragen</a>.</p>
+    <p style="margin:0"><strong>Fast geschafft – jetzt noch abschicken.</strong> Ihr E-Mail-Programm ist mit der fertigen Bestellung geöffnet: dort auf <strong>Senden</strong> klicken. Die abgeschickte E-Mail ist zugleich Ihre Bestätigung. Öffnet sich nichts, kopieren Sie den Text und schicken ihn an <a id="best-mail-link" data-biz-mail data-biz-mail-text>E-Mail eintragen</a>.</p>
     <textarea id="best-result-text" readonly></textarea>
     <button type="button" class="btn btn--ghost btn--block" id="best-copy">Text kopieren</button>
   </div>
   <div class="cart-panel__foot">
     <div class="cart-panel__total"><span>Gesamt</span><span id="cart-total">0,00 €</span></div>
     <button type="button" class="btn btn--block" id="cart-checkout" disabled>Jetzt kaufen</button>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Sie erhalten eine Bestätigung, sobald wir Ihre Bestellung gesehen haben.</p>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Ihre Bestätigung ist die abgeschickte E-Mail – die haben Sie sofort. Wir melden uns innerhalb von 24 Stunden.</p>
   </div>
 </aside>
 
@@ -625,7 +642,7 @@ main.is-pdp > :not(#pdp){display:none}
         </form>
 
         <div class="kontakt-result" id="kontakt-result" hidden>
-          <p style="margin:0 0 .3rem">Es öffnet sich gleich dein E-Mail-Programm mit dieser vorausgefüllten Nachricht – bitte dort auf <strong>Senden</strong> klicken. Falls sich nichts öffnet, kopiere den Text und schick ihn direkt an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
+          <p style="margin:0 0 .3rem"><strong>Fast geschafft – jetzt noch abschicken.</strong> Ihr E-Mail-Programm ist mit der fertigen Anfrage geöffnet: dort auf <strong>Senden</strong> klicken. Die abgeschickte E-Mail ist zugleich Ihre Bestätigung. Öffnet sich nichts, kopieren Sie den Text und schicken ihn an <a id="kontakt-mail-link" data-biz-mail-text href="mailto:hallo@gruenhof-berlin.de" style="color:#fff;text-decoration:underline">hallo@gruenhof-berlin.de</a>.</p>
           <textarea id="kontakt-result-text" readonly></textarea>
           <div class="form-actions"><button type="button" class="btn btn--ghost" id="kontakt-copy">Text kopieren</button></div>
         </div>
@@ -1013,7 +1030,7 @@ main.is-pdp > :not(#pdp){display:none}
     if (cart.length === 0) {
       var empty = document.createElement('p');
       empty.className = 'cart-panel__empty';
-      empty.textContent = 'Dein Warenkorb ist noch leer.';
+      empty.textContent = 'Ihr Warenkorb ist noch leer.';
       cartItemsEl.appendChild(empty);
     } else {
       cart.forEach(function (item) {
@@ -1239,6 +1256,15 @@ main.is-pdp > :not(#pdp){display:none}
       if (nameFeld) setTimeout(function () { nameFeld.focus(); }, 60);
     });
   }
+  // Die Adresse fragen wir nur, wenn wir auch hinfahren sollen – wer abholt,
+  // muss sie nicht angeben.
+  var wegFeld = document.getElementById('best-weg');
+  var adressBlock = document.getElementById('best-adresse');
+  function adresseNoetig() { return wegFeld && wegFeld.value === 'bringen'; }
+  if (wegFeld && adressBlock) {
+    wegFeld.addEventListener('change', function () { adressBlock.hidden = !adresseNoetig(); });
+  }
+
   var orderBack = document.getElementById('cart-order-back');
   if (orderBack) orderBack.addEventListener('click', function () { orderModus(false); });
 
@@ -1249,9 +1275,12 @@ main.is-pdp > :not(#pdp){display:none}
       var kontakt = document.getElementById('best-kontakt');
       var notiz = document.getElementById('best-notiz');
       var ok = document.getElementById('best-datenschutz');
+      var strasse = document.getElementById('best-strasse');
+      var plz = document.getElementById('best-plz');
+      var ort = document.getElementById('best-ort');
       var gueltig = true;
 
-      [name, kontakt].forEach(function (f) { f.closest('label').classList.remove('is-fehler'); });
+      [name, kontakt, strasse, plz, ort].forEach(function (f) { f.closest('label').classList.remove('is-fehler'); });
       ok.closest('label').classList.remove('is-fehler');
 
       if (!name.value.trim()) {
@@ -1267,6 +1296,17 @@ main.is-pdp > :not(#pdp){display:none}
         kontakt.closest('label').querySelector('.fehler').textContent = 'Bitte eine E-Mail-Adresse oder Telefonnummer angeben.';
         gueltig = false;
       }
+      if (adresseNoetig()) {
+        [[strasse, 'Bitte Straße und Hausnummer angeben.'],
+         [plz, 'Bitte PLZ angeben.'],
+         [ort, 'Bitte Ort angeben.']].forEach(function (paar) {
+          if (!paar[0].value.trim()) {
+            paar[0].closest('label').classList.add('is-fehler');
+            paar[0].closest('label').querySelector('.fehler').textContent = paar[1];
+            gueltig = false;
+          }
+        });
+      }
       if (!ok.checked) { ok.closest('label').classList.add('is-fehler'); gueltig = false; }
       if (!gueltig) {
         var ersterFehler = orderForm.querySelector('.is-fehler input');
@@ -1278,6 +1318,9 @@ main.is-pdp > :not(#pdp){display:none}
       var text = [
         'Name: ' + name.value.trim(),
         (istMail ? 'E-Mail: ' : 'Telefon: ') + wert,
+        adresseNoetig()
+          ? 'Adresse: ' + strasse.value.trim() + ', ' + plz.value.trim() + ' ' + ort.value.trim()
+          : 'Abholung nach Absprache in Berlin',
         notiz.value.trim() ? 'Anmerkung: ' + notiz.value.trim() : null,
         '',
         bestellUebersicht()
