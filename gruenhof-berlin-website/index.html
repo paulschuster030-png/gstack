@@ -218,7 +218,7 @@ section[id]{scroll-margin-top:96px}
 .popup__wall::after{content:"";position:absolute;right:15%;top:16%;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,rgba(180,131,47,.55),rgba(180,131,47,0) 68%)}
 .popup__floor{position:absolute;left:6%;right:6%;top:62%;height:74%;transform-origin:top center;transform:rotateX(-80deg);background:repeating-linear-gradient(90deg,#4F8C64 0 6%,#58976E 6% 12%);border-radius:0 0 12px 12px;box-shadow:0 40px 60px rgba(27,42,35,.18)}
 .popup__path{position:absolute;left:50%;top:-6%;width:30%;height:118%;transform:translateX(-50%);background:linear-gradient(180deg,#DBCDA9,#C7B487);clip-path:polygon(40% 0,60% 0,82% 100%,18% 100%)}
-.popup__layer{position:absolute;bottom:0;left:50%;transform-origin:bottom center;transform:translateX(-50%) translateZ(var(--z,0)) rotateX(calc((1 - var(--o,0)) * 90deg));opacity:var(--o,0);transition:transform .12s linear,opacity .12s linear}
+.popup__layer{position:absolute;bottom:0;left:50%;transform-origin:bottom center;transform:translateX(-50%) translateZ(var(--z,0)) rotateX(calc((1 - var(--o,1)) * 90deg));opacity:var(--o,1);transition:transform .12s linear,opacity .12s linear}
 .popup.is-built .popup__layer{transform:translateX(-50%) translateZ(var(--z,0)) rotateX(0);opacity:1}
 .popup__layer svg{display:block;width:100%;height:auto;filter:drop-shadow(0 14px 12px rgba(27,42,35,.2))}
 .popup__layer--hedge{left:41%;bottom:33%;width:min(60%,450px);--z:-120px}
@@ -227,15 +227,17 @@ section[id]{scroll-margin-top:96px}
 .popup__layer--bench{left:67%;bottom:12%;width:min(30%,220px);--z:-55px}
 .popup__layer--tools{left:19%;bottom:6%;width:min(23%,165px);--z:24px}
 .popup__layer--sign{left:50%;bottom:0;width:min(40%,300px);--z:36px}
-.popup__tag{position:absolute;z-index:5;background:var(--surface);color:var(--brand-dark);font-weight:700;font-size:clamp(.7rem,1.9vw,.84rem);padding:.4em .9em;border-radius:var(--radius-pill);box-shadow:var(--shadow-md);white-space:nowrap;opacity:var(--o,0);transform:translateY(calc((1 - var(--o,0)) * 6px));transition:opacity .12s linear,transform .12s linear}
+.popup__tag{position:absolute;z-index:5;background:var(--surface);color:var(--brand-dark);font-weight:700;font-size:clamp(.7rem,1.9vw,.84rem);padding:.4em .9em;border-radius:var(--radius-pill);box-shadow:var(--shadow-md);white-space:nowrap;opacity:var(--o,1);transform:translateY(calc((1 - var(--o,1)) * 6px));transition:opacity .12s linear,transform .12s linear}
 .popup.is-built .popup__tag{opacity:1;transform:none}
 .popup__tag::after{content:"";position:absolute;left:16px;bottom:-5px;width:10px;height:10px;background:var(--surface);transform:rotate(45deg);box-shadow:3px 3px 6px rgba(27,42,35,.1)}
 .popup__tag--a{left:7%;top:18%}.popup__tag--b{right:5%;top:30%}.popup__tag--c{left:3%;bottom:40%}
-.popup__bug{position:absolute;left:60%;top:26%;width:26px;z-index:4;color:var(--accent);opacity:var(--o,0);transition:opacity .5s ease;animation:bugFloat 7s ease-in-out infinite}
+.popup__bug{position:absolute;left:60%;top:26%;width:26px;z-index:4;color:var(--accent);opacity:var(--o,1);transition:opacity .5s ease;animation:bugFloat 7s ease-in-out infinite}
 .popup.is-built .popup__bug{opacity:1}
 @keyframes bugFloat{0%,100%{transform:translate(0,0) rotate(-4deg)}33%{transform:translate(30px,-24px) rotate(8deg)}66%{transform:translate(-14px,-10px) rotate(-6deg)}}
 .popup__hint{text-align:center;font-size:.82rem;color:var(--ink-mute);margin-top:1rem}
-@media(prefers-reduced-motion:reduce){.popup__book{transform:rotateX(12deg)}.popup__layer,.popup.is-built .popup__layer{transform:translateX(-50%) translateZ(var(--z,0));opacity:1}.popup__bug{display:none}}
+/* Bei reduzierter Bewegung entfällt das Aufklappen, der Garten wird beim
+   Scrollen nur noch sanft eingeblendet – Verblassen löst keinen Schwindel aus. */
+@media(prefers-reduced-motion:reduce){.popup__book{transform:rotateX(12deg)}.popup__layer,.popup.is-built .popup__layer{transform:translateX(-50%) translateZ(var(--z,0));opacity:var(--o,1)}.popup__tag{transform:none}.popup__bug{display:none}}
 /* Nachbarschaft + inkl */
 .nachbar__claim{font-family:var(--font-display);font-size:clamp(1.3rem,4vw,2rem);color:var(--brand-dark);margin:.2rem 0 1rem}
 .staffel{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.6rem 0}
@@ -1539,12 +1541,14 @@ section[id]{scroll-margin-top:96px}
     var tags = Array.prototype.slice.call(sec.querySelectorAll('.popup__tag'));
     var bug = sec.querySelector('.popup__bug');
 
-    if (reduce || !layers.length) {
+    if (!layers.length) {
       sec.classList.add('is-built');
     } else {
       // Der Garten klappt am Scrollfortschritt auf: liegt die Bühnenmitte noch
       // am unteren Bildrand, liegt alles flach; auf Höhe der Bildmitte steht
       // der Garten komplett. Wer zurückscrollt, sieht ihn wieder zuklappen.
+      // Läuft auch bei "Bewegung reduzieren" – dort blendet CSS die Drehung
+      // aus, sodass nur das sanfte Einblenden übrig bleibt.
       var ticking = false;
       var clamp01 = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
       var paint = function () {
