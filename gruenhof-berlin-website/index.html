@@ -377,6 +377,18 @@ section[id]{scroll-margin-top:96px}
 .cart-upsell__add:hover{background:var(--brand);color:#fff}
 .cart-upsell__add.is-added{animation:addPop .5s var(--ease)}
 
+/* ---------- Warenkorb-Zahlungsart ---------- */
+.cart-payment{border-top:1px solid var(--line);padding-top:1rem;margin-top:.4rem}
+.cart-payment[hidden]{display:none}
+.cart-payment h4{margin:0 0 .7rem;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
+.cart-payment__option{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem;border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem}
+.cart-payment__option input{margin:0;flex:none}
+.cart-payment__option span{font-weight:650;font-size:.88rem}
+.cart-payment__option small{margin-left:auto;font-size:.76rem;color:var(--ink-mute);white-space:nowrap}
+.cart-payment__option.is-active{border-color:var(--brand);background:var(--brand-tint)}
+.cart-payment__option.is-active small{color:var(--brand-dark);font-weight:700}
+.cart-payment__option.is-disabled{opacity:.55}
+
 @media(prefers-reduced-motion:reduce){
   .cursor-glow{display:none}
   :where(.reveal){opacity:1;transform:none;transition:none}
@@ -414,10 +426,23 @@ section[id]{scroll-margin-top:96px}
   </div>
   <div class="cart-panel__items" id="cart-items"></div>
   <div class="cart-upsell" id="cart-upsell" hidden></div>
+  <div class="cart-payment" id="cart-payment" hidden>
+    <h4>Zahlungsart</h4>
+    <label class="cart-payment__option is-active">
+      <input type="radio" name="zahlungsart" checked disabled>
+      <span>📧 Per E-Mail bestellen</span>
+      <small>Verfügbar</small>
+    </label>
+    <label class="cart-payment__option is-disabled">
+      <input type="radio" name="zahlungsart" disabled>
+      <span>💳 Kreditkarte / PayPal</span>
+      <small>Bald verfügbar</small>
+    </label>
+  </div>
   <div class="cart-panel__foot">
     <div class="cart-panel__total"><span>Gesamt</span><span id="cart-total">0,00 €</span></div>
-    <button type="button" class="btn btn--block" id="cart-checkout" disabled>Weiter zur Bestellung</button>
-    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Ihre Bestellung wird direkt per E-Mail an uns gesendet – ganz ohne Online-Zahlung.</p>
+    <button type="button" class="btn btn--block" id="cart-checkout" disabled>Jetzt kaufen</button>
+    <p style="font-size:.8rem;color:var(--ink-mute);margin:0">Sie erhalten eine Bestätigung, sobald wir Ihre Bestellung gesehen haben.</p>
   </div>
 </aside>
 
@@ -801,6 +826,10 @@ section[id]{scroll-margin-top:96px}
   var cartItemsEl = document.getElementById('cart-items');
   var cartTotalEl = document.getElementById('cart-total');
   var cartCheckoutBtn = document.getElementById('cart-checkout');
+  var cartPaymentEl = document.getElementById('cart-payment');
+  /* Online-Zahlung (Stripe/PayPal) ist noch nicht angebunden – sobald ein
+     Konto existiert, hier den zweiten Radio-Button aktivieren und beim
+     Klick auf #cart-checkout zur gehosteten Checkout-Seite weiterleiten. */
 
   function fmtPrice(n) {
     return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
@@ -858,6 +887,7 @@ section[id]{scroll-margin-top:96px}
     var total = cart.reduce(function (sum, i) { return sum + i.price * i.qty; }, 0);
     if (cartTotalEl) cartTotalEl.textContent = fmtPrice(total);
     if (cartCheckoutBtn) cartCheckoutBtn.disabled = cart.length === 0;
+    if (cartPaymentEl) cartPaymentEl.hidden = cart.length === 0;
     renderUpsell();
   }
 
