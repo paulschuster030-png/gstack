@@ -73,8 +73,12 @@ section[id]{scroll-margin-top:96px}
 .hero__trust span{display:inline-flex;align-items:center;gap:.5em}.hero__trust svg{color:var(--brand);flex:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .marquee{border-block:1px solid var(--line);background:var(--surface);overflow:hidden}
-.marquee__row{display:flex;gap:2.6rem;align-items:center;padding-block:16px;white-space:nowrap;animation:slide 34s linear infinite}
-.marquee__row span{font-weight:650;color:var(--ink-mute);font-size:.92rem}
+/* Der Abstand steckt im Element statt in gap: nur dann liegt die halbe
+   Gesamtbreite exakt auf dem Anfang der zweiten Kopie und das Band läuft
+   ohne sichtbaren Sprung durch. */
+.marquee__row{display:flex;align-items:center;padding-block:16px;white-space:nowrap;animation:slide 34s linear infinite}
+.marquee__set{display:contents}
+.marquee__row span{font-weight:650;color:var(--ink-mute);font-size:.92rem;padding-right:2.6rem}
 @keyframes slide{to{transform:translateX(-50%)}}
 .usp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
 .usp{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem 1.3rem;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
@@ -295,7 +299,11 @@ section[id]{scroll-margin-top:96px}
 .tilt-card{transition:opacity .8s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease)}
 
 .marquee__row{will-change:transform}
-.marquee:hover .marquee__row{animation-play-state:paused}
+/* Das Band läuft durch – auch bei „Bewegung reduzieren", weil es sonst auf
+   vielen Handys stillsteht. Es ist bewusst langsam und gleichmäßig. */
+@media(prefers-reduced-motion:reduce){
+  .marquee__row{animation-duration:34s!important;animation-iteration-count:infinite!important}
+}
 
 .tf-demo__handle::after{content:"";position:absolute;top:50%;left:50%;width:48px;height:48px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 0 rgba(255,255,255,.55);animation:handlePulse 2s ease-out 1s 3;pointer-events:none}
 @keyframes handlePulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}100%{box-shadow:0 0 0 24px rgba(255,255,255,0)}}
@@ -588,7 +596,7 @@ main.is-pdp > :not(#pdp){display:none}
     </div>
   </section>
 
-  <div class="marquee"><div class="marquee__row"><span>🌿 Gartenpflege</span><span>🍂 Herbstputz</span><span>🔧 Kleinreparaturen</span><span>❄️ Winterdienst</span><span>🏢 Objektbetreuung</span><span>🚪 Treppenhausreinigung</span><span>🪴 Beetgestaltung</span><span>🚛 Entrümpelung</span></div></div>
+  <div class="marquee"><div class="marquee__row"><span class="marquee__set"><span>🌿 Gartenpflege</span><span>🍂 Herbstputz</span><span>🔧 Kleinreparaturen</span><span>❄️ Winterdienst</span><span>🏢 Objektbetreuung</span><span>🚪 Treppenhausreinigung</span><span>🪴 Beetgestaltung</span><span>🚛 Entrümpelung</span></span><span class="marquee__set" aria-hidden="true"><span>🌿 Gartenpflege</span><span>🍂 Herbstputz</span><span>🔧 Kleinreparaturen</span><span>❄️ Winterdienst</span><span>🏢 Objektbetreuung</span><span>🚪 Treppenhausreinigung</span><span>🪴 Beetgestaltung</span><span>🚛 Entrümpelung</span></span></div></div>
 
   <section class="section fotoflow" id="foto">
     <div class="container center stack">
