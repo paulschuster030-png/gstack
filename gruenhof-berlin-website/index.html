@@ -509,6 +509,67 @@ section[id]{scroll-margin-top:96px}
 main.is-pdp > :not(#pdp){display:none}
 main.is-unterseite > :not(.unterseite){display:none}
 
+
+/* ---------- Auswertung (#statistik) ----------
+   Interne Seite für Paul. Nur eine Farbe für alle Balken: die Länge ist die
+   Aussage, die Farbe darf nichts Zusätzliches behaupten. Zahlen und
+   Beschriftungen tragen Textfarben, nie die Balkenfarbe. */
+.stats{padding-block:clamp(20px,4vw,40px) clamp(44px,7vw,80px)}
+.stats__wrap{max-width:960px;margin-inline:auto;padding-inline:var(--gutter)}
+.stats h1{font-size:clamp(1.8rem,4.6vw,2.4rem);margin-bottom:.3em}
+.stats__stand{color:var(--ink-mute);font-size:.88rem;margin:0 0 1.6rem}
+.stats__hinweis{background:var(--brand-tint);border:1px solid var(--brand);border-radius:var(--radius);padding:.9rem 1.1rem;margin-bottom:2rem;font-size:.88rem;line-height:1.6}
+.stats__hinweis p{margin:0 0 .5rem}
+.stats__hinweis p:last-child{margin:0}
+.stats__leer{text-align:center;padding:3rem 1rem;color:var(--ink-soft);background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius-lg)}
+.stats__leer b{display:block;font-size:1.1rem;color:var(--ink);margin-bottom:.4rem}
+
+.stats-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;margin-bottom:2.4rem}
+@media(max-width:720px){.stats-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stats-kachel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem 1.2rem}
+.stats-kachel__wert{font-family:var(--font-display);font-size:clamp(1.9rem,5vw,2.6rem);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.stats-kachel__label{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);margin-top:.5rem}
+.stats-kachel--live .stats-kachel__wert{color:var(--brand-dark)}
+.stats-live-punkt{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--brand);margin-right:.45em;vertical-align:.08em;animation:pulsPunkt 2s ease-in-out infinite}
+@keyframes pulsPunkt{0%,100%{opacity:1}50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){.stats-live-punkt{animation:none}}
+
+.stats-block{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:1.3rem 1.4rem;margin-bottom:1.4rem}
+.stats-block h2{font-size:1.05rem;margin:0 0 .25rem}
+.stats-block__unter{font-size:.84rem;color:var(--ink-mute);margin:0 0 1.2rem}
+.stats-zwei{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+@media(max-width:720px){.stats-zwei{grid-template-columns:1fr}}
+
+/* Säulen: höchstens 24px dick, 4px runde Datenkante oben, unten eckig auf der Grundlinie. */
+.stats-saeulen{display:flex;align-items:flex-end;gap:2px;height:150px;border-bottom:1px solid var(--line);padding-bottom:0}
+.stats-saeule{width:100%;max-width:24px;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;cursor:default}
+.stats-saeule__fuellung{background:var(--brand);border-radius:4px 4px 0 0;min-height:2px;transition:opacity .15s}
+.stats-saeule:hover .stats-saeule__fuellung{opacity:.75}
+.stats-saeulen-spalte{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;height:100%;align-items:center}
+.stats-achse{display:flex;gap:2px;margin-top:.5rem;font-size:.7rem;color:var(--ink-mute)}
+.stats-achse span{flex:1;text-align:center;overflow:hidden;white-space:nowrap}
+
+/* Waagerechte Balken: Wert steht direkt an der Spitze, kein Tooltip nötig. */
+.stats-balken{display:grid;gap:.55rem}
+.stats-balken__zeile{display:grid;grid-template-columns:minmax(0,9rem) 1fr auto;gap:.8rem;align-items:center;font-size:.88rem}
+@media(max-width:520px){.stats-balken__zeile{grid-template-columns:minmax(0,6.5rem) 1fr auto;gap:.5rem;font-size:.82rem}}
+.stats-balken__label{color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stats-balken__spur{background:var(--bg-warm);border-radius:4px;height:14px;overflow:hidden}
+.stats-balken__fuellung{height:100%;background:var(--brand);border-radius:0 4px 4px 0;min-width:2px}
+.stats-balken__wert{font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);min-width:3.4em;text-align:right}
+.stats-balken__wert small{font-weight:600;color:var(--ink-mute);margin-left:.35em}
+
+.stats-tabelle{width:100%;border-collapse:collapse;font-size:.88rem}
+.stats-tabelle th,.stats-tabelle td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--line)}
+.stats-tabelle th{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute)}
+.stats-tabelle td:last-child,.stats-tabelle th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.stats-tabelle tr:last-child td{border-bottom:0}
+
+.stats-aktionen{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
+.stats-aktionen .btn{padding:.6em 1.1em;font-size:.88rem;min-height:42px}
+.stats-tipp{position:fixed;z-index:400;background:var(--ink);color:#fff;font-size:.8rem;padding:.4rem .6rem;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .12s;white-space:nowrap}
+.stats-tipp.is-an{opacity:1}
+
 /* ---------- Rechtstexte als eigene Unterseiten ----------
    Gleiche Technik wie die Produktseiten: eigene Adresse, aber versteckt –
    die Startseite wird dadurch keinen Pixel länger. */
@@ -932,6 +993,18 @@ main.is-unterseite > :not(.unterseite){display:none}
   </div></div></section>
 
   <section class="pdp unterseite" id="pdp" hidden></section>
+<section class="stats unterseite" id="statistik" hidden><div class="stats__wrap">
+  <a class="legal__zurueck" href="#start">← Zurück zur Startseite</a>
+  <h1>Zahlen zur Website</h1>
+  <p class="stats__stand" id="stats-stand"></p>
+  <div class="stats__hinweis">
+    <p><strong>Was hier gezählt wird – und was nicht.</strong> Die Seite zählt selbst, ohne Fremddienst und ohne Cookie. Erfasst werden Zeitpunkt, Geräteart, Zeitzone, Sprache, Herkunftsseite, Verweildauer und welche Knöpfe gedrückt wurden. Es entsteht keine Kennung, mit der sich jemand über mehrere Besuche wiedererkennen ließe.</p>
+    <p><strong>Standorte sind nicht dabei.</strong> Dafür wäre eine IP-Abfrage bei einem Geodienst nötig – die macht diese Seite nicht. Die Zeitzone unten ist ein grober Anhaltspunkt fürs Land, keine Stadt.</p>
+    <p>Gezählt wird nur bei Zustimmung im Cookie-Hinweis. Wer ablehnt, taucht hier nicht auf – die echten Besuchszahlen liegen also höher als die hier gezeigten.</p>
+  </div>
+  <div id="stats-inhalt"></div>
+</div></section>
+
 <section class="legal unterseite" id="legal" hidden><div class="legal__wrap"><article data-legal="impressum" hidden><a class="legal__zurueck" href="#start">← Zurück zur Startseite</a><h1>Impressum</h1><div class="legal__hinweis"><p><strong>Entwurf – bitte vor dem Start vervollständigen und prüfen lassen.</strong>Alle <span class="luecke">gelb markierten Stellen</span> müssen durch Ihre echten Angaben ersetzt werden. Dieser Text ist eine Vorlage, keine Rechtsberatung – lassen Sie ihn vor der Veröffentlichung von einer Anwältin oder einem Anwalt gegenlesen.</p></div>
 <h2>Angaben gemäß § 5 DDG</h2>
 <dl>
@@ -2359,6 +2432,7 @@ main.is-unterseite > :not(.unterseite){display:none}
     // Rechtstexte liegen fertig im Markup und teilen sich die Unterseiten-Technik
     // mit den Produktseiten: eigene Adresse, aber aus der Startseite ausgeblendet.
     var legalEl = document.getElementById('legal');
+    var statsEl = document.getElementById('statistik');
     var LEGAL_TITEL = {
       impressum: 'Impressum',
       datenschutz: 'Datenschutzerklärung',
@@ -2383,10 +2457,24 @@ main.is-unterseite > :not(.unterseite){display:none}
         mainEl.classList.add('is-pdp', 'is-unterseite');
         pdp.hidden = false;
         if (legalEl) legalEl.hidden = true;
+        if (statsEl) statsEl.hidden = true;
         document.title = name + ' – Grünhof Berlin';
         window.scrollTo({ top: 0, behavior: 'instant' });
         return;
       }
+      if (statsEl && (location.hash || '') === '#statistik') {
+        mainEl.classList.remove('is-pdp');
+        mainEl.classList.add('is-unterseite');
+        pdp.hidden = true;
+        if (legalEl) legalEl.hidden = true;
+        statsEl.hidden = false;
+        document.title = 'Zahlen zur Website – Grünhof Berlin';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        if (typeof window.__statistikZeigen === 'function') window.__statistikZeigen();
+        return;
+      }
+      if (statsEl) statsEl.hidden = true;
+
       var rechtsName = zeigeRechtstext((location.hash || '').replace(/^#/, ''));
       if (rechtsName) {
         mainEl.classList.remove('is-pdp');
@@ -2604,6 +2692,369 @@ main.is-unterseite > :not(.unterseite){display:none}
       if (!raum) return;
       raum.presence({ rolle: 'besucher', geraet: BESUCH.geraet, seit: BESUCH.zeit });
     }).catch(function () { /* nicht verfügbar */ });
+  })();
+
+  /* ================= Auswertung (#statistik) =========================
+     Liest die eigenen Zähldaten und rechnet sie zusammen. Rendert nichts,
+     solange keine echten Daten da sind – es gibt hier keine Beispielzahlen. */
+  window.__statistikZeigen = (function () {
+    var inhalt = document.getElementById('stats-inhalt');
+    var standEl = document.getElementById('stats-stand');
+    var tippEl = null;
+    var geladen = false;
+    var raumAus = null;
+    var liveAnzahl = 0;
+
+    function el(tag, klasse, text) {
+      var e = document.createElement(tag);
+      if (klasse) e.className = klasse;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+    function zahl(n) { return Number(n || 0).toLocaleString('de-DE'); }
+    function datumKurz(iso) {
+      var t = new Date(iso + 'T12:00:00');
+      return t.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+    }
+    function dauerText(sek) {
+      if (sek < 60) return Math.round(sek) + ' s';
+      return Math.floor(sek / 60) + ':' + String(Math.round(sek % 60)).padStart(2, '0') + ' min';
+    }
+
+    // ---- Bausteine ------------------------------------------------------
+    function kachel(wert, label, live) {
+      var k = el('div', 'stats-kachel' + (live ? ' stats-kachel--live' : ''));
+      var w = el('div', 'stats-kachel__wert');
+      if (live) {
+        var punkt = el('span', 'stats-live-punkt');
+        punkt.setAttribute('aria-hidden', 'true');
+        w.appendChild(punkt);
+      }
+      w.appendChild(document.createTextNode(String(wert)));
+      k.appendChild(w);
+      k.appendChild(el('div', 'stats-kachel__label', label));
+      return k;
+    }
+
+    function block(titel, unter) {
+      var b = el('section', 'stats-block');
+      b.appendChild(el('h2', null, titel));
+      if (unter) b.appendChild(el('p', 'stats-block__unter', unter));
+      return b;
+    }
+
+    function tipp(text, x, y) {
+      if (!tippEl) { tippEl = el('div', 'stats-tipp'); document.body.appendChild(tippEl); }
+      if (!text) { tippEl.classList.remove('is-an'); return; }
+      tippEl.textContent = text;
+      tippEl.classList.add('is-an');
+      var breite = tippEl.offsetWidth;
+      tippEl.style.left = Math.max(8, Math.min(window.innerWidth - breite - 8, x - breite / 2)) + 'px';
+      tippEl.style.top = Math.max(8, y - tippEl.offsetHeight - 10) + 'px';
+    }
+
+    // Balkenliste: Wert steht an der Spitze, deshalb ohne Tooltip.
+    function balken(paare, gesamt) {
+      var wrap = el('div', 'stats-balken');
+      var max = paare.reduce(function (m, p) { return Math.max(m, p[1]); }, 0) || 1;
+      paare.forEach(function (p) {
+        var z = el('div', 'stats-balken__zeile');
+        z.appendChild(el('div', 'stats-balken__label', p[0]));
+        var spur = el('div', 'stats-balken__spur');
+        var f = el('div', 'stats-balken__fuellung');
+        f.style.width = Math.max(2, Math.round(p[1] / max * 100)) + '%';
+        spur.appendChild(f);
+        z.appendChild(spur);
+        var w = el('div', 'stats-balken__wert', zahl(p[1]));
+        if (gesamt) {
+          var s = el('small', null, Math.round(p[1] / gesamt * 100) + ' %');
+          w.appendChild(s);
+        }
+        z.appendChild(w);
+        wrap.appendChild(z);
+      });
+      return wrap;
+    }
+
+    // Säulen pro Tag. Nur der höchste Wert wird beschriftet, der Rest hängt am Tooltip.
+    function saeulen(tage) {
+      var wrap = el('div');
+      var reihe = el('div', 'stats-saeulen');
+      var max = tage.reduce(function (m, t) { return Math.max(m, t.anzahl); }, 0) || 1;
+      tage.forEach(function (t) {
+        var spalte = el('div', 'stats-saeulen-spalte');
+        var s = el('div', 'stats-saeule');
+        var f = el('div', 'stats-saeule__fuellung');
+        f.style.height = Math.max(2, Math.round(t.anzahl / max * 148)) + 'px';
+        s.appendChild(f);
+        s.tabIndex = 0;
+        s.setAttribute('role', 'img');
+        s.setAttribute('aria-label', datumKurz(t.tag) + ': ' + t.anzahl + ' Besuche');
+        var text = datumKurz(t.tag) + ': ' + zahl(t.anzahl) + (t.anzahl === 1 ? ' Besuch' : ' Besuche');
+        s.addEventListener('mousemove', function (e) { tipp(text, e.clientX, e.clientY); });
+        s.addEventListener('mouseleave', function () { tipp(null); });
+        s.addEventListener('focus', function () {
+          var r = s.getBoundingClientRect();
+          tipp(text, r.left + r.width / 2, r.top);
+        });
+        s.addEventListener('blur', function () { tipp(null); });
+        spalte.appendChild(s);
+        reihe.appendChild(spalte);
+      });
+      wrap.appendChild(reihe);
+      var achse = el('div', 'stats-achse');
+      tage.forEach(function (t, i) {
+        // Nicht jeden Tag beschriften – sonst überlagern sich die Zahlen.
+        var jeder = tage.length > 10 ? 3 : 1;
+        achse.appendChild(el('span', null, i % jeder === 0 || i === tage.length - 1 ? datumKurz(t.tag) : ''));
+      });
+      wrap.appendChild(achse);
+      return wrap;
+    }
+
+    function tabelle(kopf, zeilen) {
+      var t = el('table', 'stats-tabelle');
+      var thead = el('thead'), tr = el('tr');
+      kopf.forEach(function (k) { tr.appendChild(el('th', null, k)); });
+      thead.appendChild(tr); t.appendChild(thead);
+      var tb = el('tbody');
+      zeilen.forEach(function (z) {
+        var r = el('tr');
+        z.forEach(function (c) { r.appendChild(el('td', null, String(c))); });
+        tb.appendChild(r);
+      });
+      t.appendChild(tb);
+      return t;
+    }
+
+    // ---- Zusammenrechnen -------------------------------------------------
+    function auswerten(besuche) {
+      var heute = new Date().toISOString().slice(0, 10);
+      var jetzt = Date.now();
+      var proTag = {}, geraete = {}, herkunft = {}, zonen = {}, sprachen = {}, tiefen = {}, ereignisse = {}, produkte = {};
+      var dauerSumme = 0, dauerZahl = 0;
+
+      besuche.forEach(function (b) {
+        proTag[b.tag] = (proTag[b.tag] || 0) + 1;
+        geraete[b.geraet || 'unbekannt'] = (geraete[b.geraet || 'unbekannt'] || 0) + 1;
+        herkunft[b.herkunft || 'direkt'] = (herkunft[b.herkunft || 'direkt'] || 0) + 1;
+        zonen[b.zone || 'unbekannt'] = (zonen[b.zone || 'unbekannt'] || 0) + 1;
+        sprachen[b.sprache || 'unbekannt'] = (sprachen[b.sprache || 'unbekannt'] || 0) + 1;
+        tiefen[b.tiefe || 0] = (tiefen[b.tiefe || 0] || 0) + 1;
+        if (b.dauer > 0) { dauerSumme += b.dauer; dauerZahl++; }
+        (b.ereignisse || []).forEach(function (e) {
+          if (e.indexOf('produkt:') === 0) produkte[e.slice(8)] = (produkte[e.slice(8)] || 0) + 1;
+          else ereignisse[e] = (ereignisse[e] || 0) + 1;
+        });
+      });
+
+      var tage = [];
+      for (var i = 13; i >= 0; i--) {
+        var d = new Date(jetzt - i * 86400000).toISOString().slice(0, 10);
+        tage.push({ tag: d, anzahl: proTag[d] || 0 });
+      }
+      var sieben = tage.slice(-7).reduce(function (a, t) { return a + t.anzahl; }, 0);
+
+      return {
+        gesamt: besuche.length,
+        heute: proTag[heute] || 0,
+        sieben: sieben,
+        tage: tage,
+        geraete: geraete, herkunft: herkunft, zonen: zonen, sprachen: sprachen,
+        tiefen: tiefen, ereignisse: ereignisse, produkte: produkte,
+        dauerSchnitt: dauerZahl ? dauerSumme / dauerZahl : 0
+      };
+    }
+
+    function sortiert(obj) {
+      return Object.keys(obj).map(function (k) { return [k, obj[k]]; })
+        .sort(function (a, b) { return b[1] - a[1]; });
+    }
+
+    // ---- Fakten zur Seite: direkt aus dem Dokument gemessen -------------
+    function faktenBlock() {
+      var b = block('Fakten zur Seite', 'Beim Öffnen dieser Auswertung direkt aus der Seite gemessen – die Zahlen bleiben richtig, auch wenn sich die Seite ändert.');
+      var abschnitte = document.querySelectorAll('main > section:not(.unterseite)').length;
+      var extern = document.querySelectorAll('script[src], link[rel=stylesheet], img[src^="http"]').length;
+      var groesse = Math.round(document.documentElement.outerHTML.length / 1024);
+      b.appendChild(tabelle(['Merkmal', 'Wert'], [
+        ['Abschnitte auf der Startseite', abschnitte],
+        ['Leistungen', document.querySelectorAll('.flip-card').length],
+        ['Artikel im Shop', document.querySelectorAll('.product-card[data-produkt]').length],
+        ['Häufige Fragen', document.querySelectorAll('.faq details, details').length],
+        ['Gebiete im Einzugsbereich', document.querySelectorAll('.gebiet__chip').length || '–'],
+        ['Kontaktwege (Telefon / WhatsApp / E-Mail)',
+          document.querySelectorAll('[data-biz-tel]').length + ' / ' +
+          document.querySelectorAll('[data-biz-wa]').length + ' / ' +
+          document.querySelectorAll('[data-biz-mail]').length],
+        ['Seitengröße', zahl(groesse) + ' KB'],
+        ['Nachgeladene Fremddateien', extern === 0 ? 'keine – die Seite ist eine einzige Datei' : extern]
+      ]));
+      return b;
+    }
+
+    // ---- Aufbau ----------------------------------------------------------
+    function zeichnen(besuche) {
+      var a = auswerten(besuche);
+      inhalt.innerHTML = '';
+
+      var kpi = el('div', 'stats-kpi');
+      kpi.appendChild(kachel(liveAnzahl, 'gerade auf der Seite', true));
+      kpi.appendChild(kachel(zahl(a.heute), 'Besuche heute'));
+      kpi.appendChild(kachel(zahl(a.sieben), 'letzte 7 Tage'));
+      kpi.appendChild(kachel(zahl(a.gesamt), 'Besuche gesamt'));
+      inhalt.appendChild(kpi);
+
+      var bTage = block('Besuche pro Tag', 'Die letzten 14 Tage. Auf eine Säule zeigen zeigt den genauen Wert.');
+      bTage.appendChild(saeulen(a.tage));
+      inhalt.appendChild(bTage);
+
+      var zwei = el('div', 'stats-zwei');
+      var bGeraet = block('Womit', 'Bildschirmbreite beim Aufruf.');
+      bGeraet.appendChild(balken(sortiert(a.geraete), a.gesamt));
+      var bHer = block('Woher', 'Die Seite, von der jemand kam.');
+      bHer.appendChild(balken(sortiert(a.herkunft).slice(0, 6), a.gesamt));
+      zwei.appendChild(bGeraet); zwei.appendChild(bHer);
+      inhalt.appendChild(zwei);
+
+      var zwei2 = el('div', 'stats-zwei');
+      var bZone = block('Zeitzone', 'Grober Anhaltspunkt fürs Land – kein Standort, keine Stadt.');
+      bZone.appendChild(balken(sortiert(a.zonen).slice(0, 6), a.gesamt));
+      var bSpr = block('Sprache im Browser', 'Woraufhin die Seite später einmal übersetzt werden könnte.');
+      bSpr.appendChild(balken(sortiert(a.sprachen).slice(0, 6), a.gesamt));
+      zwei2.appendChild(bZone); zwei2.appendChild(bSpr);
+      inhalt.appendChild(zwei2);
+
+      // Trichter: eine Farbe für alle Stufen – die Länge trägt die Aussage.
+      var stufen = [
+        ['Seite geöffnet', a.gesamt],
+        ['bis zum Shop gescrollt', Object.keys(a.tiefen).filter(function (t) { return +t >= 10; })
+          .reduce(function (x, t) { return x + a.tiefen[t]; }, 0)],
+        ['Produktseite angesehen', Object.keys(a.produkte).reduce(function (x, k) { return x + a.produkte[k]; }, 0)],
+        ['in den Warenkorb gelegt', a.ereignisse['warenkorb'] || 0],
+        ['WhatsApp geöffnet', a.ereignisse['whatsapp'] || 0],
+        ['Anruf gestartet', a.ereignisse['anruf'] || 0],
+        ['Anfrage abgeschickt', a.ereignisse['anfrage-abgeschickt'] || 0],
+        ['Bestellung abgeschickt', a.ereignisse['bestellung-abgeschickt'] || 0]
+      ];
+      var bTr = block('Was die Besucher tun', 'Jede Zeile zählt Besuche, in denen das mindestens einmal passiert ist.');
+      bTr.appendChild(balken(stufen, a.gesamt));
+      inhalt.appendChild(bTr);
+
+      var bLese = block('Wie weit gelesen wird', 'Der tiefste Abschnitt, den ein Besuch erreicht hat. Durchschnittliche Verweildauer: ' + dauerText(a.dauerSchnitt) + '.');
+      var namen = [].slice.call(document.querySelectorAll('main > section:not(.unterseite)')).map(function (sek, i) {
+        var h = sek.querySelector('h1, h2');
+        return (i + 1) + '. ' + (h ? h.textContent.replace(/\s+/g, ' ').trim().slice(0, 26) : sek.className);
+      });
+      var lesePaare = namen.map(function (nm, i) {
+        var erreicht = 0;
+        Object.keys(a.tiefen).forEach(function (t) { if (+t >= i + 1) erreicht += a.tiefen[t]; });
+        return [nm, erreicht];
+      });
+      bLese.appendChild(balken(lesePaare, a.gesamt));
+      inhalt.appendChild(bLese);
+
+      if (Object.keys(a.produkte).length) {
+        var bProd = block('Welche Produktseiten', 'Wie oft eine einzelne Produktseite geöffnet wurde.');
+        bProd.appendChild(balken(sortiert(a.produkte)));
+        inhalt.appendChild(bProd);
+      }
+
+      inhalt.appendChild(faktenBlock());
+
+      var aktionen = el('div', 'stats-aktionen');
+      var csv = el('button', 'btn btn--ghost', 'Als Tabelle herunterladen (CSV)');
+      csv.type = 'button';
+      csv.addEventListener('click', function () { herunterladen(besuche, csv); });
+      aktionen.appendChild(csv);
+      var neu = el('button', 'btn btn--ghost', 'Neu laden');
+      neu.type = 'button';
+      neu.addEventListener('click', function () { geladen = false; starten(); });
+      aktionen.appendChild(neu);
+      inhalt.appendChild(aktionen);
+
+      standEl.textContent = 'Stand: ' + new Date().toLocaleString('de-DE') + ' · ' + zahl(besuche.length) + ' gezählte Besuche';
+    }
+
+    function csvFeld(w) {
+      var t = String(w == null ? '' : w);
+      return /[";\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+    }
+    function herunterladen(besuche, knopf) {
+      var kopf = ['Zeitpunkt', 'Tag', 'Geraet', 'Zeitzone', 'Sprache', 'Herkunft', 'Verweildauer_Sekunden', 'Tiefster_Abschnitt', 'Ereignisse'];
+      var zeilen = besuche.slice().sort(function (x, y) { return x.zeit - y.zeit; }).map(function (b) {
+        return [new Date(b.zeit).toLocaleString('de-DE'), b.tag, b.geraet, b.zone, b.sprache, b.herkunft,
+          b.dauer, b.tiefe, (b.ereignisse || []).join(' | ')].map(csvFeld).join(';');
+      });
+      // Semikolon und BOM, damit Excel auf Deutsch die Spalten richtig trennt.
+      var text = '﻿' + kopf.join(';') + '\n' + zeilen.join('\n');
+      if (!window.claude || typeof window.claude.use !== 'function') { knopf.textContent = 'Download hier nicht möglich'; return; }
+      knopf.disabled = true;
+      window.claude.use('downloads').then(function (dl) {
+        if (!dl) { knopf.textContent = 'Download nicht verfügbar'; knopf.disabled = false; return; }
+        return dl.save({ filename: 'gruenhof-besuche-' + new Date().toISOString().slice(0, 10) + '.csv', data: text })
+          .then(function () { knopf.textContent = 'Gespeichert'; setTimeout(function () { knopf.textContent = 'Als Tabelle herunterladen (CSV)'; knopf.disabled = false; }, 2500); });
+      }).catch(function () { knopf.textContent = 'Download abgebrochen'; knopf.disabled = false; });
+    }
+
+    function leer(titel, text) {
+      inhalt.innerHTML = '';
+      var l = el('div', 'stats__leer');
+      l.appendChild(el('b', null, titel));
+      l.appendChild(el('p', null, text));
+      inhalt.appendChild(l);
+      standEl.textContent = '';
+    }
+
+    function starten() {
+      if (geladen) return;
+      if (!window.claude || typeof window.claude.use !== 'function') {
+        leer('Zahlen gibt es nur in der veröffentlichten Fassung',
+          'Diese Auswertung liest die Zählung der Live-Seite. In einer lokal geöffneten Datei gibt es die nicht.');
+        return;
+      }
+      leer('Wird geladen …', 'Einen Moment.');
+
+      window.claude.use('db').then(function (db) {
+        if (!db) {
+          leer('Zählung nicht verfügbar', 'Die Seite konnte den Datenspeicher nicht erreichen. Später noch einmal versuchen.');
+          return;
+        }
+        return db.collection('besuche').get().then(function (snap) {
+          var liste = (snap && snap.docs ? snap.docs : []).map(function (d) {
+            return d && typeof d.data === 'function' ? d.data() : d;
+          }).filter(Boolean);
+          geladen = true;
+          if (!liste.length) {
+            leer('Noch keine Besuche gezählt',
+              'Sobald jemand die Seite öffnet und dem Cookie-Hinweis zustimmt, erscheinen hier Zahlen. Bis dahin ist die Tabelle leer – erfundene Werte stehen hier bewusst nicht.');
+            return;
+          }
+          zeichnen(liste);
+        });
+      }).catch(function () {
+        leer('Zahlen konnten nicht geladen werden', 'Bitte später noch einmal versuchen.');
+      });
+
+      // Wer gerade offen hat. Das eigene Fenster zählt nicht mit.
+      if (!raumAus) {
+        window.claude.use('room').then(function (raum) {
+          if (!raum) return;
+          raum.presence({ rolle: 'auswertung' });
+          raumAus = raum.onPeers(function (peers) {
+            var liste = Array.isArray(peers) ? peers : (peers && peers.peers) || [];
+            liveAnzahl = liste.filter(function (p) {
+              var z = (p && p.presence) || p || {};
+              return z.rolle === 'besucher';
+            }).length;
+            var wert = inhalt.querySelector('.stats-kachel--live .stats-kachel__wert');
+            if (wert) wert.lastChild.textContent = String(liveAnzahl);
+          });
+        }).catch(function () { /* nicht verfügbar */ });
+      }
+    }
+
+    return starten;
   })();
 
 })();
