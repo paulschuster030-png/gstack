@@ -335,17 +335,36 @@ section[id]{scroll-margin-top:96px}
 @media(max-width:560px){.float-cta{display:none}}
 @media(prefers-reduced-motion:reduce){.float-cta__pulse{animation:none}}
 
-/* ---------- Cookie-Hinweis ---------- */
-.cookie-banner{position:fixed;left:16px;bottom:16px;z-index:280;width:min(640px,calc(100vw - 32px));display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:.85rem 1.05rem;transform:translateY(170%);opacity:0;visibility:hidden;pointer-events:none;transition:transform .5s var(--ease),opacity .35s var(--ease),visibility 0s linear .5s}
-.cookie-banner.is-visible{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto;transition:transform .5s var(--ease),opacity .35s var(--ease),visibility 0s}
-.cookie-banner p{margin:0;font-size:.84rem;line-height:1.45;color:var(--ink-soft);flex:1}
-.cookie-banner__actions{display:flex;gap:.5rem;flex:none}
-.cookie-banner__actions .btn{min-height:40px;padding:.5em 1.1em;font-size:.9rem}
-/* Auf dem Handy bleibt zwischen den Hero-Knöpfen und der Sticky-Leiste nur ein
-   schmaler Streifen. Das Banner muss da hineinpassen, ohne einen Knopf zu
-   verdecken – deshalb kleiner gesetzt und knapper gepolstert. */
-@media(max-width:700px){.cookie-banner{left:10px;bottom:86px;width:calc(100vw - 20px);flex-direction:column;align-items:stretch;gap:.55rem;padding:.7rem .85rem}.cookie-banner p{font-size:.78rem;line-height:1.4}.cookie-banner__actions .btn{flex:1;min-height:38px;font-size:.86rem}}
-@media(prefers-reduced-motion:reduce){.cookie-banner{transition:none}}
+/* ---------- Cookie-Dialog ----------
+   Groß und mittig, damit die Frage nicht überlesen wird.
+   Wichtig: Beide Knöpfe sind exakt gleich groß, gleich fett und gleich
+   auffällig. Ein großes „Einverstanden“ neben einem kleinen, blassen
+   „Ablehnen“ ist ein dunkles Muster – in Deutschland abmahnfähig und für
+   eine wirksame Einwilligung untauglich. Unterschiedlich sind nur die
+   Farben, nicht das Gewicht. */
+.cookie-modal{position:fixed;inset:0;z-index:400;display:grid;place-items:center;padding:1.2rem;background:rgba(16,24,19,.62);backdrop-filter:blur(3px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s var(--ease),visibility 0s linear .3s}
+.cookie-modal.is-visible{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s var(--ease),visibility 0s}
+.cookie-modal[hidden]{display:none}
+.cookie-modal__box{width:min(560px,100%);max-height:calc(100vh - 2.4rem);overflow-y:auto;background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 32px 80px rgba(16,24,19,.34);padding:clamp(1.6rem,4vw,2.4rem);text-align:center;transform:translateY(18px) scale(.97);transition:transform .32s var(--ease)}
+.cookie-modal.is-visible .cookie-modal__box{transform:none}
+.cookie-modal__icon{font-size:2.6rem;line-height:1;display:block;margin-bottom:.5rem}
+.cookie-modal__box h2{font-size:clamp(1.4rem,4vw,1.8rem);margin:0 0 .5rem}
+.cookie-modal__box p{margin:0 0 1.1rem;color:var(--ink-soft);font-size:1rem;line-height:1.6}
+.cookie-modal__punkte{list-style:none;margin:0 0 1.6rem;padding:0;display:grid;gap:.55rem;text-align:left;font-size:.94rem;color:var(--ink-soft)}
+.cookie-modal__punkte li{display:grid;grid-template-columns:1.3em 1fr;gap:.5em;line-height:1.5}
+.cookie-modal__punkte li::before{content:"✓";color:var(--brand);font-weight:800}
+.cookie-modal__actions{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.cookie-modal__btn{font:inherit;font-size:1.02rem;font-weight:700;min-height:60px;padding:.9em 1em;border-radius:var(--radius-pill);border:2px solid transparent;cursor:pointer;transition:transform .15s var(--ease),background .2s,border-color .2s}
+.cookie-modal__btn:hover{transform:translateY(-2px)}
+.cookie-modal__btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.cookie-modal__btn--ja{background:var(--brand);color:#fff;border-color:var(--brand)}
+.cookie-modal__btn--ja:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+.cookie-modal__btn--nein{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cookie-modal__btn--nein:hover{background:#0d1712;border-color:#0d1712}
+.cookie-modal__fuss{margin:1.1rem 0 0;font-size:.84rem;color:var(--ink-mute)}
+.cookie-modal__fuss a{color:var(--brand-dark);display:inline-flex;align-items:center;min-height:24px}
+@media(max-width:480px){.cookie-modal__actions{grid-template-columns:1fr}.cookie-modal__punkte{font-size:.9rem}}
+@media(prefers-reduced-motion:reduce){.cookie-modal,.cookie-modal__box{transition:none}}
 
 /* ---------- Bestätigung nach dem Hinzufügen ----------
    Der Warenkorb springt beim Klick auf ＋ nicht mehr auf. Stattdessen sagt
@@ -625,11 +644,21 @@ main.is-unterseite > :not(.unterseite){display:none}
 
 <div class="add-toast" id="add-toast" role="status" aria-live="polite" hidden></div>
 
-<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie-Hinweis" hidden>
-  <p>🍪 Wir speichern Ihren Warenkorb und diese Entscheidung und zählen anonym mit, wie die Seite genutzt wird – ohne Fremddienst, ohne Werbung, ohne Wiedererkennung bei einem späteren Besuch. Bei <strong>Ablehnen</strong> wird nichts gespeichert und nichts gezählt.</p>
-  <div class="cookie-banner__actions">
-    <button type="button" class="btn btn--ghost" id="cookie-reject">Ablehnen</button>
-    <button type="button" class="btn btn--gold" id="cookie-accept">Einverstanden</button>
+<div class="cookie-modal" id="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="cookie-titel" aria-describedby="cookie-text" hidden>
+  <div class="cookie-modal__box">
+    <span class="cookie-modal__icon" aria-hidden="true">🍪</span>
+    <h2 id="cookie-titel">Eine Frage, bevor es losgeht</h2>
+    <p id="cookie-text">Damit Ihr Warenkorb erhalten bleibt und wir sehen, wie die Seite genutzt wird, speichern wir zwei Kleinigkeiten in Ihrem Browser und zählen anonym mit.</p>
+    <ul class="cookie-modal__punkte">
+      <li><span>Kein Fremddienst, keine Werbung, kein Weiterverkauf</span></li>
+      <li><span>Keine Wiedererkennung bei einem späteren Besuch</span></li>
+      <li><span>Bei <strong>Ablehnen</strong> wird nichts gespeichert und nichts gezählt</span></li>
+    </ul>
+    <div class="cookie-modal__actions">
+      <button type="button" class="cookie-modal__btn cookie-modal__btn--nein" id="cookie-reject">Ablehnen</button>
+      <button type="button" class="cookie-modal__btn cookie-modal__btn--ja" id="cookie-accept">Einverstanden</button>
+    </div>
+    <p class="cookie-modal__fuss">Beide Wege führen weiter zur Seite. Einzelheiten stehen in der <a href="#datenschutz">Datenschutzerklärung</a>.</p>
   </div>
 </div>
 
@@ -2438,44 +2467,40 @@ main.is-unterseite > :not(.unterseite){display:none}
       entschieden = true;
       document.dispatchEvent(new CustomEvent('gruenhof:consent', { detail: { ok: speichernErlaubt } }));
       banner.classList.remove('is-visible');
-      setTimeout(function () { banner.hidden = true; }, 550);
+      document.documentElement.style.overflow = '';
+      document.removeEventListener('keydown', tastenFalle, true);
+      setTimeout(function () { banner.hidden = true; }, 400);
+      if (vorherFokus && typeof vorherFokus.focus === 'function') vorherFokus.focus();
     }
 
-    // Ein fest stehendes Banner liegt zwangsläufig auf irgendeinem Inhalt –
-    // beim Vorher/Nachher-Regler sogar auf einem Bedienelement. Deshalb
-    // zeigen wir es nur am Seitenanfang, wo nichts darunter liegt, und
-    // ziehen es beim Weiterscrollen zurück. Wer nach oben zurückkehrt,
-    // bekommt es wieder zu sehen.
+    // Ein Dialog in der Bildmitte wird gesehen und beantwortet, statt
+    // weggescrollt zu werden. Er erscheint genau einmal – wer entschieden
+    // hat, bekommt ihn nie wieder. Solange er offen ist, bleibt die Seite
+    // dahinter stehen und der Tastaturweg im Dialog gefangen, sonst tabbt
+    // man an der Frage vorbei in eine Seite, die man gar nicht bedienen soll.
     var entschieden = !!consentStatus();
-    // Auf dem Handy sitzt das Anfrageformular direkt unter dem Hero, deshalb
-    // muss sich das Banner dort schon nach wenigen Pixeln zurückziehen.
-    var OBEN_BIS = window.innerWidth <= 700 ? 140 : 560;
-    var offen = false;
-    var wartet = false;
+    var vorherFokus = null;
 
-    var hauptEl = document.querySelector('main');
-    function aufUnterseite() {
-      return !!hauptEl && hauptEl.classList.contains('is-unterseite');
-    }
-    function sichtbarkeitPruefen() {
-      wartet = false;
-      if (entschieden) return;
-      var soll = !aufUnterseite() && window.scrollY < OBEN_BIS;
-      if (soll === offen) return;
-      offen = soll;
-      banner.classList.toggle('is-visible', soll);
+    function tastenFalle(e) {
+      if (e.key !== 'Tab') return;
+      var ziele = [neinBtn, jaBtn, banner.querySelector('a')].filter(Boolean);
+      var erster = ziele[0], letzter = ziele[ziele.length - 1];
+      if (e.shiftKey && document.activeElement === erster) { letzter.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === letzter) { erster.focus(); e.preventDefault(); }
     }
 
     if (!entschieden) {
+      vorherFokus = document.activeElement;
       banner.hidden = false;
+      document.documentElement.style.overflow = 'hidden';
+      document.addEventListener('keydown', tastenFalle, true);
       requestAnimationFrame(function () {
-        requestAnimationFrame(sichtbarkeitPruefen);
-      });
-      document.addEventListener('scroll', function () {
-        if (!wartet) { wartet = true; requestAnimationFrame(sichtbarkeitPruefen); }
-      }, { passive: true });
-      window.addEventListener('hashchange', function () {
-        setTimeout(sichtbarkeitPruefen, 0);
+        requestAnimationFrame(function () {
+          banner.classList.add('is-visible');
+          // „Ablehnen“ steht zuerst im Fokus – wer nur Enter drückt, stimmt
+          // nichts zu, was er nicht gelesen hat.
+          neinBtn.focus();
+        });
       });
     }
     jaBtn.addEventListener('click', function () { entscheiden('ja'); });
