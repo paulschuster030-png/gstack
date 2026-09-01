@@ -187,19 +187,6 @@ section[id]{scroll-margin-top:96px}
 .bundle__total small{font-family:var(--font-body);font-size:.78rem;color:var(--ink-mute);font-weight:600;display:block}
 .service-hint{margin-top:1.2rem;background:var(--brand-tint);border-radius:12px;padding:1rem 1.1rem;font-size:.88rem;color:var(--ink-soft);max-width:680px}
 .service-hint a{font-weight:650;cursor:pointer}
-.tf-demo{background:#101813;padding:0;display:grid;place-items:center;overflow:hidden}
-.tf-demo__scene{position:relative;width:min(100%,1240px);aspect-ratio:12/7;transform:scale(1.02)}
-.tf-demo__scene .tf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.tf-demo__scene .tf-after{clip-path:inset(0 calc((1 - var(--p,0)) * 100%) 0 0)}
-.tf-demo__handle{position:absolute;top:0;bottom:0;left:calc(var(--p,0) * 100%);width:3px;background:rgba(255,255,255,.92);box-shadow:0 0 20px rgba(0,0,0,.35);transform:translateX(-1.5px);cursor:ew-resize;touch-action:none}
-.tf-demo__handle span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:#fff;box-shadow:var(--shadow-md);display:grid;place-items:center;color:var(--brand-dark)}
-.tf-demo__handle:focus-visible span{outline:3px solid #fff;outline-offset:3px}
-.tf-demo__tags{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;font-family:var(--font-display);font-size:clamp(.86rem,2.6vw,1.2rem);color:#fff;pointer-events:none}
-.tf-demo__tags span{background:rgba(12,20,15,.58);padding:.22em .8em;border-radius:var(--radius-pill)}
-.tf-demo__intro{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:min(92%,780px);text-align:center;color:#fff;padding:1rem 1.4rem;border-radius:var(--radius-lg);background:linear-gradient(180deg,rgba(12,20,15,.62),rgba(12,20,15,.3));text-shadow:0 2px 12px rgba(0,0,0,.55);pointer-events:none}
-.tf-demo__intro .eyebrow{color:var(--accent-soft);justify-content:center}.tf-demo__intro .eyebrow::before{background:var(--accent-soft)}
-.tf-demo__intro h2{color:#fff;margin:.4rem 0 .2rem}
-@media(max-width:720px){.tf-demo__scene{aspect-ratio:auto;height:66svh}}
 .mcta{position:sticky;bottom:0;z-index:50;display:none;gap:.55rem;padding:.6rem .7rem;background:rgba(251,250,247,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(27,42,35,.1)}
 .mcta .btn{flex:1;min-height:50px}
 @media(max-width:1024px){.usp-grid{grid-template-columns:repeat(2,1fr)}.service-grid,.plan-grid,.steps,.review-grid{grid-template-columns:repeat(2,1fr)}.stat-row{grid-template-columns:repeat(2,1fr);gap:1.6rem}}
@@ -310,8 +297,6 @@ section[id]{scroll-margin-top:96px}
   .marquee__row{animation-duration:34s!important;animation-iteration-count:infinite!important}
 }
 
-.tf-demo__handle::after{content:"";position:absolute;top:50%;left:50%;width:48px;height:48px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 0 rgba(255,255,255,.55);animation:handlePulse 2s ease-out 1s 3;pointer-events:none}
-@keyframes handlePulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}100%{box-shadow:0 0 0 24px rgba(255,255,255,0)}}
 
 .icon-btn{will-change:transform}
 
@@ -633,7 +618,6 @@ main.is-unterseite > :not(.unterseite){display:none}
 
 @media(prefers-reduced-motion:reduce){
   :where(.reveal){opacity:1;transform:none;transition:none}
-  .tf-demo__handle::after{animation:none}
 }
 </style>
 
@@ -818,35 +802,6 @@ main.is-unterseite > :not(.unterseite){display:none}
       <article class="service-card flip-card" tabindex="0" role="button" aria-label="Objektbetreuung – Details und Anfrage"><div class="flip-card__inner"><div class="flip-card__face"><div class="ico">🏢</div><h3>Objektbetreuung</h3><p>Für Eigentümer &amp; Hausverwaltungen: Reinigung, Kontrolle, Grünpflege.</p><span class="price-hint">Preis auf Anfrage</span><span class="flip-card__hint">Details ansehen</span></div><div class="flip-card__face flip-card__face--back"><div class="ico">🏢</div><h3>Objektbetreuung</h3><p>Ein fester Ansprechpartner für Ihre Immobilie: Reinigung, Kontrollgänge, Grünpflege und kleine Reparaturen – mit monatlichem Bericht.</p><a href="#kontakt" class="btn btn--gold js-preset-leistung" data-leistung="objekt">Angebot fürs Objekt</a></div></div></article>
     </div>
   </div></section>
-
-  <section class="tf-demo">
-    <div class="tf-demo__scene" style="--p:.55">
-      <svg class="tf-img" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs><linearGradient id="s0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DA290"/><stop offset="1" stop-color="#BAB79E"/></linearGradient></defs>
-        <rect width="1200" height="700" fill="url(#s0)"/>
-        <rect x="0" y="398" width="1200" height="302" fill="#6E7347"/>
-        <ellipse cx="250" cy="560" rx="152" ry="38" fill="#7E6E46"/><ellipse cx="810" cy="640" rx="196" ry="44" fill="#7A6942"/><ellipse cx="560" cy="498" rx="92" ry="22" fill="#7E6E46" opacity=".65"/>
-        <path d="M50 400 q22-92 92-72 q12-70 82-58 q42-56 98-16 q56-26 98 26 q66-16 86 56 q54 10 46 64 z" fill="#54603A"/>
-        <path d="M700 400 q16-72 76-60 q28-58 86-30 q52-30 86 22 q58-8 64 68 z" fill="#4E5A36"/>
-        <g stroke="#5C6B3C" stroke-width="5" fill="none" stroke-linecap="round"><path d="M120 640 q-10-90 6-150"/><path d="M140 646 q8-100 -4-160"/><path d="M158 636 q-6-80 8-130"/><path d="M420 620 q-12-100 4-170"/><path d="M442 628 q10-110 -6-166"/><path d="M905 610 q-10-90 2-146"/><path d="M927 618 q8-96 -4-150"/><path d="M948 604 q-8-70 6-116"/><path d="M640 660 q-10-80 4-130"/><path d="M662 666 q8-86 -4-136"/><path d="M1080 630 q-8-84 4-134"/></g>
-        <g fill="#6B5136" opacity=".8"><ellipse cx="330" cy="602" rx="19" ry="9" transform="rotate(-20 330 602)"/><ellipse cx="520" cy="662" rx="21" ry="10" transform="rotate(14 520 662)"/><ellipse cx="1035" cy="582" rx="18" ry="8" transform="rotate(-8 1035 582)"/><ellipse cx="742" cy="540" rx="17" ry="8" transform="rotate(28 742 540)"/></g>
-      </svg>
-      <svg class="tf-img tf-after" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E7BE"/><stop offset="1" stop-color="#E3EDDF"/></linearGradient><linearGradient id="l1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A2C9A0"/><stop offset="1" stop-color="#6DA878"/></linearGradient></defs>
-        <rect width="1200" height="700" fill="url(#s1)"/><circle cx="960" cy="150" r="94" fill="#FBEFCF" opacity=".8"/>
-        <rect x="0" y="326" width="1200" height="104" rx="26" fill="#3E7C5B"/>
-        <rect x="0" y="416" width="1200" height="284" fill="url(#l1)"/>
-        <g fill="#8FC093" opacity=".55"><rect x="0" y="450" width="1200" height="16"/><rect x="0" y="500" width="1200" height="16"/><rect x="0" y="558" width="1200" height="18"/></g>
-        <circle cx="150" cy="470" r="48" fill="#4F8158"/><circle cx="1052" cy="486" r="54" fill="#4F8158"/>
-        <ellipse cx="600" cy="602" rx="250" ry="48" fill="#7A5A3E"/>
-        <g><circle cx="466" cy="586" r="13" fill="#D46A8B"/><circle cx="514" cy="602" r="13" fill="#E5A93E"/><circle cx="562" cy="584" r="13" fill="#B57BC0"/><circle cx="610" cy="604" r="13" fill="#D46A8B"/><circle cx="658" cy="586" r="13" fill="#E5A93E"/><circle cx="706" cy="602" r="13" fill="#B57BC0"/></g>
-        <path d="M520 700 L566 468 L636 468 L702 700Z" fill="#E8DDC1"/>
-      </svg>
-      <div class="tf-demo__tags"><span style="color:var(--accent-soft)">Nachher</span><span>Vorher</span></div>
-      <div class="tf-demo__handle"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg></span></div>
-      <div class="tf-demo__intro"><span class="eyebrow">In einem Termin</span><h2>Vom Dschungel zum Vorzeigegarten</h2><p>Regler ziehen (Maus, Finger oder Pfeiltasten) und selbst vergleichen.</p></div>
-    </div>
-  </section>
 
   <section class="section"><div class="container">
     <div class="center stack" style="margin-bottom:3rem"><span class="eyebrow">Beliebte Pakete</span><h2>Wählen Sie einen Startpunkt</h2><p class="lead">Jedes Paket passen wir bei der Besichtigung vor Ort an – und nennen Ihnen dann einen festen Preis.</p></div>
@@ -1856,64 +1811,6 @@ main.is-unterseite > :not(.unterseite){display:none}
   });
 
   /* ---------- Vorher/Nachher-Regler ---------- */
-  (function () {
-    var scene = document.querySelector('.tf-demo__scene');
-    var handle = document.querySelector('.tf-demo__handle');
-    if (!scene || !handle) return;
-    var dragging = false;
-
-    function currentP() {
-      var v = parseFloat(scene.style.getPropertyValue('--p'));
-      return isNaN(v) ? 0.55 : v;
-    }
-    function setP(p) {
-      p = Math.min(1, Math.max(0, p));
-      scene.style.setProperty('--p', p.toFixed(3));
-      handle.setAttribute('aria-valuenow', String(Math.round(p * 100)));
-    }
-    function pFromEvent(clientX) {
-      var rect = scene.getBoundingClientRect();
-      return (clientX - rect.left) / rect.width;
-    }
-
-    handle.setAttribute('role', 'slider');
-    handle.setAttribute('tabindex', '0');
-    handle.setAttribute('aria-label', 'Vorher/Nachher-Vergleich verschieben');
-    handle.setAttribute('aria-valuemin', '0');
-    handle.setAttribute('aria-valuemax', '100');
-    handle.setAttribute('aria-valuenow', String(Math.round(currentP() * 100)));
-
-    handle.addEventListener('pointerdown', function (e) {
-      dragging = true;
-      handle.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    });
-    handle.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
-      setP(pFromEvent(e.clientX));
-    });
-    handle.addEventListener('pointerup', function () { dragging = false; });
-    handle.addEventListener('pointercancel', function () { dragging = false; });
-    scene.addEventListener('pointerdown', function (e) {
-      if (e.target === handle || handle.contains(e.target)) return;
-      setP(pFromEvent(e.clientX));
-      dragging = true;
-      try { scene.setPointerCapture(e.pointerId); } catch (err) { /* ältere Browser */ }
-      e.preventDefault();
-    });
-    scene.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
-      setP(pFromEvent(e.clientX));
-    });
-    scene.addEventListener('pointerup', function () { dragging = false; });
-    scene.addEventListener('pointercancel', function () { dragging = false; });
-    handle.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft') { setP(currentP() - 0.05); e.preventDefault(); }
-      if (e.key === 'ArrowRight') { setP(currentP() + 0.05); e.preventDefault(); }
-      if (e.key === 'Home') { setP(0); e.preventDefault(); }
-      if (e.key === 'End') { setP(1); e.preventDefault(); }
-    });
-  })();
 
   /* ---------- Kontaktformular ---------- */
   (function () {
