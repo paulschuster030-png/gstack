@@ -2708,9 +2708,8 @@ main.is-unterseite > :not(.unterseite){display:none}
     var inhalt = document.getElementById('stats-inhalt');
     var standEl = document.getElementById('stats-stand');
     var tippEl = null;
-    var geladen = false;
-    var raumAus = null;
-    var liveAnzahl = 0;
+    var gestartet = false;
+    var liveListe = [];
 
     function el(tag, klasse, text) {
       var e = document.createElement(tag);
@@ -2720,15 +2719,13 @@ main.is-unterseite > :not(.unterseite){display:none}
     }
     function zahl(n) { return Number(n || 0).toLocaleString('de-DE'); }
     function datumKurz(iso) {
-      var t = new Date(iso + 'T12:00:00');
-      return t.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+      return new Date(iso + 'T12:00:00').toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
     }
     function dauerText(sek) {
       if (sek < 60) return Math.round(sek) + ' s';
       return Math.floor(sek / 60) + ':' + String(Math.round(sek % 60)).padStart(2, '0') + ' min';
     }
 
-    // ---- Bausteine ------------------------------------------------------
     function kachel(wert, label, live) {
       var k = el('div', 'stats-kachel' + (live ? ' stats-kachel--live' : ''));
       var w = el('div', 'stats-kachel__wert');
@@ -2742,14 +2739,12 @@ main.is-unterseite > :not(.unterseite){display:none}
       k.appendChild(el('div', 'stats-kachel__label', label));
       return k;
     }
-
     function block(titel, unter) {
       var b = el('section', 'stats-block');
       b.appendChild(el('h2', null, titel));
       if (unter) b.appendChild(el('p', 'stats-block__unter', unter));
       return b;
     }
-
     function tipp(text, x, y) {
       if (!tippEl) { tippEl = el('div', 'stats-tipp'); document.body.appendChild(tippEl); }
       if (!text) { tippEl.classList.remove('is-an'); return; }
@@ -2760,7 +2755,7 @@ main.is-unterseite > :not(.unterseite){display:none}
       tippEl.style.top = Math.max(8, y - tippEl.offsetHeight - 10) + 'px';
     }
 
-    // Balkenliste: Wert steht an der Spitze, deshalb ohne Tooltip.
+    // Balkenliste: der Wert steht an der Spitze, deshalb ohne Tooltip.
     function balken(paare, gesamt) {
       var wrap = el('div', 'stats-balken');
       var max = paare.reduce(function (m, p) { return Math.max(m, p[1]); }, 0) || 1;
@@ -2773,17 +2768,15 @@ main.is-unterseite > :not(.unterseite){display:none}
         spur.appendChild(f);
         z.appendChild(spur);
         var w = el('div', 'stats-balken__wert', zahl(p[1]));
-        if (gesamt) {
-          var s = el('small', null, Math.round(p[1] / gesamt * 100) + ' %');
-          w.appendChild(s);
-        }
+        if (gesamt) w.appendChild(el('small', null, Math.round(p[1] / gesamt * 100) + ' %'));
         z.appendChild(w);
         wrap.appendChild(z);
       });
       return wrap;
     }
 
-    // Säulen pro Tag. Nur der höchste Wert wird beschriftet, der Rest hängt am Tooltip.
+    // Säulen pro Tag. Der genaue Wert hängt am Tooltip, damit nicht über jeder
+    // Säule eine Zahl klebt.
     function saeulen(tage) {
       var wrap = el('div');
       var reihe = el('div', 'stats-saeulen');
@@ -2796,8 +2789,8 @@ main.is-unterseite > :not(.unterseite){display:none}
         s.appendChild(f);
         s.tabIndex = 0;
         s.setAttribute('role', 'img');
-        s.setAttribute('aria-label', datumKurz(t.tag) + ': ' + t.anzahl + ' Besuche');
         var text = datumKurz(t.tag) + ': ' + zahl(t.anzahl) + (t.anzahl === 1 ? ' Besuch' : ' Besuche');
+        s.setAttribute('aria-label', text);
         s.addEventListener('mousemove', function (e) { tipp(text, e.clientX, e.clientY); });
         s.addEventListener('mouseleave', function () { tipp(null); });
         s.addEventListener('focus', function () {
@@ -2811,7 +2804,6 @@ main.is-unterseite > :not(.unterseite){display:none}
       wrap.appendChild(reihe);
       var achse = el('div', 'stats-achse');
       tage.forEach(function (t, i) {
-        // Nicht jeden Tag beschriften – sonst überlagern sich die Zahlen.
         var jeder = tage.length > 10 ? 3 : 1;
         achse.appendChild(el('span', null, i % jeder === 0 || i === tage.length - 1 ? datumKurz(t.tag) : ''));
       });
@@ -2834,13 +2826,11 @@ main.is-unterseite > :not(.unterseite){display:none}
       return t;
     }
 
-    // ---- Zusammenrechnen -------------------------------------------------
     function auswerten(besuche) {
       var heute = new Date().toISOString().slice(0, 10);
       var jetzt = Date.now();
       var proTag = {}, geraete = {}, herkunft = {}, zonen = {}, sprachen = {}, tiefen = {}, ereignisse = {}, produkte = {};
       var dauerSumme = 0, dauerZahl = 0;
-
       besuche.forEach(function (b) {
         proTag[b.tag] = (proTag[b.tag] || 0) + 1;
         geraete[b.geraet || 'unbekannt'] = (geraete[b.geraet || 'unbekannt'] || 0) + 1;
@@ -2854,85 +2844,106 @@ main.is-unterseite > :not(.unterseite){display:none}
           else ereignisse[e] = (ereignisse[e] || 0) + 1;
         });
       });
-
       var tage = [];
       for (var i = 13; i >= 0; i--) {
         var d = new Date(jetzt - i * 86400000).toISOString().slice(0, 10);
         tage.push({ tag: d, anzahl: proTag[d] || 0 });
       }
-      var sieben = tage.slice(-7).reduce(function (a, t) { return a + t.anzahl; }, 0);
-
       return {
-        gesamt: besuche.length,
-        heute: proTag[heute] || 0,
-        sieben: sieben,
-        tage: tage,
-        geraete: geraete, herkunft: herkunft, zonen: zonen, sprachen: sprachen,
+        gesamt: besuche.length, heute: proTag[heute] || 0,
+        sieben: tage.slice(-7).reduce(function (a, t) { return a + t.anzahl; }, 0),
+        tage: tage, geraete: geraete, herkunft: herkunft, zonen: zonen, sprachen: sprachen,
         tiefen: tiefen, ereignisse: ereignisse, produkte: produkte,
         dauerSchnitt: dauerZahl ? dauerSumme / dauerZahl : 0
       };
     }
-
     function sortiert(obj) {
       return Object.keys(obj).map(function (k) { return [k, obj[k]]; })
         .sort(function (a, b) { return b[1] - a[1]; });
     }
 
-    // ---- Fakten zur Seite: direkt aus dem Dokument gemessen -------------
+    // Fakten, die beim Öffnen direkt aus dem Dokument gemessen werden.
     function faktenBlock() {
       var b = block('Fakten zur Seite', 'Beim Öffnen dieser Auswertung direkt aus der Seite gemessen – die Zahlen bleiben richtig, auch wenn sich die Seite ändert.');
-      var abschnitte = document.querySelectorAll('main > section:not(.unterseite)').length;
       var extern = document.querySelectorAll('script[src], link[rel=stylesheet], img[src^="http"]').length;
-      var groesse = Math.round(document.documentElement.outerHTML.length / 1024);
       b.appendChild(tabelle(['Merkmal', 'Wert'], [
-        ['Abschnitte auf der Startseite', abschnitte],
+        ['Abschnitte auf der Startseite', document.querySelectorAll('main > section:not(.unterseite)').length],
         ['Leistungen', document.querySelectorAll('.flip-card').length],
         ['Artikel im Shop', document.querySelectorAll('.product-card[data-produkt]').length],
-        ['Häufige Fragen', document.querySelectorAll('.faq details, details').length],
+        ['Produktseiten', document.querySelectorAll('.product-card[data-produkt]').length],
+        ['Häufige Fragen', document.querySelectorAll('details').length],
         ['Gebiete im Einzugsbereich', document.querySelectorAll('.gebiet__chip').length || '–'],
         ['Kontaktwege (Telefon / WhatsApp / E-Mail)',
           document.querySelectorAll('[data-biz-tel]').length + ' / ' +
           document.querySelectorAll('[data-biz-wa]').length + ' / ' +
           document.querySelectorAll('[data-biz-mail]').length],
-        ['Seitengröße', zahl(groesse) + ' KB'],
+        ['Rechtstexte', document.querySelectorAll('#legal article[data-legal]').length],
+        ['Seitengröße', zahl(Math.round(document.documentElement.outerHTML.length / 1024)) + ' KB'],
         ['Nachgeladene Fremddateien', extern === 0 ? 'keine – die Seite ist eine einzige Datei' : extern]
       ]));
       return b;
     }
 
-    // ---- Aufbau ----------------------------------------------------------
-    function zeichnen(besuche) {
+    // Wer gerade offen hat. Das eigene Fenster zählt nicht mit.
+    function liveBlock() {
+      var b = block('Gerade auf der Seite', 'Wird laufend aktualisiert. Es wird nichts davon gespeichert – wer den Tab schließt, verschwindet sofort.');
+      var kpi = el('div', 'stats-kpi');
+      kpi.style.marginBottom = '0';
+      kpi.style.gridTemplateColumns = 'repeat(auto-fit,minmax(140px,1fr))';
+      kpi.id = 'stats-live-kacheln';
+      b.appendChild(kpi);
+      b.id = 'stats-live';
+      return b;
+    }
+    function liveZeichnen() {
+      var kpi = document.getElementById('stats-live-kacheln');
+      if (!kpi) return;
+      var nach = {};
+      liveListe.forEach(function (g) { nach[g] = (nach[g] || 0) + 1; });
+      kpi.innerHTML = '';
+      kpi.appendChild(kachel(liveListe.length, liveListe.length === 1 ? 'Besucher' : 'Besucher', true));
+      ['Handy', 'Tablet', 'Rechner'].forEach(function (g) {
+        if (nach[g]) kpi.appendChild(kachel(nach[g], 'davon am ' + g));
+      });
+      if (!liveListe.length) {
+        var p = el('p', 'stats-block__unter', 'Im Moment ist niemand außer Ihnen auf der Seite.');
+        p.style.margin = '0';
+        p.style.gridColumn = '1/-1';
+        kpi.appendChild(p);
+      }
+    }
+
+    function verlaufZeichnen(besuche) {
       var a = auswerten(besuche);
-      inhalt.innerHTML = '';
+      var teile = document.createDocumentFragment();
 
       var kpi = el('div', 'stats-kpi');
-      kpi.appendChild(kachel(liveAnzahl, 'gerade auf der Seite', true));
       kpi.appendChild(kachel(zahl(a.heute), 'Besuche heute'));
       kpi.appendChild(kachel(zahl(a.sieben), 'letzte 7 Tage'));
       kpi.appendChild(kachel(zahl(a.gesamt), 'Besuche gesamt'));
-      inhalt.appendChild(kpi);
+      kpi.appendChild(kachel(dauerText(a.dauerSchnitt), 'im Schnitt geblieben'));
+      teile.appendChild(kpi);
 
       var bTage = block('Besuche pro Tag', 'Die letzten 14 Tage. Auf eine Säule zeigen zeigt den genauen Wert.');
       bTage.appendChild(saeulen(a.tage));
-      inhalt.appendChild(bTage);
+      teile.appendChild(bTage);
 
       var zwei = el('div', 'stats-zwei');
-      var bGeraet = block('Womit', 'Bildschirmbreite beim Aufruf.');
-      bGeraet.appendChild(balken(sortiert(a.geraete), a.gesamt));
-      var bHer = block('Woher', 'Die Seite, von der jemand kam.');
-      bHer.appendChild(balken(sortiert(a.herkunft).slice(0, 6), a.gesamt));
-      zwei.appendChild(bGeraet); zwei.appendChild(bHer);
-      inhalt.appendChild(zwei);
+      var bG = block('Womit', 'Bildschirmbreite beim Aufruf.');
+      bG.appendChild(balken(sortiert(a.geraete), a.gesamt));
+      var bH = block('Woher', 'Die Seite, von der jemand kam.');
+      bH.appendChild(balken(sortiert(a.herkunft).slice(0, 6), a.gesamt));
+      zwei.appendChild(bG); zwei.appendChild(bH);
+      teile.appendChild(zwei);
 
       var zwei2 = el('div', 'stats-zwei');
-      var bZone = block('Zeitzone', 'Grober Anhaltspunkt fürs Land – kein Standort, keine Stadt.');
-      bZone.appendChild(balken(sortiert(a.zonen).slice(0, 6), a.gesamt));
-      var bSpr = block('Sprache im Browser', 'Woraufhin die Seite später einmal übersetzt werden könnte.');
-      bSpr.appendChild(balken(sortiert(a.sprachen).slice(0, 6), a.gesamt));
-      zwei2.appendChild(bZone); zwei2.appendChild(bSpr);
-      inhalt.appendChild(zwei2);
+      var bZ = block('Zeitzone', 'Grober Anhaltspunkt fürs Land – kein Standort, keine Stadt.');
+      bZ.appendChild(balken(sortiert(a.zonen).slice(0, 6), a.gesamt));
+      var bS = block('Sprache im Browser', 'Woraufhin die Seite später einmal übersetzt werden könnte.');
+      bS.appendChild(balken(sortiert(a.sprachen).slice(0, 6), a.gesamt));
+      zwei2.appendChild(bZ); zwei2.appendChild(bS);
+      teile.appendChild(zwei2);
 
-      // Trichter: eine Farbe für alle Stufen – die Länge trägt die Aussage.
       var stufen = [
         ['Seite geöffnet', a.gesamt],
         ['bis zum Shop gescrollt', Object.keys(a.tiefen).filter(function (t) { return +t >= 10; })
@@ -2944,43 +2955,97 @@ main.is-unterseite > :not(.unterseite){display:none}
         ['Anfrage abgeschickt', a.ereignisse['anfrage-abgeschickt'] || 0],
         ['Bestellung abgeschickt', a.ereignisse['bestellung-abgeschickt'] || 0]
       ];
-      var bTr = block('Was die Besucher tun', 'Jede Zeile zählt Besuche, in denen das mindestens einmal passiert ist.');
-      bTr.appendChild(balken(stufen, a.gesamt));
-      inhalt.appendChild(bTr);
+      var bT = block('Was die Besucher tun', 'Jede Zeile zählt Besuche, in denen das mindestens einmal passiert ist.');
+      bT.appendChild(balken(stufen, a.gesamt));
+      teile.appendChild(bT);
 
-      var bLese = block('Wie weit gelesen wird', 'Der tiefste Abschnitt, den ein Besuch erreicht hat. Durchschnittliche Verweildauer: ' + dauerText(a.dauerSchnitt) + '.');
       var namen = [].slice.call(document.querySelectorAll('main > section:not(.unterseite)')).map(function (sek, i) {
         var h = sek.querySelector('h1, h2');
         return (i + 1) + '. ' + (h ? h.textContent.replace(/\s+/g, ' ').trim().slice(0, 26) : sek.className);
       });
-      var lesePaare = namen.map(function (nm, i) {
+      var bL = block('Wie weit gelesen wird', 'Der tiefste Abschnitt, den ein Besuch erreicht hat.');
+      bL.appendChild(balken(namen.map(function (nm, i) {
         var erreicht = 0;
         Object.keys(a.tiefen).forEach(function (t) { if (+t >= i + 1) erreicht += a.tiefen[t]; });
         return [nm, erreicht];
-      });
-      bLese.appendChild(balken(lesePaare, a.gesamt));
-      inhalt.appendChild(bLese);
+      }), a.gesamt));
+      teile.appendChild(bL);
 
       if (Object.keys(a.produkte).length) {
-        var bProd = block('Welche Produktseiten', 'Wie oft eine einzelne Produktseite geöffnet wurde.');
-        bProd.appendChild(balken(sortiert(a.produkte)));
-        inhalt.appendChild(bProd);
+        var bP = block('Welche Produktseiten', 'Wie oft eine einzelne Produktseite geöffnet wurde.');
+        bP.appendChild(balken(sortiert(a.produkte)));
+        teile.appendChild(bP);
+      }
+      return teile;
+    }
+
+    // Ohne gemeinsamen Datenspeicher gibt es keinen Verlauf. Das gehört
+    // hingeschrieben statt als Fehler getarnt.
+    function warumKeinVerlauf() {
+      var b = block('Warum hier keine Besuchszahlen über die Zeit stehen',
+        'Die Zählung ist eingebaut und läuft – aber sie kann ihre Zahlen im Moment nirgends ablegen.');
+      var p1 = el('p');
+      p1.style.margin = '0 0 .8rem';
+      p1.style.fontSize = '.92rem';
+      p1.style.lineHeight = '1.65';
+      p1.innerHTML = 'Solange diese Seite <strong>öffentlich über einen Link geteilt</strong> ist, darf sie keinen gemeinsamen Datenspeicher benutzen. Das ist eine Regel der Plattform, keine Einstellung, die sich hier umlegen lässt. „Gerade auf der Seite“ oben funktioniert trotzdem, weil dafür nichts gespeichert werden muss.';
+      b.appendChild(p1);
+      var p2 = el('p');
+      p2.style.margin = '0 0 .6rem';
+      p2.style.fontSize = '.92rem';
+      p2.style.lineHeight = '1.65';
+      p2.innerHTML = '<strong>Zwei Wege zu echten Zahlen über die Zeit:</strong>';
+      b.appendChild(p2);
+      b.appendChild(tabelle(['Weg', 'Was Sie dafür bekommen'], [
+        ['Öffentliche Freigabe abschalten und die Seite nur gezielt teilen',
+          'Alles oben Beschriebene sofort: Besuche pro Tag, Geräte, Herkunft, Trichter, CSV-Export. Aber nur noch für Leute, denen Sie den Zugang einzeln geben.'],
+        ['Die Seite auf eine eigene Adresse stellen (gruenhof-berlin.de) und ein Zählwerkzeug einbauen',
+          'Zusätzlich echte Standorte bis auf Stadtebene, weil ein Server die IP nachschlagen kann, ohne sie zu speichern. Dafür gibt es datenschutzfreundliche Dienste ab wenigen Euro im Monat.']
+      ]));
+      return b;
+    }
+
+    function leer(titel, text) {
+      inhalt.innerHTML = '';
+      var l = el('div', 'stats__leer');
+      l.appendChild(el('b', null, titel));
+      l.appendChild(el('p', null, text));
+      inhalt.appendChild(l);
+      standEl.textContent = '';
+    }
+
+    function aufbauen(besuche, dbDa, dlDa) {
+      inhalt.innerHTML = '';
+      inhalt.appendChild(liveBlock());
+      liveZeichnen();
+
+      if (dbDa && besuche.length) {
+        inhalt.appendChild(verlaufZeichnen(besuche));
+      } else if (dbDa) {
+        var b = block('Noch keine Besuche gezählt',
+          'Sobald jemand die Seite öffnet und dem Cookie-Hinweis zustimmt, erscheinen hier Zahlen. Erfundene Werte stehen hier bewusst nicht.');
+        inhalt.appendChild(b);
+      } else {
+        inhalt.appendChild(warumKeinVerlauf());
       }
 
       inhalt.appendChild(faktenBlock());
 
       var aktionen = el('div', 'stats-aktionen');
-      var csv = el('button', 'btn btn--ghost', 'Als Tabelle herunterladen (CSV)');
-      csv.type = 'button';
-      csv.addEventListener('click', function () { herunterladen(besuche, csv); });
-      aktionen.appendChild(csv);
+      if (dbDa && dlDa && besuche.length) {
+        var csv = el('button', 'btn btn--ghost', 'Als Tabelle herunterladen (CSV)');
+        csv.type = 'button';
+        csv.addEventListener('click', function () { herunterladen(besuche, csv); });
+        aktionen.appendChild(csv);
+      }
       var neu = el('button', 'btn btn--ghost', 'Neu laden');
       neu.type = 'button';
-      neu.addEventListener('click', function () { geladen = false; starten(); });
+      neu.addEventListener('click', function () { gestartet = false; starten(); });
       aktionen.appendChild(neu);
       inhalt.appendChild(aktionen);
 
-      standEl.textContent = 'Stand: ' + new Date().toLocaleString('de-DE') + ' · ' + zahl(besuche.length) + ' gezählte Besuche';
+      standEl.textContent = 'Stand: ' + new Date().toLocaleString('de-DE') +
+        (dbDa ? ' · ' + zahl(besuche.length) + ' gezählte Besuche' : ' · Verlauf nicht verfügbar');
     }
 
     function csvFeld(w) {
@@ -2993,28 +3058,22 @@ main.is-unterseite > :not(.unterseite){display:none}
         return [new Date(b.zeit).toLocaleString('de-DE'), b.tag, b.geraet, b.zone, b.sprache, b.herkunft,
           b.dauer, b.tiefe, (b.ereignisse || []).join(' | ')].map(csvFeld).join(';');
       });
-      // Semikolon und BOM, damit Excel auf Deutsch die Spalten richtig trennt.
+      // Semikolon und BOM, damit ein deutsches Excel die Spalten richtig trennt.
       var text = '﻿' + kopf.join(';') + '\n' + zeilen.join('\n');
-      if (!window.claude || typeof window.claude.use !== 'function') { knopf.textContent = 'Download hier nicht möglich'; return; }
       knopf.disabled = true;
       window.claude.use('downloads').then(function (dl) {
-        if (!dl) { knopf.textContent = 'Download nicht verfügbar'; knopf.disabled = false; return; }
+        if (!dl) { knopf.textContent = 'Download nicht verfügbar'; return; }
         return dl.save({ filename: 'gruenhof-besuche-' + new Date().toISOString().slice(0, 10) + '.csv', data: text })
-          .then(function () { knopf.textContent = 'Gespeichert'; setTimeout(function () { knopf.textContent = 'Als Tabelle herunterladen (CSV)'; knopf.disabled = false; }, 2500); });
+          .then(function () {
+            knopf.textContent = 'Gespeichert';
+            setTimeout(function () { knopf.textContent = 'Als Tabelle herunterladen (CSV)'; knopf.disabled = false; }, 2500);
+          });
       }).catch(function () { knopf.textContent = 'Download abgebrochen'; knopf.disabled = false; });
     }
 
-    function leer(titel, text) {
-      inhalt.innerHTML = '';
-      var l = el('div', 'stats__leer');
-      l.appendChild(el('b', null, titel));
-      l.appendChild(el('p', null, text));
-      inhalt.appendChild(l);
-      standEl.textContent = '';
-    }
-
     function starten() {
-      if (geladen) return;
+      if (gestartet) return;
+      gestartet = true;
       if (!window.claude || typeof window.claude.use !== 'function') {
         leer('Zahlen gibt es nur in der veröffentlichten Fassung',
           'Diese Auswertung liest die Zählung der Live-Seite. In einer lokal geöffneten Datei gibt es die nicht.');
@@ -3022,43 +3081,32 @@ main.is-unterseite > :not(.unterseite){display:none}
       }
       leer('Wird geladen …', 'Einen Moment.');
 
-      window.claude.use('db').then(function (db) {
-        if (!db) {
-          leer('Zählung nicht verfügbar', 'Die Seite konnte den Datenspeicher nicht erreichen. Später noch einmal versuchen.');
-          return;
-        }
+      Promise.all([
+        window.claude.use('db').catch(function () { return null; }),
+        window.claude.use('downloads').catch(function () { return null; })
+      ]).then(function (teile) {
+        var db = teile[0], dl = teile[1];
+        if (!db) { aufbauen([], false, !!dl); return; }
         return db.collection('besuche').get().then(function (snap) {
           var liste = (snap && snap.docs ? snap.docs : []).map(function (d) {
             return d && typeof d.data === 'function' ? d.data() : d;
           }).filter(Boolean);
-          geladen = true;
-          if (!liste.length) {
-            leer('Noch keine Besuche gezählt',
-              'Sobald jemand die Seite öffnet und dem Cookie-Hinweis zustimmt, erscheinen hier Zahlen. Bis dahin ist die Tabelle leer – erfundene Werte stehen hier bewusst nicht.');
-            return;
-          }
-          zeichnen(liste);
-        });
-      }).catch(function () {
-        leer('Zahlen konnten nicht geladen werden', 'Bitte später noch einmal versuchen.');
-      });
+          aufbauen(liste, true, !!dl);
+        }).catch(function () { aufbauen([], false, !!dl); });
+      }).catch(function () { aufbauen([], false, false); });
 
-      // Wer gerade offen hat. Das eigene Fenster zählt nicht mit.
-      if (!raumAus) {
-        window.claude.use('room').then(function (raum) {
-          if (!raum) return;
-          raum.presence({ rolle: 'auswertung' });
-          raumAus = raum.onPeers(function (peers) {
-            var liste = Array.isArray(peers) ? peers : (peers && peers.peers) || [];
-            liveAnzahl = liste.filter(function (p) {
-              var z = (p && p.presence) || p || {};
-              return z.rolle === 'besucher';
-            }).length;
-            var wert = inhalt.querySelector('.stats-kachel--live .stats-kachel__wert');
-            if (wert) wert.lastChild.textContent = String(liveAnzahl);
-          });
-        }).catch(function () { /* nicht verfügbar */ });
-      }
+      // Anwesenheit läuft unabhängig davon, ob es einen Verlauf gibt.
+      window.claude.use('room').then(function (raum) {
+        if (!raum) return;
+        raum.presence({ rolle: 'auswertung' });
+        raum.onPeers(function (peers) {
+          var roh = Array.isArray(peers) ? peers : (peers && peers.peers) || [];
+          liveListe = roh.map(function (p) { return (p && p.presence) || p || {}; })
+            .filter(function (z) { return z.rolle === 'besucher'; })
+            .map(function (z) { return z.geraet || 'unbekannt'; });
+          liveZeichnen();
+        });
+      }).catch(function () { /* nicht verfügbar */ });
     }
 
     return starten;
