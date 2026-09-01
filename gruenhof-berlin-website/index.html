@@ -2490,5 +2490,121 @@ main.is-unterseite > :not(.unterseite){display:none}
     neinBtn.addEventListener('click', function () { entscheiden('nein'); });
   })();
 
+  /* ================= Eigene Zählung =================================
+     Kein Fremddienst, kein Cookie, keine Kennung, keine IP-Auswertung.
+     Gezählt wird nur, wenn im Cookie-Hinweis zugestimmt wurde – bei
+     „Ablehnen“ passiert hier gar nichts. Pro Besuch entsteht ein Eintrag
+     mit Zeitpunkt, Geräteart, Zeitzone, Sprache und Herkunft. Standorte
+     sind damit ausdrücklich NICHT erhebbar: dafür bräuchte es eine
+     IP-Abfrage bei einem Geodienst, die diese Seite nicht machen darf
+     und nicht macht. Ohne die Artifact-Laufzeitumgebung läuft das Modul
+     gar nicht erst an – die Seite funktioniert unverändert weiter. */
+  (function zaehlung() {
+    if (!window.claude || typeof window.claude.use !== 'function') return;
+    if (consentStatus() !== 'ja') return;
+
+    function geraeteart() {
+      var b = Math.min(screen.width, screen.height);
+      if (b < 600) return 'Handy';
+      if (b < 1000) return 'Tablet';
+      return 'Rechner';
+    }
+    function zeitzone() {
+      try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'unbekannt'; }
+      catch (e) { return 'unbekannt'; }
+    }
+    function herkunft() {
+      var r = document.referrer || '';
+      if (!r) return 'direkt';
+      var host = '';
+      try { host = new URL(r).hostname.replace(/^www\./, ''); } catch (e) { return 'sonstige'; }
+      if (host === location.hostname) return 'direkt';
+      if (/google\./.test(host)) return 'Google';
+      if (/instagram\./.test(host)) return 'Instagram';
+      if (/facebook\.|fb\./.test(host)) return 'Facebook';
+      if (/whatsapp\./.test(host)) return 'WhatsApp';
+      if (/bing\./.test(host)) return 'Bing';
+      return host.slice(0, 40);
+    }
+
+    var BESUCH = {
+      zeit: Date.now(),
+      tag: new Date().toISOString().slice(0, 10),
+      geraet: geraeteart(),
+      zone: zeitzone(),
+      sprache: (navigator.language || '').slice(0, 5),
+      herkunft: herkunft(),
+      dauer: 0,
+      tiefe: 0,
+      ereignisse: []
+    };
+    var kennung = 'b' + BESUCH.zeit.toString(36) + Math.random().toString(36).slice(2, 8);
+    var db = null, wartend = 0;
+
+    function sichern() {
+      if (!db) return;
+      BESUCH.dauer = Math.round((Date.now() - BESUCH.zeit) / 1000);
+      db.doc('besuche/' + kennung).set(BESUCH).catch(function () { /* Zählung darf die Seite nie stören */ });
+    }
+    function sichernBald() { clearTimeout(wartend); wartend = setTimeout(sichern, 1500); }
+
+    function merke(art) {
+      if (BESUCH.ereignisse.indexOf(art) > -1) return;
+      BESUCH.ereignisse.push(art);
+      sichernBald();
+    }
+
+    // Wie weit unten war der Besucher? Gezählt wird der tiefste erreichte Abschnitt.
+    var abschnitte = [].slice.call(document.querySelectorAll('main > section:not(.unterseite)'));
+    if ('IntersectionObserver' in window) {
+      var beobachter = new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var i = abschnitte.indexOf(e.target) + 1;
+          if (i > BESUCH.tiefe) { BESUCH.tiefe = i; sichernBald(); }
+        });
+      }, { threshold: 0.4 });
+      abschnitte.forEach(function (a) { beobachter.observe(a); });
+    }
+
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a, button');
+      if (!a) return;
+      if (a.hasAttribute('data-biz-wa')) merke('whatsapp');
+      else if (a.hasAttribute('data-biz-tel')) merke('anruf');
+      else if (a.classList.contains('js-add-to-cart')) merke('warenkorb');
+      else if (a.id === 'cart-checkout') merke('kaufen-geklickt');
+    }, true);
+
+    // „Abgeschickt“ zählt erst, wenn die Bestätigung wirklich erscheint.
+    [['kontakt-result', 'anfrage-abgeschickt'], ['cart-order-result', 'bestellung-abgeschickt']].forEach(function (paar) {
+      var el = document.getElementById(paar[0]);
+      if (!el || typeof MutationObserver !== 'function') return;
+      new MutationObserver(function () { if (!el.hidden) merke(paar[1]); })
+        .observe(el, { attributes: true, attributeFilter: ['hidden'] });
+    });
+
+    window.addEventListener('hashchange', function () {
+      var m = /^#produkt\/([a-z0-9_-]+)$/i.exec(location.hash || '');
+      if (m) merke('produkt:' + m[1]);
+    });
+
+    window.addEventListener('pagehide', sichern);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) sichern(); });
+
+    window.claude.use('db').then(function (namensraum) {
+      if (!namensraum) return;
+      db = namensraum;
+      sichern();
+    }).catch(function () { /* nicht verfügbar */ });
+
+    // Wer gerade jetzt offen hat. Nichts davon wird gespeichert – die Anwesenheit
+    // verschwindet, sobald der Tab zugeht.
+    window.claude.use('room').then(function (raum) {
+      if (!raum) return;
+      raum.presence({ rolle: 'besucher', geraet: BESUCH.geraet, seit: BESUCH.zeit });
+    }).catch(function () { /* nicht verfügbar */ });
+  })();
+
 })();
 </script>
