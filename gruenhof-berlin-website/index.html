@@ -2461,10 +2461,14 @@ main.is-unterseite > :not(.unterseite){display:none}
     var offen = false;
     var wartet = false;
 
+    var hauptEl = document.querySelector('main');
+    function aufUnterseite() {
+      return !!hauptEl && hauptEl.classList.contains('is-unterseite');
+    }
     function sichtbarkeitPruefen() {
       wartet = false;
       if (entschieden) return;
-      var soll = window.scrollY < OBEN_BIS;
+      var soll = !aufUnterseite() && window.scrollY < OBEN_BIS;
       if (soll === offen) return;
       offen = soll;
       banner.classList.toggle('is-visible', soll);
@@ -2478,6 +2482,9 @@ main.is-unterseite > :not(.unterseite){display:none}
       document.addEventListener('scroll', function () {
         if (!wartet) { wartet = true; requestAnimationFrame(sichtbarkeitPruefen); }
       }, { passive: true });
+      window.addEventListener('hashchange', function () {
+        setTimeout(sichtbarkeitPruefen, 0);
+      });
     }
     jaBtn.addEventListener('click', function () { entscheiden('ja'); });
     neinBtn.addEventListener('click', function () { entscheiden('nein'); });
