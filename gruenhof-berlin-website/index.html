@@ -1,3 +1,4 @@
+<script>document.documentElement.classList.add('js')</script>
 <title>Grünhof Berlin</title>
 <style>
 :root{
@@ -284,9 +285,49 @@ section[id]{scroll-margin-top:96px}
 
 /* ---------- Wow-Effekte ---------- */
 .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--brand),var(--accent));z-index:300;pointer-events:none}
+@supports (animation-timeline: scroll()){
+  .scroll-progress{width:100%;transform:scaleX(0);transform-origin:0 50%;animation:scrollFortschritt linear both;animation-timeline:scroll(root block)}
+  @keyframes scrollFortschritt{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
 
-:where(.reveal){opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-:where(.reveal.is-visible){opacity:1;transform:translateY(0)}
+:where(.js .usp-grid > .usp,
+.js .service-grid > .service-card,
+.js .product-grid > .product-card,
+.js .plan-grid > .plan,
+.js .review-grid > .review,
+.js .steps > .step,
+.js .stat-row > .stat,
+.js .staffel > .staffel__card,
+.js .center.stack,
+.js .split > div,
+.js .about__portrait,
+.js .about > div:last-child,
+.js .popup__head,
+.js .bundle,
+.js .service-hint,
+.js .manifesto p){opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+:where(.js .usp-grid > .usp.is-visible,
+.js .service-grid > .service-card.is-visible,
+.js .product-grid > .product-card.is-visible,
+.js .plan-grid > .plan.is-visible,
+.js .review-grid > .review.is-visible,
+.js .steps > .step.is-visible,
+.js .stat-row > .stat.is-visible,
+.js .staffel > .staffel__card.is-visible,
+.js .center.stack.is-visible,
+.js .split > div.is-visible,
+.js .about__portrait.is-visible,
+.js .about > div:last-child.is-visible,
+.js .popup__head.is-visible,
+.js .bundle.is-visible,
+.js .service-hint.is-visible,
+.js .manifesto p.is-visible){opacity:1;transform:translateY(0)}
+/* Gestaffelt statt alle gleichzeitig – in CSS, ohne pro Element gesetzte Werte. */
+:where(.js .usp-grid,.js .service-grid,.js .product-grid,.js .plan-grid,.js .steps,.js .stat-row,.js .staffel) > :nth-child(2){transition-delay:.08s}
+:where(.js .usp-grid,.js .service-grid,.js .product-grid,.js .plan-grid,.js .steps,.js .stat-row,.js .staffel) > :nth-child(3){transition-delay:.16s}
+:where(.js .usp-grid,.js .service-grid,.js .product-grid,.js .plan-grid,.js .steps,.js .stat-row,.js .staffel) > :nth-child(4){transition-delay:.24s}
+:where(.js .usp-grid,.js .service-grid,.js .product-grid,.js .plan-grid,.js .steps,.js .stat-row,.js .staffel) > :nth-child(5){transition-delay:.32s}
+:where(.js .usp-grid,.js .service-grid,.js .product-grid,.js .plan-grid,.js .steps,.js .stat-row,.js .staffel) > :nth-child(n+6){transition-delay:.4s}
 
 .tilt-card{transition:opacity .8s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease)}
 
@@ -636,7 +677,22 @@ main.is-unterseite > :not(.unterseite){display:none}
 .product-card__name:hover{text-decoration:underline}
 
 @media(prefers-reduced-motion:reduce){
-  :where(.reveal){opacity:1;transform:none;transition:none}
+  :where(.js .usp-grid > .usp,
+.js .service-grid > .service-card,
+.js .product-grid > .product-card,
+.js .plan-grid > .plan,
+.js .review-grid > .review,
+.js .steps > .step,
+.js .stat-row > .stat,
+.js .staffel > .staffel__card,
+.js .center.stack,
+.js .split > div,
+.js .about__portrait,
+.js .about > div:last-child,
+.js .popup__head,
+.js .bundle,
+.js .service-hint,
+.js .manifesto p){opacity:1;transform:none;transition:none}
 }
 </style>
 
@@ -1951,58 +2007,37 @@ main.is-unterseite > :not(.unterseite){display:none}
 
     /* Scroll-Progress-Leiste */
     var progressBar = document.getElementById('scroll-progress');
-    if (progressBar) {
+    // Kann der Browser die Scroll-Zeitleiste in CSS, macht er das allein.
+    var zeitleisteInCss = window.CSS && CSS.supports && CSS.supports('animation-timeline', 'scroll()');
+    if (progressBar && !zeitleisteInCss) {
       var tickingProgress = false;
+      // Die Dokumenthöhe wird nur bei Größenänderung neu gemessen, nicht in
+      // jedem Bild – sonst erzwingt jede Messung eine Layoutberechnung.
+      var scrollbar = 0;
+      var hoeheMessen = function () {
+        var doc = document.documentElement;
+        scrollbar = doc.scrollHeight - doc.clientHeight;
+      };
       var updateProgress = function () {
         tickingProgress = false;
-        var doc = document.documentElement;
-        var scrollable = doc.scrollHeight - doc.clientHeight;
-        var pct = scrollable > 0 ? (doc.scrollTop / scrollable) * 100 : 0;
-        progressBar.style.width = pct + '%';
+        var pct = scrollbar > 0 ? (window.scrollY / scrollbar) * 100 : 0;
+        progressBar.style.transform = 'scaleX(' + (pct / 100) + ')';
       };
+      progressBar.style.width = '100%';
+      progressBar.style.transformOrigin = '0 50%';
+      hoeheMessen();
+      updateProgress();
       document.addEventListener('scroll', function () {
         if (!tickingProgress) { tickingProgress = true; requestAnimationFrame(updateProgress); }
       }, { passive: true });
-      updateProgress();
+      window.addEventListener('resize', function () { hoeheMessen(); updateProgress(); }, { passive: true });
     }
 
-    /* Scroll-Reveal für Karten, Sections und Split-Layouts */
+    /* Einschweben beim Scrollen. Welche Elemente das betrifft und wie sie
+       gestaffelt sind, steht komplett im CSS – hier wird nur noch gemeldet,
+       wann eines ins Bild kommt. */
     (function () {
-      var groups = [
-        '.usp-grid > .usp',
-        '.service-grid > .service-card',
-        '.product-grid > .product-card',
-        '.plan-grid > .plan',
-        '.review-grid > .review',
-        '.steps > .step',
-        '.stat-row > .stat',
-        '.staffel > .staffel__card'
-      ];
-      groups.forEach(function (sel) {
-        document.querySelectorAll(sel).forEach(function (el, i) {
-          el.classList.add('reveal');
-          el.style.transitionDelay = (Math.min(i, 5) * 0.08) + 's';
-        });
-      });
-      var singles = document.querySelectorAll(
-        '.center.stack, .split > div, .about__portrait, .about > div:last-child, ' +
-        '.popup__head, .bundle, .service-hint, .manifesto p'
-      );
-      singles.forEach(function (el) { el.classList.add('reveal'); });
-
-      var revealTargets = document.querySelectorAll('.reveal');
-
-      // The classes above just changed opacity 1 -> 0 on elements the browser
-      // already painted once. Without this, that change itself picks up the
-      // CSS transition and briefly fades every section out on load. Force it
-      // through with transitions off, then re-enable them a frame later so
-      // only the later is-visible switch (0 -> 1) actually animates.
-      revealTargets.forEach(function (el) { el.style.transition = 'none'; });
-      void document.body.offsetHeight;
-      requestAnimationFrame(function () {
-        revealTargets.forEach(function (el) { el.style.transition = ''; });
-      });
-
+      var REVEAL = ".usp-grid > .usp, .service-grid > .service-card, .product-grid > .product-card, .plan-grid > .plan, .review-grid > .review, .steps > .step, .stat-row > .stat, .staffel > .staffel__card, .center.stack, .split > div, .about__portrait, .about > div:last-child, .popup__head, .bundle, .service-hint, .manifesto p";
       if (reduceMotion || !('IntersectionObserver' in window)) return;
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -2012,7 +2047,7 @@ main.is-unterseite > :not(.unterseite){display:none}
           }
         });
       }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-      revealTargets.forEach(function (el) { io.observe(el); });
+      document.querySelectorAll(REVEAL).forEach(function (el) { io.observe(el); });
     })();
 
     /* Hochzählende Statistiken */
@@ -2089,15 +2124,21 @@ main.is-unterseite > :not(.unterseite){display:none}
       var floatCta = document.getElementById('float-cta');
       var floatHero = document.querySelector('.hero');
       if (!floatCta || !floatHero) return;
-      var ticking2 = false;
-      var updateFloat = function () {
-        ticking2 = false;
-        floatCta.classList.toggle('is-visible', floatHero.getBoundingClientRect().bottom < 0);
-      };
-      document.addEventListener('scroll', function () {
-        if (!ticking2) { ticking2 = true; requestAnimationFrame(updateFloat); }
-      }, { passive: true });
-      updateFloat();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (eintraege) {
+          floatCta.classList.toggle('is-visible', !eintraege[0].isIntersecting);
+        }, { rootMargin: '0px 0px -100% 0px' }).observe(floatHero);
+      } else {
+        var ticking2 = false;
+        var updateFloat = function () {
+          ticking2 = false;
+          floatCta.classList.toggle('is-visible', floatHero.getBoundingClientRect().bottom < 0);
+        };
+        document.addEventListener('scroll', function () {
+          if (!ticking2) { ticking2 = true; requestAnimationFrame(updateFloat); }
+        }, { passive: true });
+        updateFloat();
+      }
     })();
   })();
 
@@ -2122,11 +2163,16 @@ main.is-unterseite > :not(.unterseite){display:none}
       // aus, sodass nur das sanfte Einblenden übrig bleibt.
       var ticking = false;
       var clamp01 = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+      var mitteImDokument = 0, sichtHoehe = 1;
+      var buehneMessen = function () {
+        var r = stage.getBoundingClientRect();
+        mitteImDokument = r.top + window.scrollY + r.height / 2;
+        sichtHoehe = window.innerHeight || 1;
+      };
       var paint = function () {
         ticking = false;
-        var r = stage.getBoundingClientRect();
-        var vh = window.innerHeight || 1;
-        var p = clamp01((vh - (r.top + r.height / 2)) / (vh * 0.5));
+        var vh = sichtHoehe;
+        var p = clamp01((vh - (mitteImDokument - window.scrollY)) / (vh * 0.5));
         layers.forEach(function (el, i) {
           el.style.setProperty('--o', clamp01((p - i * 0.08) / 0.4).toFixed(3));
         });
@@ -2135,11 +2181,22 @@ main.is-unterseite > :not(.unterseite){display:none}
         });
         if (bug) bug.style.setProperty('--o', p > 0.85 ? '1' : '0');
       };
+      // Nach dem ersten Bild messen, nicht davor: sonst muss der Browser das
+      // Layout mitten im Laden fertigrechnen, statt wenn es ihm passt.
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { buehneMessen(); paint(); });
+      });
+      window.addEventListener('resize', function () { buehneMessen(); paint(); }, { passive: true });
+      if ('ResizeObserver' in window) {
+        var erste = true;
+        new ResizeObserver(function () {
+          if (erste) { erste = false; return; }   // die erste Meldung ist der Aufbau selbst
+          buehneMessen(); paint();
+        }).observe(document.body);
+      }
       document.addEventListener('scroll', function () {
         if (!ticking) { ticking = true; requestAnimationFrame(paint); }
       }, { passive: true });
-      window.addEventListener('resize', paint);
-      paint();
     }
 
     if (book && !reduce && matchMedia('(pointer: fine)').matches) {
