@@ -849,6 +849,173 @@ main.is-unterseite > :not(.unterseite){display:none}
   </div>
 </aside>
 
+<!-- Strukturierte Daten für Suchmaschinen.
+     Noch NICHT enthalten, weil auf der Seite Platzhalter stehen – bitte
+     ergänzen, sobald die echten Angaben im Block BUSINESS eingetragen sind:
+       "telephone": "+49 30 ...",
+       "email": "hallo@gruenhof-berlin.de",
+       "url": "https://gruenhof-berlin.de",
+       "address": { "@type": "PostalAddress", "streetAddress": "...",
+                    "postalCode": "...", "addressLocality": "Berlin",
+                    "addressCountry": "DE" }
+     Falsche Kontaktdaten an eine Suchmaschine zu melden ist schlechter als
+     gar keine, deshalb stehen sie hier bis dahin nicht drin. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Grünhof Berlin",
+  "alternateName": "Grünhof Berlin – Hausmeister- & Gartenservice",
+  "description": "Hausmeister- und Gartenservice für Berlin und Umland: Gartenpflege, Hecken- und Baumschnitt, Entrümpelung, Kleinreparaturen, Winterdienst und Objektbetreuung. Foto schicken, Festpreis bekommen.",
+  "founder": {
+    "@type": "Person",
+    "name": "Paul Schuster"
+  },
+  "foundingDate": "2026",
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "Berlin"
+  },
+  "knowsLanguage": "de",
+  "currenciesAccepted": "EUR",
+  "areaServed": [
+    {
+      "@type": "Place",
+      "name": "Berlin-Mitte"
+    },
+    {
+      "@type": "Place",
+      "name": "Pankow"
+    },
+    {
+      "@type": "Place",
+      "name": "Friedrichshain-Kreuzberg"
+    },
+    {
+      "@type": "Place",
+      "name": "Charlottenburg-Wilmersdorf"
+    },
+    {
+      "@type": "Place",
+      "name": "Lichtenberg"
+    },
+    {
+      "@type": "Place",
+      "name": "Reinickendorf"
+    },
+    {
+      "@type": "Place",
+      "name": "Treptow-Köpenick"
+    },
+    {
+      "@type": "Place",
+      "name": "Marzahn-Hellersdorf"
+    },
+    {
+      "@type": "Place",
+      "name": "Steglitz-Zehlendorf"
+    },
+    {
+      "@type": "Place",
+      "name": "Tempelhof-Schöneberg"
+    },
+    {
+      "@type": "Place",
+      "name": "Neukölln"
+    },
+    {
+      "@type": "Place",
+      "name": "Spandau"
+    },
+    {
+      "@type": "Place",
+      "name": "Bernau bei Berlin"
+    },
+    {
+      "@type": "Place",
+      "name": "Hennigsdorf"
+    },
+    {
+      "@type": "Place",
+      "name": "Teltow"
+    },
+    {
+      "@type": "Place",
+      "name": "Königs Wusterhausen"
+    }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "07:00",
+      "closes": "18:00"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Leistungen",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Regelmäßige Gartenpflege",
+          "description": "Mähen, Unkraut, Beete und Hecken nach festem Rhythmus oder auf Abruf."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Hecken- und Baumschnitt",
+          "description": "Formschnitt, Auslichten und Verjüngung bis drei Meter, Grünschnitt wird abgefahren."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Entrümpelung und Entsorgung",
+          "description": "Keller, Dachboden, Garage und Wohnungsauflösungen, besenrein übergeben."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Kleinreparaturen und Montage",
+          "description": "Türen justieren, Regale und Lampen montieren, Silikonfugen, Möbelaufbau."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Winterdienst",
+          "description": "Räum- und Streupflicht übernommen und dokumentiert."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Objektbetreuung",
+          "description": "Treppenhausreinigung, Kontrollgänge und Grünpflege für Eigentümer und Verwaltungen."
+        }
+      }
+    ]
+  }
+}
+</script>
+
 <main>
   <section class="hero" id="start">
     <div class="container hero__inner">
