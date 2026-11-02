@@ -53,15 +53,14 @@ async def synth(text, path_mp3, path_json, rate):
 
 # ---- ElevenLabs (bevorzugt, wenn ELEVENLABS_API_KEY gesetzt ist) -------------------------------
 ELEVEN_KEY = os.environ.get("ELEVENLABS_API_KEY", "").strip()
-ELEVEN_VOICE = os.environ.get("ELEVENLABS_VOICE_ID", "").strip() or "kkJxCnlRCckmfFvzDW5Q"  # "Alexander – Deep TV Narrator" (Bibliothek)
+ELEVEN_VOICE = os.environ.get("ELEVENLABS_VOICE_ID", "").strip() or "JiW03c2Gt43XNUQAumRP"  # "Helmut Stieglbauer – Deep" (Bibliothek, vom Nutzer gewählt)
 ELEVEN_MODEL = os.environ.get("ELEVENLABS_MODEL", "eleven_multilingual_v2")
 # Natürliche Stimme: nicht verbiegen, nur etwas Wärme und gleichmäßiger Pegel.
-# Abgeglichen mit dem Beispielvideo: ~2 Halbtöne tiefer (Formanten bleiben = natürlich), gleiche Klangfarbe.
-NATURAL = ("rubberband=pitch=0.89:formant=preserved:transients=mixed:detector=soft:pitchq=quality:smoothing=on,"
-           "highpass=f=60,acompressor=threshold=-20dB:ratio=2.5:attack=10:release=200:makeup=1.5")
+# Natürliche Stimme wie gewählt (keine Tonhöhenänderung), nur Hochpass + gleichmäßiger Pegel.
+NATURAL = "highpass=f=60,acompressor=threshold=-20dB:ratio=2.5:attack=10:release=200:makeup=1.5"
 
 def tts_eleven(text, slow):
-    settings = dict(stability=0.45, similarity_boost=0.8, style=0.3, use_speaker_boost=True, speed=0.8 if slow else 0.84)
+    settings = dict(stability=0.45, similarity_boost=0.8, style=0.3, use_speaker_boost=True, speed=0.85 if slow else 0.9)  # Tempo wie im Beispielvideo
     key = json.dumps([ELEVEN_VOICE, ELEVEN_MODEL, settings, text], ensure_ascii=False)
     h = "el_" + hashlib.sha1(key.encode()).hexdigest()[:16]
     mp3 = os.path.join(CACHE, h + ".mp3"); js = os.path.join(CACHE, h + ".json")
