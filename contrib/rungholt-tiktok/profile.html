@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="fonts/local.css">
+<style>html,body{margin:0;background:#000}#s{width:540px;height:540px}</style></head>
+<body><div id="s"></div><script src="lib.js"></script><script>
+function frame(inner){ return `<svg viewBox="0 0 540 540" width="540" height="540">${DEFS}
+<radialGradient id="pBg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#1f4650"/><stop offset=".6" stop-color="#11262c"/><stop offset="1" stop-color="#070f12"/></radialGradient>
+<radialGradient id="pVig" cx="50%" cy="50%" r="50%"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".65"/></radialGradient>
+${inner}<rect width="540" height="540" fill="url(#pVig)"/></svg>`; }
+const fogBand=(y,op)=>{let s='';for(let i=0;i<5;i++)s+=E(60+i*110,y+(i%2)*14,190,46,'url(#gFog)',`opacity="${op}"`);return s;};
+const V = {
+ // A: der Lüchtenjung im Nebel auf dem Watt
+ junge: () => {
+  let s=R(0,0,540,540,'url(#pBg)')+C(270,215,150,'url(#gWhite)','opacity=".12"');
+  s+=R(0,330,540,210,'#1c1f1a')+R(0,326,540,6,'rgba(120,180,190,.25)');
+  for(let i=0;i<7;i++) s+=L(`M 0 ${352+i*26} Q 270 ${346+i*26} 540 ${352+i*26}`,'rgba(255,255,255,.04)',2);
+  s+=fogBand(330,.35);
+  s+=C(318,232,170,'url(#gWarm)','opacity=".6"');
+  s+=E(262,395,80,12,'rgba(0,0,0,.45)');
+  s+=lanternBoy(262,392,2.15,0,{op:1,lop:1,swing:-8,glowR:110});
+  s+=fogBand(445,.5);
+  return s; },
+ // B: die Laterne (gut lesbar auch ganz klein)
+ laterne: () => {
+  let s=R(0,0,540,540,'url(#pBg)');
+  s+=C(270,300,230,'url(#gWarm)','opacity=".9"');
+  s+=lantern(270,118,7.2,1,0,0);
+  s+=fogBand(470,.4);
+  return s; },
+ // C: Laterne + Schriftzug im Kreis
+ schrift: () => {
+  let s=R(0,0,540,540,'url(#pBg)');
+  s+=C(270,290,200,'url(#gWarm)','opacity=".85"');
+  s+=lantern(270,150,5.6,1,0,0);
+  s+=`<path id="arc" d="M 80 270 A 190 190 0 0 1 460 270" fill="none"/>`;
+  s+=`<text font-family="Montserrat" font-weight="900" font-size="40" letter-spacing="6" fill="#fff" stroke="#0b0f12" stroke-width="7" paint-order="stroke"><textPath href="#arc" startOffset="50%" text-anchor="middle">GRUSEL</textPath></text>`;
+  s+=`<path id="arc2" d="M 92 300 A 178 178 0 0 0 448 300" fill="none"/>`;
+  s+=`<text font-family="Montserrat" font-weight="900" font-size="30" letter-spacing="5" fill="#f6a823" stroke="#0b0f12" stroke-width="6" paint-order="stroke"><textPath href="#arc2" startOffset="50%" text-anchor="middle">GESCHICHTEN</textPath></text>`;
+  return s; },
+};
+window.draw=(name,circle)=>{ document.getElementById('s').innerHTML=frame(V[name]()); if(circle){document.getElementById('s').style.cssText='width:540px;height:540px;border-radius:50%;overflow:hidden';} else document.getElementById('s').style.cssText='width:540px;height:540px'; };
+</script></body></html>

@@ -176,7 +176,7 @@ function person(o) {
     phone: [[8, 0], [40, 125]], sit: [[20, 30], [20, 30]], crouch: [[25, 40], [25, 40]], up: [[160, 0], [160, 0]], hug: [[30, 80], [30, 80]],
     reach: [[8, 0], [95, 0]], lantern: [[8, 0], [25, -15]], ears: [[35, 140], [35, 140]] }[pose]) || [[8, 0], [8, 0]];
   const armCol = coat;
-  const armsSvg = arm(-16, -86 + ty, pa[0][0], pa[0][1], 21, 20, armCol, -1) + arm(16, -86 + ty, pa[1][0], pa[1][1], 21, 20, armCol, 1);
+  const armsSvg = arm(-16, -86 + ty, pa[0][0], pa[0][1], 21, 20, armCol, -1, 9, skin) + arm(16, -86 + ty, pa[1][0], pa[1][1], 21, 20, armCol, 1, 9, skin);
   // Rumpf
   const coatLen = o.coatLong ? 54 : 48;
   g += P(`M -17 ${-82 + ty} Q -18 ${-93 + ty} -6 ${-94 + ty} L 6 ${-94 + ty} Q 18 ${-93 + ty} 17 ${-82 + ty} L 19 ${-94 + coatLen + 8 + ty} Q 0 ${-94 + coatLen + 12 + ty} -19 ${-94 + coatLen + 8 + ty} Z`, coat);
