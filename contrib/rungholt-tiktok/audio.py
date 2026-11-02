@@ -259,4 +259,4 @@ def mix(part):
     print(f'Teil {part}: mix.wav {dur:.1f}s, RMS {rms:.1f} dBFS')
 
 if __name__ == '__main__':
-    for p in (sys.argv[1:] or ['1', '2', '3', '4', '5']): mix(int(p))
+    for p in (sys.argv[1:] or sorted(int(d[4:]) for d in os.listdir(os.path.join(HERE, 'build')) if d.startswith('part'))): mix(int(p))

@@ -1,4 +1,4 @@
-# RUNGHOLT – familienfreundliche Grusel-Serie für TikTok (5 Teile)
+# RUNGHOLT – familienfreundliche Grusel-Serie für TikTok (10 Teile à ~1–2 Min)
 
 Prinzip wie „Sturmvogel“: Regel-Hook → 3 Schritte mit echten Fakten → „Alles nach Protokoll“ → Twist
 → Teaser auf den nächsten Teil → Endkarte „Folgt für Teil X“ (Plus wird zum Haken und verschwindet).

@@ -270,7 +270,7 @@ def build(part):
     with wave.open(os.path.join(d, "voice.wav"), "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
         w.writeframes((np.clip(voice, -1, 1) * 32767).astype(np.int16).tobytes())
-    tl = dict(part=part["n"], title=part["title"], hudLabel=part["hud_label"], duration=round(total, 3),
+    tl = dict(part=part["n"], total=part.get("total", 5), rule=part.get("rule", ""), title=part["title"], hudLabel=part["hud_label"], duration=round(total, 3),
               beats=beats_out, sfx=sfx, amb=amb, caption=part["caption"])
     json.dump(tl, open(os.path.join(d, "timeline.json"), "w"), ensure_ascii=False, indent=1)
     cuts = sum(-dd for _, dd in edits if dd < 0); adds = sum(dd for _, dd in edits if dd > 0)

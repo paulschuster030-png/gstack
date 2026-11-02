@@ -71,7 +71,7 @@ window.renderAt = function (t) {
   // Label oben
   ov += `<div class="lab">${b.lab}</div>`;
   // Wasserzeichen (wechselt die Ecke)
-  ov += `<div class="wm ${b.i % 3 === 1 ? 'wmB' : 'wmT'}">RUNGHOLT · TEIL ${TL.part}/5</div>`;
+  ov += `<div class="wm ${b.i % 3 === 1 ? 'wmB' : 'wmT'}">RUNGHOLT · TEIL ${TL.part}/${TL.total || 5}</div>`;
   // HUD-Skala links
   ov += hudHtml(hudAt(t));
   // Stempel

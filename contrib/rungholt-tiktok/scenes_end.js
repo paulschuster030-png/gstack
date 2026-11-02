@@ -46,9 +46,9 @@
     const tk = easeBack(clamp((bt - .2) / .3));
     s += G(`translate(270,470) scale(${f1(tk * 100) / 100})`,
       TX(0, 0, 'FOLGT FÜR', 32, '#fff', { w: 900, ex: 'stroke="#0b0f12" stroke-width="7" paint-order="stroke"' }) +
-      TX(0, 62, nxt === 5 ? 'DAS FINALE' : nxt ? `TEIL ${nxt}` : 'MEHR GRUSEL', 54, COL.orange, { w: 900, ex: 'stroke="#0b0f12" stroke-width="8" paint-order="stroke"' }));
+      TX(0, 62, nxt === (window.TL.total || 5) ? 'DAS FINALE' : nxt ? `TEIL ${nxt}` : 'MEHR GRUSEL', 54, COL.orange, { w: 900, ex: 'stroke="#0b0f12" stroke-width="8" paint-order="stroke"' }));
     const sk = clamp((bt - .7) / .3);
-    s += O(sk, TX(270, 600, nxt ? `RUNGHOLT · TEIL ${nxt}/5` : 'RUNGHOLT · ENDE', 11, 'rgba(214,226,230,.7)', { mono: 1, w: 500, ls: 3 }));
+    s += O(sk, TX(270, 600, nxt ? `RUNGHOLT · TEIL ${nxt}/${window.TL.total || 5}` : 'RUNGHOLT · ENDE', 11, 'rgba(214,226,230,.7)', { mono: 1, w: 500, ls: 3 }));
     return { svg: s };
   };
 })();
