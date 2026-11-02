@@ -6,7 +6,7 @@ Look: dunkles Petrol, flache Figuren, ein Wort groß in der Mitte, Stempel, Pill
 
 ## Dateien
 - `story.py` – komplettes Drehbuch (Text, Szenen, Einblendungen, Effekte, `slow=True` = spannender gelesen)
-- `tts.py` – Sprachspur + Zeitachse. **ElevenLabs**, wenn `ELEVENLABS_API_KEY` + `ELEVENLABS_VOICE_ID` gesetzt sind,
+- `tts.py` – Sprachspur + Zeitachse. **ElevenLabs**, wenn `ELEVENLABS_API_KEY` gesetzt ist (Stimme: Bibliotheksstimme „Alexander – Deep TV Narrator“, Tempo 0,84, ~2 Halbtöne tiefer; per `ELEVENLABS_VOICE_ID` änderbar),
   sonst kostenlose Microsoft-Neural-Stimme (edge-tts, de-DE-FlorianMultilingualNeural, tiefer gelegt)
 - `elevenlabs_voices.py` – listet passende ElevenLabs-Stimmen (Deutsch, männlich, Erzähler)
 - `engine.html`, `core.js`, `lib.js`, `scenes*.js` – Animation (SVG im Browser)
