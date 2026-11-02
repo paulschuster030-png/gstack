@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/local.css">
+<style>
+html,body{margin:0;padding:0;background:#000}
+#stage{position:relative;width:540px;height:960px;overflow:hidden;background:#0a1519;font-family:'Montserrat',sans-serif}
+#scene,#ov,#vig,#grain{position:absolute;inset:0}
+#scene svg{display:block}
+#vig{background:radial-gradient(ellipse 75% 62% at 50% 46%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%);pointer-events:none}
+#grain{background-image:url(grain.png);opacity:.045;mix-blend-mode:screen}
+.lab{position:absolute;top:24px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:10.5px;letter-spacing:.32em;color:rgba(214,226,230,.66);text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.wm{position:absolute;font-weight:800;font-size:11.5px;color:rgba(255,255,255,.34);letter-spacing:.02em}
+.wmT{top:66px;right:22px}.wmB{bottom:118px;left:22px}
+.cap{position:absolute;left:270px;top:598px;white-space:nowrap;font-weight:900;font-size:35px;letter-spacing:.005em;
+ -webkit-text-stroke:7px #0b0f12;paint-order:stroke fill;text-shadow:0 3px 0 rgba(0,0,0,.55),0 6px 18px rgba(0,0,0,.5)}
+.pill{position:absolute;white-space:nowrap;font-weight:800;font-size:10.5px;letter-spacing:.06em;padding:5px 12px 4px;border-radius:999px;box-shadow:0 0 0 2px rgba(10,14,16,.9),0 4px 12px rgba(0,0,0,.4)}
+.pillEnd{font-size:12px;padding:7px 16px 6px;letter-spacing:.12em}
+.stamp{position:absolute;left:270px;top:178px;white-space:nowrap;font-weight:900;font-size:21px;letter-spacing:.04em;padding:5px 12px 3px;border:3.5px solid;border-radius:6px;background:rgba(10,14,16,.35);text-shadow:0 2px 6px rgba(0,0,0,.4)}
+.hud{position:absolute;left:0;top:0;width:60px;height:960px;opacity:.38}
+.tick{position:absolute;left:12px;width:6px;height:1px;background:rgba(200,220,225,.7)}
+.tick.big{width:12px;background:rgba(200,220,225,.95)}
+.tl{position:absolute;left:28px;margin-top:-5px;font-family:'JetBrains Mono',monospace;font-size:7.5px;color:rgba(214,226,230,.9);white-space:nowrap}
+.hm{position:absolute;left:8px;width:26px;height:2px;background:#f6a823;box-shadow:0 0 6px #f6a823}
+.hl{position:absolute;left:10px;top:880px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.2em;color:rgba(214,226,230,.95)}
+.card{position:absolute;left:270px;top:380px;width:340px;background:rgba(16,22,26,.94);border-radius:12px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.ch{background:#f6a823;color:#1d1203;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.42em;text-align:center;padding:5px 0 4px}
+.ct{color:#f6a823;font-weight:900;font-size:19px;padding:12px 18px 8px}
+.ci{display:flex;align-items:center;padding:8px 18px;border-top:1px solid rgba(255,255,255,.07);color:#fff;font-weight:800;font-size:15px}
+.ci:last-child{padding-bottom:14px}
+.cn{color:#f6a823;width:22px}.cx{flex:1}
+.cb{width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:900}
+.cb.on{background:#33d17a}
+</style></head>
+<body><div id="stage"><div id="scene"></div><div id="vig"></div><div id="grain"></div><div id="ov"></div></div>
+<script src="lib.js"></script>
+<script>window.SC = {};</script>
+<script src="scenes1.js"></script>
+<script src="scenes2.js"></script>
+<script src="scenes3.js"></script>
+<script src="scenes4.js"></script>
+<script src="scenes5.js"></script>
+<script src="scenes_end.js"></script>
+<script src="core.js"></script>
+</body></html>

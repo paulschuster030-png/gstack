@@ -1,0 +1,7 @@
+build/
+cache/
+previews/
+final/
+chk/
+grain.png
+__pycache__/
